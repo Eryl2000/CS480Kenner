@@ -60,7 +60,12 @@ Object::Object()
     Indices[i] = Indices[i] - 1;
   }
 
+  turningRate = -0.8f;
+  orbitRate = 0.3f;
+  radius = 10.0f;
+  
   angle = 0.0f;
+  angleInOrbit = 0.0f;
 
   glGenBuffers(1, &VB);
   glBindBuffer(GL_ARRAY_BUFFER, VB);
@@ -79,8 +84,12 @@ Object::~Object()
 
 void Object::Update(unsigned int dt)
 {
-  angle += dt * M_PI/1000;
-  model = glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 1.0, 0.0));
+  float dtFloat = dt / 1000.0f;
+  angle += dtFloat * 2 * M_PI * turningRate;
+  angleInOrbit += dtFloat * 2 * M_PI * orbitRate;
+  model = glm::rotate(glm::mat4(1.0f), angleInOrbit, glm::vec3(0.0, 1.0, 0.0));
+  model = glm::translate(model, glm::vec3(radius, 0.0f, 0.0f));
+  model = glm::rotate(model, angle, glm::vec3(0.0, 1.0, 0.0));
 }
 
 glm::mat4 Object::GetModel()

@@ -20,8 +20,13 @@ class Object
     std::vector<unsigned int> Indices;
     GLuint VB;
     GLuint IB;
+    
+    float turningRate;
+    float orbitRate;
+    float radius;
 
     float angle;
+    float angleInOrbit;
 };
 
 #endif /* OBJECT_H */
