@@ -3,6 +3,7 @@
 
 #include <sys/time.h>
 #include <assert.h>
+#include <string.h>
 
 #include "window.h"
 #include "graphics.h"
@@ -13,7 +14,7 @@ class Engine
     Engine(string name, int width, int height);
     Engine(string name);
     ~Engine();
-    bool Initialize();
+    bool Initialize(std::string vertexShader, std::string fragmentShader);
     void Run();
     void Keyboard();
     unsigned int getDT();

@@ -2,6 +2,7 @@
 #define GRAPHICS_H
 
 #include <iostream>
+#include <string.h>
 using namespace std;
 
 #include "graphics_headers.h"
@@ -14,7 +15,7 @@ class Graphics
   public:
     Graphics();
     ~Graphics();
-    bool Initialize(int width, int height);
+    bool Initialize(int width, int height, std::string vertexShader, std::string fragmentShader);
     void Update(unsigned int dt);
     void Render();
 
