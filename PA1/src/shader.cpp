@@ -44,6 +44,7 @@ bool Shader::AddShader(GLenum ShaderType, std::string filepath)
     return false;
   }
   std::string s((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
+  ifs.close();
 
   GLuint ShaderObj = glCreateShader(ShaderType);
 
