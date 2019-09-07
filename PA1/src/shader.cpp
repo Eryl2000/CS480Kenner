@@ -38,6 +38,7 @@ bool Shader::Initialize()
 // Use this method to add shaders to the program. When finished - call finalize()
 bool Shader::AddShader(GLenum ShaderType, std::string filepath)
 {
+  //Open the specified filepath for the shader and save it to a string
   std::ifstream ifs(filepath.c_str());
   if(!ifs.is_open()){
     std::cerr << "Error opening shader file of type " << ShaderType << std::endl;
@@ -46,6 +47,7 @@ bool Shader::AddShader(GLenum ShaderType, std::string filepath)
   std::string s((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
   ifs.close();
 
+  //Create the shader
   GLuint ShaderObj = glCreateShader(ShaderType);
 
   if (ShaderObj == 0) 
