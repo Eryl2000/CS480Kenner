@@ -11,7 +11,7 @@ int main(int argc, char **argv)
     exit(1);
   }
   
-  //Parse command line arguments for the specified vertex ad fragment shader filepaths
+  //Parse command line arguments for the specified vertex and fragment shader filepaths
   std::string vertexShader;
   std::string fragmentShader;
   for(int i = 1; i < argc; i += 2){

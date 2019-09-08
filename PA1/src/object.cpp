@@ -84,9 +84,16 @@ Object::~Object()
 
 void Object::Update(unsigned int dt)
 {
+  //Calculate dt in terms of seconds instead of milliseconds
   float dtFloat = dt / 1000.0f;
+  
+  //Calculate the angle of the object
   angle += dtFloat * 2 * M_PI * turningRate;
+  
+  //Calculate the angle the object has gone so far in orbit
   angleInOrbit += dtFloat * 2 * M_PI * orbitRate;
+  
+  //Update the object's position and rotation
   model = glm::rotate(glm::mat4(1.0f), angleInOrbit, glm::vec3(0.0, 1.0, 0.0));
   model = glm::translate(model, glm::vec3(radius, 0.0f, 0.0f));
   model = glm::rotate(model, angle, glm::vec3(0.0, 1.0, 0.0));
