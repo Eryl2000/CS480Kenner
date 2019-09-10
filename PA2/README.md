@@ -1,5 +1,5 @@
-# PA1: Spinning Cube
-This project reads vertex and fragement shaders from a file and uses them to make a cube rotate and orbit in space.
+# PA2: Interaction
+This project reads keyboard/mouse input and stops the cube or changes its direction based on the input.
 ## Running the Project
 
 ```bash
