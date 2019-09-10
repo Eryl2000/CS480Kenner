@@ -19,17 +19,19 @@ class Engine
     void Keyboard();
     unsigned int getDT();
     long long GetCurrentTimeMillis();
-  
+
+	//References to other classes
+	Graphics *m_graphics;
+
   private:
     // Window related variables
-    Window *m_window;    
+    Window *m_window;
     string m_WINDOW_NAME;
     int m_WINDOW_WIDTH;
     int m_WINDOW_HEIGHT;
     bool m_FULLSCREEN;
     SDL_Event m_event;
 
-    Graphics *m_graphics;
     unsigned int m_DT;
     long long m_currentTimeMillis;
     bool m_running;

@@ -1,7 +1,7 @@
 #include "object.h"
 
 Object::Object()
-{  
+{
   /*
     # Blender File for a Cube
     o Cube
@@ -63,9 +63,12 @@ Object::Object()
   turningRate = -0.8f;
   orbitRate = 0.3f;
   radius = 10.0f;
-  
+
   angle = 0.0f;
   angleInOrbit = 0.0f;
+
+  rotateDirection = 1.0;
+  orbitDirection = 1.0;
 
   glGenBuffers(1, &VB);
   glBindBuffer(GL_ARRAY_BUFFER, VB);
@@ -86,16 +89,15 @@ void Object::Update(unsigned int dt)
 {
   //Calculate dt in terms of seconds instead of milliseconds
   float dtFloat = dt / 1000.0f;
-  
+
   //Calculate the angle of the object
-  angle += dtFloat * 2 * M_PI * turningRate;
-  
+  angle += dtFloat * 2 * M_PI * turningRate * rotateDirection;
+
   //Calculate the angle the object has gone so far in orbit
-  angleInOrbit += dtFloat * 2 * M_PI * orbitRate;
-  
+  angleInOrbit += dtFloat * 2 * M_PI * orbitRate * orbitDirection;
+
   //Update the object's position and rotation
-  model = glm::rotate(glm::mat4(1.0f), angleInOrbit, glm::vec3(0.0, 1.0, 0.0));
-  model = glm::translate(model, glm::vec3(radius, 0.0f, 0.0f));
+  model = glm::translate(glm::mat4(1.0f), glm::vec3(radius * cos(angleInOrbit), 0.0f, radius * sin(angleInOrbit)));
   model = glm::rotate(model, angle, glm::vec3(0.0, 1.0, 0.0));
 }
 
@@ -120,4 +122,3 @@ void Object::Render()
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
 }
-
