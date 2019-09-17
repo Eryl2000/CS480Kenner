@@ -84,38 +84,38 @@ void Engine::Keyboard()
 			m_running = false;
 		}
 		if(m_event.key.keysym.sym == SDLK_a){
-			if(m_graphics->m_cube->rotateDirection == 0.0f){
-				m_graphics->m_cube->rotateDirection = 1.0f;
+			if(m_graphics->planet->rotateDirection == 0.0f){
+				m_graphics->planet->rotateDirection = 1.0f;
 			} else{
-				m_graphics->m_cube->rotateDirection *= -1.0f;
+				m_graphics->planet->rotateDirection *= -1.0f;
 			}
 		}
 		if(m_event.key.keysym.sym == SDLK_s){
-			if(m_graphics->m_cube->orbitDirection == 0.0f){
-				m_graphics->m_cube->orbitDirection = 1.0f;
+			if(m_graphics->planet->orbitDirection == 0.0f){
+				m_graphics->planet->orbitDirection = 1.0f;
 			} else{
-				m_graphics->m_cube->orbitDirection *= -1.0f;
+				m_graphics->planet->orbitDirection *= -1.0f;
 			}
 		}
 		if(m_event.key.keysym.sym == SDLK_z){
-			m_graphics->m_cube->rotateDirection = 0.0f;
+			m_graphics->planet->rotateDirection = 0.0f;
 		}
 		if(m_event.key.keysym.sym == SDLK_x){
-			m_graphics->m_cube->orbitDirection = 0.0f;
+			m_graphics->planet->orbitDirection = 0.0f;
 		}
 	} else if(m_event.type == SDL_MOUSEBUTTONDOWN){
 	  	if(m_event.button.button == SDL_BUTTON_LEFT){
-			if(m_graphics->m_cube->rotateDirection == 0.0f){
-				m_graphics->m_cube->rotateDirection = 1.0f;
+			if(m_graphics->planet->rotateDirection == 0.0f){
+				m_graphics->planet->rotateDirection = 1.0f;
 			} else{
-				m_graphics->m_cube->rotateDirection *= -1.0f;
+				m_graphics->planet->rotateDirection *= -1.0f;
 			}
 		}
 		if(m_event.button.button == SDL_BUTTON_RIGHT){
-			if(m_graphics->m_cube->orbitDirection == 0.0f){
-				m_graphics->m_cube->orbitDirection = 1.0f;
+			if(m_graphics->planet->orbitDirection == 0.0f){
+				m_graphics->planet->orbitDirection = 1.0f;
 			} else{
-				m_graphics->m_cube->orbitDirection *= -1.0f;
+				m_graphics->planet->orbitDirection *= -1.0f;
 			}
 		}
 	}

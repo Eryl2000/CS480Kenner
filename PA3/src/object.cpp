@@ -1,7 +1,11 @@
 #include "object.h"
+#include <algorithm>
 
-Object::Object()
-{
+Object::Object(Object *parent_){
+    parent = parent_;
+    if(parent != NULL){
+        parent->children.push_back(this);
+    }
   /*
     # Blender File for a Cube
     o Cube
@@ -54,21 +58,13 @@ Object::Object()
     5, 1, 8
   };
 
+  angle = 0.0f;
+
   // The index works at a 0th index
   for(unsigned int i = 0; i < Indices.size(); i++)
   {
     Indices[i] = Indices[i] - 1;
   }
-
-  turningRate = -0.8f;
-  orbitRate = 0.3f;
-  radius = 10.0f;
-
-  angle = 0.0f;
-  angleInOrbit = 0.0f;
-
-  rotateDirection = 1.0;
-  orbitDirection = 1.0;
 
   glGenBuffers(1, &VB);
   glBindBuffer(GL_ARRAY_BUFFER, VB);
@@ -87,23 +83,36 @@ Object::~Object()
 
 void Object::Update(unsigned int dt)
 {
-  //Calculate dt in terms of seconds instead of milliseconds
-  float dtFloat = dt / 1000.0f;
-
-  //Calculate the angle of the object
-  angle += dtFloat * 2 * M_PI * turningRate * rotateDirection;
-
-  //Calculate the angle the object has gone so far in orbit
-  angleInOrbit += dtFloat * 2 * M_PI * orbitRate * orbitDirection;
-
-  //Update the object's position and rotation
-  model = glm::translate(glm::mat4(1.0f), glm::vec3(radius * cos(angleInOrbit), 0.0f, radius * sin(angleInOrbit)));
-  model = glm::rotate(model, angle, glm::vec3(0.0, 1.0, 0.0));
+    //Calculate dt in terms of seconds instead of milliseconds
+    float dtFloat = dt / 1000.0f;
+    if(parent == NULL){
+        model = glm::mat4(1.0f);
+    } else{
+        model = parent->model;
+    }
+    DerivedUpdate(dtFloat);
 }
 
 glm::mat4 Object::GetModel()
 {
   return model;
+}
+
+void Object::SetParent(Object *parent_){
+    if(parent_ == NULL){
+        if(parent != NULL){
+            parent->children.erase(
+                std::remove(parent->children.begin(), parent->children.end(), this),
+                parent->children.end());
+        }
+    } else{
+        parent_->children.push_back(this);
+    }
+    parent = parent_;
+}
+
+Object *Object::Getparent(){
+    return parent;
 }
 
 void Object::Render()

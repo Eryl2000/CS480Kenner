@@ -45,7 +45,8 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
   }
 
   // Create the object
-  m_cube = new Object();
+  planet = new Planet(NULL, 10.0f, 0.2f, 0.4f);
+  moon = new Planet(planet, 5.0f, 0.8f, 1.3f);
 
   // Set up the shaders
   m_shader = new Shader();
@@ -78,7 +79,7 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
 
   // Locate the projection matrix in the shader
   m_projectionMatrix = m_shader->GetUniformLocation("projectionMatrix");
-  if (m_projectionMatrix == INVALID_UNIFORM_LOCATION) 
+  if (m_projectionMatrix == INVALID_UNIFORM_LOCATION)
   {
     printf("m_projectionMatrix not found\n");
     return false;
@@ -86,7 +87,7 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
 
   // Locate the view matrix in the shader
   m_viewMatrix = m_shader->GetUniformLocation("viewMatrix");
-  if (m_viewMatrix == INVALID_UNIFORM_LOCATION) 
+  if (m_viewMatrix == INVALID_UNIFORM_LOCATION)
   {
     printf("m_viewMatrix not found\n");
     return false;
@@ -94,7 +95,7 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
 
   // Locate the model matrix in the shader
   m_modelMatrix = m_shader->GetUniformLocation("modelMatrix");
-  if (m_modelMatrix == INVALID_UNIFORM_LOCATION) 
+  if (m_modelMatrix == INVALID_UNIFORM_LOCATION)
   {
     printf("m_modelMatrix not found\n");
     return false;
@@ -110,7 +111,8 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
 void Graphics::Update(unsigned int dt)
 {
   // Update the object
-  m_cube->Update(dt);
+  planet->Object::Update(dt);
+  moon->Object::Update(dt);
 }
 
 void Graphics::Render()
@@ -123,12 +125,15 @@ void Graphics::Render()
   m_shader->Enable();
 
   // Send in the projection and view to the shader
-  glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection())); 
-  glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
+  glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
+  glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
 
   // Render the object
-  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_cube->GetModel()));
-  m_cube->Render();
+  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(planet->GetModel()));
+  planet->Render();
+
+  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(moon->GetModel()));
+  moon->Render();
 
   // Get any errors from OpenGL
   auto error = glGetError();
@@ -170,4 +175,3 @@ std::string Graphics::ErrorString(GLenum error)
     return "None";
   }
 }
-

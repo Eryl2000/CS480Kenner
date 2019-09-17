@@ -9,6 +9,7 @@ using namespace std;
 #include "camera.h"
 #include "shader.h"
 #include "object.h"
+#include "planet.h"
 
 class Graphics
 {
@@ -20,7 +21,8 @@ class Graphics
     void Render();
 
 	//References to other classes
-	Object *m_cube;
+	Planet *planet;
+    Planet *moon;
 
   private:
     std::string ErrorString(GLenum error);
