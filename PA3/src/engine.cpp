@@ -74,8 +74,9 @@ void Engine::Run()
   }
 }
 
-void Engine::Keyboard()
-{
+void Engine::Keyboard(){
+    static Planet *actor = m_graphics->planet;
+
 	if(m_event.type == SDL_QUIT){
 		m_running = false;
 	} else if (m_event.type == SDL_KEYDOWN){
@@ -83,39 +84,48 @@ void Engine::Keyboard()
     	if (m_event.key.keysym.sym == SDLK_ESCAPE){
 			m_running = false;
 		}
+
+        if(m_event.key.keysym.sym == SDLK_LSHIFT){
+            actor = m_graphics->moon;
+        }
+
 		if(m_event.key.keysym.sym == SDLK_a){
-			if(m_graphics->planet->rotateDirection == 0.0f){
-				m_graphics->planet->rotateDirection = 1.0f;
+			if(actor->rotateDirection == 0.0f){
+				actor->rotateDirection = 1.0f;
 			} else{
-				m_graphics->planet->rotateDirection *= -1.0f;
+				actor->rotateDirection *= -1.0f;
 			}
 		}
 		if(m_event.key.keysym.sym == SDLK_s){
-			if(m_graphics->planet->orbitDirection == 0.0f){
-				m_graphics->planet->orbitDirection = 1.0f;
+			if(actor->orbitDirection == 0.0f){
+				actor->orbitDirection = 1.0f;
 			} else{
-				m_graphics->planet->orbitDirection *= -1.0f;
+				actor->orbitDirection *= -1.0f;
 			}
 		}
 		if(m_event.key.keysym.sym == SDLK_z){
-			m_graphics->planet->rotateDirection = 0.0f;
+			actor->rotateDirection = 0.0f;
 		}
 		if(m_event.key.keysym.sym == SDLK_x){
-			m_graphics->planet->orbitDirection = 0.0f;
+			actor->orbitDirection = 0.0f;
 		}
-	} else if(m_event.type == SDL_MOUSEBUTTONDOWN){
+	} else if (m_event.type == SDL_KEYUP){
+        if(m_event.key.keysym.sym == SDLK_LSHIFT){
+            actor = m_graphics->planet;
+        }
+    } else if(m_event.type == SDL_MOUSEBUTTONDOWN){
 	  	if(m_event.button.button == SDL_BUTTON_LEFT){
-			if(m_graphics->planet->rotateDirection == 0.0f){
-				m_graphics->planet->rotateDirection = 1.0f;
+			if(actor->rotateDirection == 0.0f){
+				actor->rotateDirection = 1.0f;
 			} else{
-				m_graphics->planet->rotateDirection *= -1.0f;
+				actor->rotateDirection *= -1.0f;
 			}
 		}
 		if(m_event.button.button == SDL_BUTTON_RIGHT){
-			if(m_graphics->planet->orbitDirection == 0.0f){
-				m_graphics->planet->orbitDirection = 1.0f;
+			if(actor->orbitDirection == 0.0f){
+				actor->orbitDirection = 1.0f;
 			} else{
-				m_graphics->planet->orbitDirection *= -1.0f;
+				actor->orbitDirection *= -1.0f;
 			}
 		}
 	}

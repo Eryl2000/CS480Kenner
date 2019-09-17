@@ -13,7 +13,7 @@ Planet::Planet(Object *parent_, float orbitRadius_, float orbitRate_, float rota
 }
 
 void Planet::DerivedUpdate(float dt){
-    //Unrotate the amount of the parent's rotation
+    //Unrotate by the parent's rotation
     if(parent != NULL){
         model = glm::rotate(model, -parent->angle, glm::vec3(0.0, 1.0, 0.0));
     }

@@ -6,6 +6,7 @@ This project adds another object to the scene. This object is a "moon" which orb
 These Keybindingsare for the planet cube. The moon will continue to orbit the planet regardless of the planet's motion.
 Key | Function
 ------------ | -------------
+<kbd>SHIFT</kbd> | Whatever command was pressed instead applies to the moon
 <kbd>A</kbd> | reverse the spinning direction of the planet
 <kbd>S</kbd> | reverse the orbiting direction of the planet
 <kbd>Z</kbd> | stop the spinning of the planet
