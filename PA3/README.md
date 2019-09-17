@@ -3,7 +3,8 @@ This project adds another object to the scene. This object is a "moon" which orb
 
 ## Keybindings
 
-These Keybindingsare for the planet cube. The moon will continue to orbit the planet regardless of the planet's motion.
+These Keybindings are for the planet cube. The moon will continue to orbit the planet regardless of the planet's motion.
+
 Key | Function
 ------------ | -------------
 <kbd>SHIFT</kbd> | Whatever command was pressed instead applies to the moon
