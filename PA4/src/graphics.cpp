@@ -45,8 +45,7 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
   }
 
   // Create the object
-  planet = new Planet(NULL, 10.0f, 0.2f, 0.4f);
-  moon = new Planet(planet, 5.0f, 0.8f, 1.3f);
+  importedObject = new Object(NULL);
 
   // Set up the shaders
   m_shader = new Shader();
@@ -111,8 +110,7 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
 void Graphics::Update(unsigned int dt)
 {
   // Update the object
-  planet->Object::Update(dt);
-  moon->Object::Update(dt);
+  importedObject->BaseObject::Update(dt);
 }
 
 void Graphics::Render()
@@ -129,11 +127,8 @@ void Graphics::Render()
   glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
 
   // Render the object
-  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(planet->GetModel()));
-  planet->Render();
-
-  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(moon->GetModel()));
-  moon->Render();
+  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(importedObject->GetModel()));
+  importedObject->Render();
 
   // Get any errors from OpenGL
   auto error = glGetError();

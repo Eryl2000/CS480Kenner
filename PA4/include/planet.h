@@ -3,12 +3,12 @@
 
 #include <vector>
 #include "graphics_headers.h"
-#include "object.h"
+#include "baseobject.h"
 
-class Planet : public Object
+class Planet : public BaseObject
 {
   public:
-    Planet(Object *parent_, float orbitRadius_, float orbitRate_, float rotateRate_);
+    Planet(BaseObject *parent_, float orbitRadius_, float orbitRate_, float rotateRate_);
     void Update(unsigned int dt);
     void DerivedUpdate(float dt);
 

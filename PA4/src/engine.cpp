@@ -75,8 +75,6 @@ void Engine::Run()
 }
 
 void Engine::Keyboard(){
-    static Planet *actor = m_graphics->planet;
-
 	if(m_event.type == SDL_QUIT){
 		m_running = false;
 	} else if (m_event.type == SDL_KEYDOWN){
@@ -85,49 +83,10 @@ void Engine::Keyboard(){
 			m_running = false;
 		}
 
-        if(m_event.key.keysym.sym == SDLK_LSHIFT){
-            actor = m_graphics->moon;
-        }
-
-		if(m_event.key.keysym.sym == SDLK_a){
-			if(actor->rotateDirection == 0.0f){
-				actor->rotateDirection = 1.0f;
-			} else{
-				actor->rotateDirection *= -1.0f;
-			}
-		}
-		if(m_event.key.keysym.sym == SDLK_s){
-			if(actor->orbitDirection == 0.0f){
-				actor->orbitDirection = 1.0f;
-			} else{
-				actor->orbitDirection *= -1.0f;
-			}
-		}
-		if(m_event.key.keysym.sym == SDLK_z){
-			actor->rotateDirection = 0.0f;
-		}
-		if(m_event.key.keysym.sym == SDLK_x){
-			actor->orbitDirection = 0.0f;
-		}
 	} else if (m_event.type == SDL_KEYUP){
-        if(m_event.key.keysym.sym == SDLK_LSHIFT){
-            actor = m_graphics->planet;
-        }
+
     } else if(m_event.type == SDL_MOUSEBUTTONDOWN){
-	  	if(m_event.button.button == SDL_BUTTON_LEFT){
-			if(actor->rotateDirection == 0.0f){
-				actor->rotateDirection = 1.0f;
-			} else{
-				actor->rotateDirection *= -1.0f;
-			}
-		}
-		if(m_event.button.button == SDL_BUTTON_RIGHT){
-			if(actor->orbitDirection == 0.0f){
-				actor->orbitDirection = 1.0f;
-			} else{
-				actor->orbitDirection *= -1.0f;
-			}
-		}
+	  	
 	}
 }
 
