@@ -1,19 +1,9 @@
-# PA3: Moons
-This project adds another object to the scene. This object is a "moon" which orbits our original cube.
+# PA4: Blender and Model Loading
+This project has two parts: create a tray object in Blender, and load and display it in our program. The blender object should be triangulated and should be a single object.
 
 ## Keybindings
 
-These Keybindings are for the planet cube. The moon will continue to orbit the planet regardless of the planet's motion.
-
-Key | Function
------------- | -------------
-<kbd>SHIFT</kbd> | Whatever command was pressed instead applies to the moon
-<kbd>A</kbd> | reverse the spinning direction of the planet
-<kbd>S</kbd> | reverse the orbiting direction of the planet
-<kbd>Z</kbd> | stop the spinning of the planet
-<kbd>X</kbd> | stop the orbiting of the planet
-Left Mouse | reverse the spinning direction of the planet
-Right Mouse | reverse the orbiting direction of the planet
+none
 
 ## Running the Project
 
