@@ -17,7 +17,7 @@ class Graphics
   public:
     Graphics();
     ~Graphics();
-    bool Initialize(int width, int height, std::string vertexShader, std::string fragmentShader);
+    bool Initialize(int width, int height, std::string vertexShader, std::string fragmentShader, std::string objectPath);
     void Update(unsigned int dt);
     void Render();
 

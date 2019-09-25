@@ -1,7 +1,7 @@
 #include "planet.h"
 
 Planet::Planet(BaseObject *parent_, float orbitRadius_, float orbitRate_, float rotateRate_)
-    : BaseObject(parent_),
+    : BaseObject(parent_, std::string("")),
     orbitRadius(orbitRadius_),
     orbitRate(orbitRate_),
     rotateRate(rotateRate_){

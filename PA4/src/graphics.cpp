@@ -10,7 +10,7 @@ Graphics::~Graphics()
 
 }
 
-bool Graphics::Initialize(int width, int height, std::string vertexShader, std::string fragmentShader)
+bool Graphics::Initialize(int width, int height, std::string vertexShader, std::string fragmentShader, std::string objectPath)
 {
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)
@@ -45,7 +45,7 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
   }
 
   // Create the object
-  importedObject = new Object(NULL);
+  importedObject = new Object(NULL, std::string(objectPath.c_str()));
 
   // Set up the shaders
   m_shader = new Shader();

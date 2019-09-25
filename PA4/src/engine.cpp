@@ -25,7 +25,7 @@ Engine::~Engine()
   m_graphics = NULL;
 }
 
-bool Engine::Initialize(std::string vertexShader, std::string fragmentShader)
+bool Engine::Initialize(std::string vertexShader, std::string fragmentShader, std::string objectPath)
 {
   // Start a window
   m_window = new Window();
@@ -37,7 +37,7 @@ bool Engine::Initialize(std::string vertexShader, std::string fragmentShader)
 
   // Start the graphics
   m_graphics = new Graphics();
-  if(!m_graphics->Initialize(m_WINDOW_WIDTH, m_WINDOW_HEIGHT, vertexShader, fragmentShader))
+  if(!m_graphics->Initialize(m_WINDOW_WIDTH, m_WINDOW_HEIGHT, vertexShader, fragmentShader, objectPath))
   {
     printf("The graphics failed to initialize.\n");
     return false;
@@ -86,7 +86,7 @@ void Engine::Keyboard(){
 	} else if (m_event.type == SDL_KEYUP){
 
     } else if(m_event.type == SDL_MOUSEBUTTONDOWN){
-	  	
+
 	}
 }
 
