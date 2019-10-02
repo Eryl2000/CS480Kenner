@@ -37,6 +37,7 @@ bool BaseObject::LoadObject(std::string objectPath){
         return false;
     }
     aiColor3D color(0.0f, 0.0f, 0.0f);
+    int vertexOffset = 0;
     for(unsigned int i = 0; i < scene->mNumMeshes; ++i){
         Indices.reserve(3 * scene->mMeshes[i]->mNumFaces);
         Vertices.reserve(scene->mMeshes[i]->mNumVertices);
@@ -48,10 +49,11 @@ bool BaseObject::LoadObject(std::string objectPath){
             Vertices.push_back(v);
         }
         for(unsigned int j = 0; j < scene->mMeshes[i]->mNumFaces; j++){
-            Indices.push_back(scene->mMeshes[i]->mFaces[j].mIndices[0]);
-            Indices.push_back(scene->mMeshes[i]->mFaces[j].mIndices[1]);
-            Indices.push_back(scene->mMeshes[i]->mFaces[j].mIndices[2]);
+            Indices.push_back(scene->mMeshes[i]->mFaces[j].mIndices[0] + vertexOffset);
+            Indices.push_back(scene->mMeshes[i]->mFaces[j].mIndices[1] + vertexOffset);
+            Indices.push_back(scene->mMeshes[i]->mFaces[j].mIndices[2] + vertexOffset);
         }
+        vertexOffset += scene->mMeshes[i]->mNumVertices;
     }
 
     return true;
