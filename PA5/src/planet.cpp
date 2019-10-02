@@ -22,7 +22,7 @@ void Planet::DerivedUpdate(float dt){
     angle += dt * 2 * M_PI * rotateRate * rotateDirection;
 
     //Calculate the angle the object has gone so far in orbit
-    angle += dt * 2 * M_PI * orbitRate * orbitDirection;
+    angleInOrbit += dt * 2 * M_PI * orbitRate * orbitDirection;
 
     //Update the object's position and rotation
     glm::vec3 translation(orbitRadius * cos(angleInOrbit), 0.0f, orbitRadius * sin(angleInOrbit));
