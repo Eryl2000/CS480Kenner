@@ -44,8 +44,11 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
     return false;
   }
 
-  // Create the object
-  importedObject = new Object(NULL, std::string(objectPath.c_str()));
+  // Create the objects
+  BaseObject *temp;
+  objects.push_back(temp = new Planet(NULL, 10, 0.3, 0.6));
+  objects.push_back(temp = new Planet(temp, 5, 0.9, 1.9));
+  objects.push_back(temp = new Object(NULL, objectPath));
 
   // Set up the shaders
   m_shader = new Shader();
@@ -109,8 +112,9 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
 
 void Graphics::Update(unsigned int dt)
 {
-  // Update the object
-  importedObject->BaseObject::Update(dt);
+  for(unsigned int i = 0; i < objects.size(); ++i){
+      objects[i]->Update(dt);
+  }
 }
 
 void Graphics::Render()
@@ -126,15 +130,17 @@ void Graphics::Render()
   glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
   glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
 
-  // Render the object
-  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(importedObject->GetModel()));
-  importedObject->Render();
+  // Render the objects
+  for(unsigned int i = 0; i < objects.size(); ++i){
+      glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(objects[i]->GetModel()));
+      objects[i]->Render();
+  }
 
   // Get any errors from OpenGL
   auto error = glGetError();
   if ( error != GL_NO_ERROR )
   {
-    string val = ErrorString( error );
+    std::string val = ErrorString( error );
     std::cout<< "Error initializing OpenGL! " << error << ", " << val << std::endl;
   }
 }

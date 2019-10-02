@@ -2,16 +2,22 @@
 #include <algorithm>
 #include <sstream>
 #include <fstream>
+#include <assimp/Importer.hpp> //includes the importer, which is used to read our obj file
+#include <assimp/scene.h> //includes the aiScene object
+#include <assimp/postprocess.h> //includes the postprocessing variables for the importer
+#include <assimp/color4.h> //includes the aiColor4 object, which is used to handle the colors from the mesh objects
 
-BaseObject::BaseObject(BaseObject *parent_, std::string objectPath){
-    parent = parent_;
-    if(parent != NULL){
-        parent->children.push_back(this);
-    }
+BaseObject::BaseObject(BaseObject *parent_, std::string objectPath) : parent(NULL){
+    SetParent(parent_);
+    model = glm::mat4(1.0);
 
-    LoadObject(objectPath);
-
+    position = glm::vec3(0.0);
     angle = 0.0f;
+
+    if(!LoadObject(objectPath)){
+        printf("Error loading model: %s\n", objectPath.c_str());
+        exit(1);
+    }
 
     //Bind buffers
     glGenBuffers(1, &VB);
@@ -25,81 +31,30 @@ BaseObject::BaseObject(BaseObject *parent_, std::string objectPath){
 
 
 bool BaseObject::LoadObject(std::string objectPath){
-    std::vector<unsigned int> vertexIndices, uvIndices, normalIndices;
-    std::vector<glm::vec3> temp_vertices;
-    std::vector<glm::vec2> temp_uvs;
-    std::vector<glm::vec3> temp_normals;
-
-    FILE *file = fopen(objectPath.c_str(), "r");
-    if(file == NULL){
-        printf("Impossible to open the file %s\n", objectPath.c_str());
+    Assimp::Importer importer;
+    const aiScene *scene = importer.ReadFile(objectPath.c_str(), aiProcess_Triangulate);
+    if(!scene){
         return false;
     }
-
-    bool oldVersion = false;
-    while(true){
-        char lineHeader[128];
-        //read the first word of the line
-        int res = fscanf(file, "%s", lineHeader);
-        if(res == EOF){
-            break;
-        }
-        if(strcmp(lineHeader, "#") == 0){
-            fscanf(file, "%s", lineHeader);
-            if(strcmp(lineHeader, "Blender") == 0){
-                fscanf(file, "%s", lineHeader);
-                oldVersion = strcmp(lineHeader, "v2.62") == 0;
-            }
-        } else if ( strcmp( lineHeader, "v" ) == 0 ){
-            glm::vec3 vertex;
-            fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z );
-            //temp_vertices.push_back(vertex);
-            glm::vec3 color((rand() % 100) / 100.0, 0.0, 0.0);
-            Vertex v(vertex, color);
+    aiColor3D color(0.0f, 0.0f, 0.0f);
+    for(unsigned int i = 0; i < scene->mNumMeshes; ++i){
+        //scene->mMaterials[scene->mNumMeshes + 1]->Get(AI_MATKEY_COLOR_DIFFUSE, color);
+        Indices.reserve(3 * scene->mMeshes[i]->mNumFaces);
+        Vertices.reserve(scene->mMeshes[i]->mNumVertices);
+        for(unsigned int j = 0; j < scene->mMeshes[i]->mNumVertices; ++j){
+            aiVector3D *pos = &(scene->mMeshes[i]->mVertices[j]);
+            glm::vec3 vert(pos->x, pos->y, pos->z);
+            glm::vec3 col(0.0f, (rand() % 100) / 100.0, 0.0f);
+            Vertex v(vert, col);
             Vertices.push_back(v);
-        }else if ( strcmp( lineHeader, "vt" ) == 0 ){
-            glm::vec2 uv;
-            fscanf(file, "%f %f\n", &uv.x, &uv.y );
-            temp_uvs.push_back(uv);
-        }else if ( strcmp( lineHeader, "vn" ) == 0 ){
-            glm::vec3 normal;
-            fscanf(file, "%f %f %f\n", &normal.x, &normal.y, &normal.z );
-            temp_normals.push_back(normal);
-        }else if ( strcmp( lineHeader, "f" ) == 0 ){
-            std::string vertex1, vertex2, vertex3;
-            unsigned int vertexIndex[3], uvIndex[3], normalIndex[3];
-            if(oldVersion){
-                int matches = fscanf(file, "%d %d %d\n", &vertexIndex[0], &vertexIndex[1], &vertexIndex[2]);
-                if (matches != 3){
-                    printf("File can't be read by our simple parser : ( Try exporting with other options\n");
-                    return false;
-                }
-            } else{
-                int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2] );
-                if (matches != 9){
-                    printf("File can't be read by our simple parser : ( Try exporting with other options\n");
-                    return false;
-                }
-            }
-
-            Indices.push_back(vertexIndex[0]);
-            Indices.push_back(vertexIndex[1]);
-            Indices.push_back(vertexIndex[2]);
-            uvIndices    .push_back(uvIndex[0]);
-            uvIndices    .push_back(uvIndex[1]);
-            uvIndices    .push_back(uvIndex[2]);
-            normalIndices.push_back(normalIndex[0]);
-            normalIndices.push_back(normalIndex[1]);
-            normalIndices.push_back(normalIndex[2]);
+        }
+        for(unsigned int j = 0; j < scene->mMeshes[i]->mNumFaces; ++j){
+            Indices[j] = scene->mMeshes[i]->mFaces->mIndices[0];
+            Indices[j] = scene->mMeshes[i]->mFaces->mIndices[1];
+            Indices[j] = scene->mMeshes[i]->mFaces->mIndices[2];
         }
     }
-    fclose(file);
 
-    // The index works at a 0th index
-    for(unsigned int i = 0; i < Indices.size(); i++)
-    {
-        Indices[i]--;
-    }
     return true;
 }
 
@@ -158,4 +113,13 @@ void BaseObject::Render()
 
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
+}
+
+
+void BaseObject::setPosition(glm::vec3 pos){
+    model = glm::translate(model, pos - position);
+}
+
+glm::vec3 BaseObject::getPosition() const{
+    return position;
 }

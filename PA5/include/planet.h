@@ -9,7 +9,6 @@ class Planet : public BaseObject
 {
   public:
     Planet(BaseObject *parent_, float orbitRadius_, float orbitRate_, float rotateRate_);
-    void Update(unsigned int dt);
     void DerivedUpdate(float dt);
 
     //Turning rate in rev/sec

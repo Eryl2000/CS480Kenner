@@ -10,7 +10,6 @@ class Object : public BaseObject
 {
   public:
     Object(BaseObject *parent_, std::string objectPath);
-    void Update(unsigned int dt);
     void DerivedUpdate(float dt);
 
   private:

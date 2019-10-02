@@ -11,7 +11,6 @@ public:
     BaseObject(BaseObject *parent, std::string objectFile);
     ~BaseObject();
     void Update(unsigned int dt);
-    virtual void DerivedUpdate(float dt) = 0;
     void Render();
 
     glm::mat4 GetModel();
@@ -19,10 +18,20 @@ public:
     BaseObject *Getparent();
     void SetParent(BaseObject *parent_);
 
-    //Current angle of the cube in radians
+    void setPosition(glm::vec3 pos);
+    void setEulerAngle(glm::vec3 eulerAngle);
+    void setScale(glm::vec3 scale);
+
+    glm::vec3 getPosition() const;
+    glm::vec3 getEulerAngle() const;
+    glm::vec3 getScale() const;
+
     float angle;
 protected:
+    virtual void DerivedUpdate(float dt) = 0;
     glm::mat4 model;
+
+    glm::vec3 position;
 
     BaseObject *parent;
     std::vector<BaseObject *> children;

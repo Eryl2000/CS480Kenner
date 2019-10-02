@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <string.h>
-using namespace std;
+#include <vector>
 
 #include "graphics_headers.h"
 #include "camera.h"
@@ -21,7 +21,7 @@ class Graphics
     void Update(unsigned int dt);
     void Render();
 
-	Object *importedObject;
+    std::vector<BaseObject *> objects;
 
   private:
     std::string ErrorString(GLenum error);
