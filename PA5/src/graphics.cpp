@@ -46,8 +46,8 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
 
   // Create the objects
   BaseObject *temp;
-  objects.push_back(temp = new Planet(NULL, 10, 0.3, 0.6));
-  objects.push_back(temp = new Planet(temp, 5, 0.9, 1.9));
+  //objects.push_back(temp = new Planet(NULL, 10, 0.3, 0.6));
+  //objects.push_back(temp = new Planet(temp, 5, 0.9, 1.9));
   objects.push_back(temp = new Object(NULL, objectPath));
 
   // Set up the shaders
