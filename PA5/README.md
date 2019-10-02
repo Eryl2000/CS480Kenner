@@ -1,10 +1,13 @@
-# PA%: ASSIMP
+# PA5: ASSIMP
 
 This project uses ASSIMP to load and display objects.
 
-## Keybindings
+## Dependencies
 
-none
+```bash
+sudo apt-get install libglew-dev libglm-dev libsdl2-dev
+sudo apt-get install libassimp-dev
+```
 
 ## Running the Project
 
