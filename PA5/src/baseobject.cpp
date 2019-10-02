@@ -38,20 +38,19 @@ bool BaseObject::LoadObject(std::string objectPath){
     }
     aiColor3D color(0.0f, 0.0f, 0.0f);
     for(unsigned int i = 0; i < scene->mNumMeshes; ++i){
-        //scene->mMaterials[scene->mNumMeshes + 1]->Get(AI_MATKEY_COLOR_DIFFUSE, color);
         Indices.reserve(3 * scene->mMeshes[i]->mNumFaces);
         Vertices.reserve(scene->mMeshes[i]->mNumVertices);
         for(unsigned int j = 0; j < scene->mMeshes[i]->mNumVertices; ++j){
             aiVector3D *pos = &(scene->mMeshes[i]->mVertices[j]);
             glm::vec3 vert(pos->x, pos->y, pos->z);
-            glm::vec3 col(0.0f, (rand() % 100) / 100.0, 0.0f);
+            glm::vec3 col((rand() % 100) / 100.0, 0.0f, 0.0f);
             Vertex v(vert, col);
             Vertices.push_back(v);
         }
-        for(unsigned int j = 0; j < scene->mMeshes[i]->mNumFaces; ++j){
-            Indices[j] = scene->mMeshes[i]->mFaces->mIndices[0];
-            Indices[j] = scene->mMeshes[i]->mFaces->mIndices[1];
-            Indices[j] = scene->mMeshes[i]->mFaces->mIndices[2];
+        for(unsigned int j = 0; j < scene->mMeshes[i]->mNumFaces; j++){
+            Indices.push_back(scene->mMeshes[i]->mFaces[j].mIndices[0]);
+            Indices.push_back(scene->mMeshes[i]->mFaces[j].mIndices[1]);
+            Indices.push_back(scene->mMeshes[i]->mFaces[j].mIndices[2]);
         }
     }
 

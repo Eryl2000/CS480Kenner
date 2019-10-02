@@ -26,3 +26,6 @@
 *.out
 *.app
 build/
+
+# IDE
+.vscode/
