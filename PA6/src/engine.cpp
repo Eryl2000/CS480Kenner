@@ -1,7 +1,7 @@
-
 #include "engine.h"
+#include "graphics.h"
 
-Engine::Engine(string name, int width, int height)
+Engine::Engine(std::string name, int width, int height)
 {
   m_WINDOW_NAME = name;
   m_WINDOW_WIDTH = width;
@@ -9,7 +9,7 @@ Engine::Engine(string name, int width, int height)
   m_FULLSCREEN = false;
 }
 
-Engine::Engine(string name)
+Engine::Engine(std::string name)
 {
   m_WINDOW_NAME = name;
   m_WINDOW_HEIGHT = 0;
@@ -36,7 +36,7 @@ bool Engine::Initialize(std::string vertexShader, std::string fragmentShader, st
   }
 
   // Start the graphics
-  m_graphics = new Graphics();
+  m_graphics = new Graphics(this);
   if(!m_graphics->Initialize(m_WINDOW_WIDTH, m_WINDOW_HEIGHT, vertexShader, fragmentShader, objectPath))
   {
     printf("The graphics failed to initialize.\n");
@@ -52,17 +52,18 @@ bool Engine::Initialize(std::string vertexShader, std::string fragmentShader, st
 
 void Engine::Run()
 {
-  m_running = true;
+  running = true;
 
-  while(m_running)
+  while(running)
   {
     // Update the DT
     m_DT = getDT();
 
     // Check the keyboard input
-    while(SDL_PollEvent(&m_event) != 0)
+    SDL_Event event;
+    while(SDL_PollEvent(&event) != 0)
     {
-      Keyboard();
+      m_graphics->HandleInput(event);
     }
 
     // Update and render the graphics
@@ -72,22 +73,6 @@ void Engine::Run()
     // Swap to the Window
     m_window->Swap();
   }
-}
-
-void Engine::Keyboard(){
-	if(m_event.type == SDL_QUIT){
-		m_running = false;
-	} else if (m_event.type == SDL_KEYDOWN){
-    	// handle key down events here
-    	if (m_event.key.keysym.sym == SDLK_ESCAPE){
-			m_running = false;
-		}
-
-	} else if (m_event.type == SDL_KEYUP){
-
-    } else if(m_event.type == SDL_MOUSEBUTTONDOWN){
-
-	}
 }
 
 unsigned int Engine::getDT()

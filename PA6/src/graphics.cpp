@@ -1,6 +1,7 @@
 #include "graphics.h"
+#include "engine.h"
 
-Graphics::Graphics()
+Graphics::Graphics(Engine *_engine) : engine(_engine)
 {
 
 }
@@ -175,4 +176,34 @@ std::string Graphics::ErrorString(GLenum error)
   {
     return "None";
   }
+}
+
+void Graphics::HandleInput(SDL_Event event){
+    if(event.type == SDL_QUIT){
+        engine->running = false;
+	} else if (event.type == SDL_KEYDOWN){
+        if(event.key.keysym.sym == SDLK_ESCAPE){
+            engine->running = false;
+        } else{
+            for(unsigned int i = 0; i < objects.size(); ++i){
+                objects[i]->KeyDown(event);
+            }
+        }
+	} else if (event.type == SDL_KEYUP){
+        for(unsigned int i = 0; i < objects.size(); ++i){
+            objects[i]->KeyUp(event);
+        }
+    } else if(event.type == SDL_MOUSEBUTTONDOWN){
+        for(unsigned int i = 0; i < objects.size(); ++i){
+            objects[i]->MouseDown(event);
+        }
+    } else if(event.type == SDL_MOUSEBUTTONUP){
+        for(unsigned int i = 0; i < objects.size(); ++i){
+            objects[i]->MouseUp(event);
+        }
+    } else if(event.type == SDL_MOUSEWHEEL){
+        for(unsigned int i = 0; i < objects.size(); ++i){
+            objects[i]->MouseWheel(event);
+        }
+	}
 }

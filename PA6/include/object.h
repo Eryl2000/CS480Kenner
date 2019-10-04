@@ -8,11 +8,17 @@
 
 class Object : public BaseObject
 {
-  public:
+public:
     Object(BaseObject *parent_, std::string objectPath);
     void DerivedUpdate(float dt);
 
-  private:
+    virtual void MouseDown(SDL_Event event);
+    virtual void MouseUp(SDL_Event event);
+    virtual void KeyDown(SDL_Event event);
+    virtual void KeyUp(SDL_Event event);
+    virtual void MouseWheel(SDL_Event event);
+private:
+    float rotateRate;
 
 };
 

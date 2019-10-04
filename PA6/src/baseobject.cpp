@@ -124,3 +124,23 @@ void BaseObject::setPosition(glm::vec3 pos){
 glm::vec3 BaseObject::getPosition() const{
     return position;
 }
+
+void BaseObject::MouseDown(SDL_Event event){
+
+}
+
+void BaseObject::MouseUp(SDL_Event event){
+
+}
+
+void BaseObject::KeyDown(SDL_Event event){
+
+}
+
+void BaseObject::KeyUp(SDL_Event event){
+
+}
+
+void BaseObject::MouseWheel(SDL_Event event){
+
+}

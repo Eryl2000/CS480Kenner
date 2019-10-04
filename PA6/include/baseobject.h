@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <SDL2/SDL.h>
 #include "graphics_headers.h"
 
 class BaseObject
@@ -27,6 +28,12 @@ public:
     glm::vec3 getScale() const;
 
     float angle;
+
+    virtual void MouseDown(SDL_Event event);
+    virtual void MouseUp(SDL_Event event);
+    virtual void KeyDown(SDL_Event event);
+    virtual void KeyUp(SDL_Event event);
+    virtual void MouseWheel(SDL_Event event);
 protected:
     virtual void DerivedUpdate(float dt) = 0;
     glm::mat4 model;
