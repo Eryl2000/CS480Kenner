@@ -6,7 +6,7 @@ Object::Object(BaseObject *parent_, std::string objectPath)
     rotateRate = 0.0;
 }
 
-void Object::DerivedUpdate(float dt){
+void Object::DerivedUpdate(double dt){
     angle += dt * 2 * M_PI * rotateRate;
     model = glm::rotate(model, angle, glm::vec3(0.0, 1.0, 0.0));
 }

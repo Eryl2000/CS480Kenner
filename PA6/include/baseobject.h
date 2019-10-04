@@ -9,7 +9,7 @@
 class BaseObject{
 public:
     BaseObject(BaseObject *parent, std::string objectFile);
-    ~BaseObject();
+    virtual ~BaseObject();
     void Update(double dt);
     void Render();
 
@@ -35,7 +35,7 @@ public:
     virtual void MouseWheel(SDL_Event event);
 
 protected:
-    virtual void DerivedUpdate(float dt) = 0;
+    virtual void DerivedUpdate(double dt) = 0;
     glm::mat4 model;
 
     glm::vec3 position;

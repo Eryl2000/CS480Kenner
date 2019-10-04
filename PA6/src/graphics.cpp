@@ -7,7 +7,15 @@ Graphics::Graphics(Engine *_engine)
 }
 
 Graphics::~Graphics(){
+    for(unsigned int i = 0; i < objects.size(); ++i){
+        delete objects[i];
+    }
+}
 
+void Graphics::createObjects(){
+    objects.push_back(new Planet(NULL, 10, 0.3, 0.6));
+    objects.push_back(new Planet(objects[0], 5, 0.9, 1.9));
+    objects.push_back(new Planet(objects[0], 4, 0.8, 1.8));
 }
 
 bool Graphics::Initialize(int width, int height, std::string vertexShader, std::string fragmentShader, std::string objectPath){
@@ -41,11 +49,7 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
         return false;
     }
 
-    //Create the objects
-    BaseObject *temp;
-    //objects.push_back(temp = new Planet(NULL, 10, 0.3, 0.6));
-    //objects.push_back(temp = new Planet(temp, 5, 0.9, 1.9));
-    objects.push_back(temp = new Object(NULL, objectPath));
+    createObjects();
 
     //Set up the shaders
     m_shader = new Shader();
