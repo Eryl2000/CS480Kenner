@@ -10,6 +10,12 @@ public:
     Planet(BaseObject *parent_, float orbitRadius_, float orbitRate_, float rotateRate_);
     void DerivedUpdate(float dt);
 
+    virtual void MouseDown(SDL_Event event);
+    virtual void MouseUp(SDL_Event event);
+    virtual void KeyDown(SDL_Event event);
+    virtual void KeyUp(SDL_Event event);
+    virtual void MouseWheel(SDL_Event event);
+
     //Turning rate in rev/sec
 	float rotateRate;
 
