@@ -6,8 +6,7 @@
 #include "graphics_headers.h"
 #include "baseobject.h"
 
-class Object : public BaseObject
-{
+class Object : public BaseObject{
 public:
     Object(BaseObject *parent_, std::string objectPath);
     void DerivedUpdate(float dt);
@@ -17,6 +16,7 @@ public:
     virtual void KeyDown(SDL_Event event);
     virtual void KeyUp(SDL_Event event);
     virtual void MouseWheel(SDL_Event event);
+    
 private:
     float rotateRate;
 

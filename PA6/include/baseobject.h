@@ -6,8 +6,7 @@
 #include <SDL2/SDL.h>
 #include "graphics_headers.h"
 
-class BaseObject
-{
+class BaseObject{
 public:
     BaseObject(BaseObject *parent, std::string objectFile);
     ~BaseObject();
@@ -34,6 +33,7 @@ public:
     virtual void KeyDown(SDL_Event event);
     virtual void KeyUp(SDL_Event event);
     virtual void MouseWheel(SDL_Event event);
+    
 protected:
     virtual void DerivedUpdate(float dt) = 0;
     glm::mat4 model;
@@ -42,6 +42,7 @@ protected:
 
     BaseObject *parent;
     std::vector<BaseObject *> children;
+
 private:
     bool LoadObject(std::string objectPath);
 

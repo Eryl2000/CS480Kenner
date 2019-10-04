@@ -59,14 +59,12 @@ bool BaseObject::LoadObject(std::string objectPath){
     return true;
 }
 
-BaseObject::~BaseObject()
-{
-  Vertices.clear();
-  Indices.clear();
+BaseObject::~BaseObject(){
+    Vertices.clear();
+    Indices.clear();
 }
 
-void BaseObject::Update(unsigned int dt)
-{
+void BaseObject::Update(unsigned int dt){
     //Calculate dt in terms of seconds instead of milliseconds
     float dtFloat = dt / 1000.0f;
     if(parent == NULL){
@@ -77,9 +75,8 @@ void BaseObject::Update(unsigned int dt)
     DerivedUpdate(dtFloat);
 }
 
-glm::mat4 BaseObject::GetModel()
-{
-  return model;
+glm::mat4 BaseObject::GetModel(){
+    return model;
 }
 
 void BaseObject::SetParent(BaseObject *parent_){
@@ -99,21 +96,20 @@ BaseObject *BaseObject::Getparent(){
     return parent;
 }
 
-void BaseObject::Render()
-{
-  glEnableVertexAttribArray(0);
-  glEnableVertexAttribArray(1);
+void BaseObject::Render(){
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
 
-  glBindBuffer(GL_ARRAY_BUFFER, VB);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,color));
+    glBindBuffer(GL_ARRAY_BUFFER, VB);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,color));
 
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
 
-  glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
 
-  glDisableVertexAttribArray(0);
-  glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
 }
 
 

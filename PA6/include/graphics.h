@@ -4,7 +4,6 @@
 #include <iostream>
 #include <string.h>
 #include <vector>
-
 #include "graphics_headers.h"
 #include "camera.h"
 #include "shader.h"
@@ -15,9 +14,8 @@
 
 class Engine;
 
-class Graphics
-{
-  public:
+class Graphics{
+public:
     Graphics(Engine *_engine);
     ~Graphics();
     bool Initialize(int width, int height, std::string vertexShader, std::string fragmentShader, std::string objectPath);
@@ -29,7 +27,7 @@ class Graphics
 
     Engine *engine;
 
-  private:
+private:
     std::string ErrorString(GLenum error);
 
     Camera *m_camera;

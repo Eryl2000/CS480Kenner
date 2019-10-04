@@ -5,9 +5,8 @@
 #include "graphics_headers.h"
 #include "baseobject.h"
 
-class Planet : public BaseObject
-{
-  public:
+class Planet : public BaseObject{
+public:
     Planet(BaseObject *parent_, float orbitRadius_, float orbitRate_, float rotateRate_);
     void DerivedUpdate(float dt);
 
@@ -29,7 +28,7 @@ class Planet : public BaseObject
 	//-1,0,1 for whether the cube is orbiting counterclockwise, stoppped, or clockwise
 	int orbitDirection;
 
-  private:
+private:
 
 };
 
