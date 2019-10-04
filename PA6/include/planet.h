@@ -7,7 +7,8 @@
 
 class Planet : public BaseObject{
 public:
-    Planet(BaseObject *parent_, float orbitRadius_, float orbitRate_, float rotateRate_);
+    Planet(BaseObject *_parent, float _orbitRadius, float _orbitRate, float _rotateRate,
+            glm::vec3 _scale = glm::vec3(1.0, 1.0, 1.0));
     void DerivedUpdate(float dt);
 
     virtual void MouseDown(SDL_Event event);

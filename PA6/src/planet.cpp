@@ -1,15 +1,16 @@
 #include "planet.h"
 
-Planet::Planet(BaseObject *parent_, float orbitRadius_, float orbitRate_, float rotateRate_)
-    : BaseObject(parent_, std::string("../obj/sphere.obj")),
-    orbitRadius(orbitRadius_),
-    orbitRate(orbitRate_),
-    rotateRate(rotateRate_){
+Planet::Planet(BaseObject *_parent, float _orbitRadius, float _orbitRate, float _rotateRate, glm::vec3 _scale)
+    : BaseObject(_parent, std::string("../obj/sphere.obj")),
+    orbitRadius(_orbitRadius),
+    orbitRate(_orbitRate),
+    rotateRate(_rotateRate){
 
     angleInOrbit = 0.0f;
 
     rotateDirection = 1.0;
     orbitDirection = 1.0;
+    scale = _scale;
 }
 
 void Planet::DerivedUpdate(float dt){

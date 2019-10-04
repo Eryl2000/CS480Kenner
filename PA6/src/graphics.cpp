@@ -13,9 +13,9 @@ Graphics::~Graphics(){
 }
 
 void Graphics::createObjects(){
-    objects.push_back(new Planet(NULL, 10, 0.3, 0.6));
-    objects.push_back(new Planet(objects[0], 5, 0.9, 1.9));
-    objects.push_back(new Planet(objects[0], 4, 0.8, 1.8));
+    objects.push_back(new Planet(NULL, 0, 0, 0.02, glm::vec3(3.0, 3.0, 3.0)));
+    objects.push_back(new Planet(objects[0], 10, 0.1, 1.9, glm::vec3(1.0, 1.0, 1.0)));
+    objects.push_back(new Planet(objects[1], 2.5, 0.8, 4, glm::vec3(0.3, 0.3, 0.3)));
     //objects.push_back(new Object(NULL, "../obj/Tray.obj"));
 }
 
