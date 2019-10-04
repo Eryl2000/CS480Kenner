@@ -15,10 +15,9 @@ public:
     ~Engine();
     bool Initialize(std::string vertexShader, std::string fragmentShader, std::string objectPath);
     void Run();
-    unsigned int getDT();
-    long long GetCurrentTimeMillis();
 
     bool running;
+    int smoothedFPS;
 
 	//References to other classes
 	Graphics *m_graphics;
@@ -31,8 +30,7 @@ private:
     int m_WINDOW_HEIGHT;
     bool m_FULLSCREEN;
 
-    unsigned int m_DT;
-    long long m_currentTimeMillis;
+    double fps;
 };
 
 #endif // ENGINE_H

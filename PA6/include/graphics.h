@@ -19,7 +19,7 @@ public:
     Graphics(Engine *_engine);
     ~Graphics();
     bool Initialize(int width, int height, std::string vertexShader, std::string fragmentShader, std::string objectPath);
-    void Update(unsigned int dt);
+    void Update(double dt);
     void Render();
     void HandleInput(SDL_Event event);
 

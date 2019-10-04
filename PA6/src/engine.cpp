@@ -1,5 +1,8 @@
+#include <chrono>
+#include <iomanip>
 #include "engine.h"
 #include "graphics.h"
+
 
 Engine::Engine(std::string name, int width, int height){
     m_WINDOW_NAME = name;
@@ -37,44 +40,50 @@ bool Engine::Initialize(std::string vertexShader, std::string fragmentShader, st
         return false;
     }
 
-    // Set the time
-    m_currentTimeMillis = GetCurrentTimeMillis();
-
     // No errors
     return true;
 }
 
 void Engine::Run(){
+    using namespace std::chrono;
     running = true;
 
+    const double FPS_Alpha = 0.25;
+    fps = 1.0;
+
+    double accumulator = 0.0;
+    high_resolution_clock::time_point prevTime = high_resolution_clock::now();
+    high_resolution_clock::time_point curTime = prevTime;
     while(running){
-        m_DT = getDT();
+        //Calculate dt
+        curTime = high_resolution_clock::now();
+        double dt = duration_cast<nanoseconds>(curTime - prevTime).count() / 1000000000.0;
+
+        //Calculate smooth fps
+        fps = (1.0 / dt) * FPS_Alpha + fps * (1.0 - FPS_Alpha);
+        smoothedFPS = (int)(fps + 0.5);
 
         SDL_Event event;
         while(SDL_PollEvent(&event) != 0){
             m_graphics->HandleInput(event);
         }
 
-        // Update and render the graphics
-        m_graphics->Update(m_DT);
+        //Fixed physics update loop
+        accumulator += dt;
+        while(accumulator >= dt){
+            m_graphics->Update(dt);
+            accumulator -= dt;
+        }
+
         m_graphics->Render();
 
         // Swap to the Window
         m_window->Swap();
+
+        if(time_point_cast<seconds>(curTime) != time_point_cast<seconds>(prevTime)){
+            std::cout << "FPS: " << smoothedFPS << std::endl;
+        }
+
+        prevTime = curTime;
     }
-}
-
-unsigned int Engine::getDT(){
-    long long TimeNowMillis = GetCurrentTimeMillis();
-    assert(TimeNowMillis >= m_currentTimeMillis);
-    unsigned int DeltaTimeMillis = (unsigned int)(TimeNowMillis - m_currentTimeMillis);
-    m_currentTimeMillis = TimeNowMillis;
-    return DeltaTimeMillis;
-}
-
-long long Engine::GetCurrentTimeMillis(){
-    timeval t;
-    gettimeofday(&t, NULL);
-    long long ret = t.tv_sec * 1000 + t.tv_usec / 1000;
-    return ret;
 }

@@ -100,7 +100,7 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
     return true;
 }
 
-void Graphics::Update(unsigned int dt){
+void Graphics::Update(double dt){
     for(unsigned int i = 0; i < objects.size(); ++i){
         objects[i]->Update(dt);
     }

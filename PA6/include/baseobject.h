@@ -10,7 +10,7 @@ class BaseObject{
 public:
     BaseObject(BaseObject *parent, std::string objectFile);
     ~BaseObject();
-    void Update(unsigned int dt);
+    void Update(double dt);
     void Render();
 
     glm::mat4 GetModel();
@@ -33,7 +33,7 @@ public:
     virtual void KeyDown(SDL_Event event);
     virtual void KeyUp(SDL_Event event);
     virtual void MouseWheel(SDL_Event event);
-    
+
 protected:
     virtual void DerivedUpdate(float dt) = 0;
     glm::mat4 model;

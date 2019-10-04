@@ -64,15 +64,13 @@ BaseObject::~BaseObject(){
     Indices.clear();
 }
 
-void BaseObject::Update(unsigned int dt){
-    //Calculate dt in terms of seconds instead of milliseconds
-    float dtFloat = dt / 1000.0f;
+void BaseObject::Update(double dt){
     if(parent == NULL){
         model = glm::mat4(1.0f);
     } else{
         model = parent->model;
     }
-    DerivedUpdate(dtFloat);
+    DerivedUpdate(dt);
 }
 
 glm::mat4 BaseObject::GetModel(){
