@@ -3,12 +3,15 @@
 Object::Object(BaseObject *parent_, std::string objectPath)
     : BaseObject(parent_, objectPath){
 
-    rotateRate = 0.0;
+    rotationVelocity = glm::vec3(0.0, 0.0, 0.0);
+    positionVelocity = glm::vec3(0.0, 0.0, 0.0);
+    scaleVelocity = glm::vec3(0.0, 0.0, 0.0);
 }
 
-void Object::DerivedUpdate(double dt){
-    angle += dt * 2 * M_PI * rotateRate;
-    model = glm::rotate(model, angle, glm::vec3(0.0, 1.0, 0.0));
+void Object::DerivedUpdate(float dt){
+    position += positionVelocity * dt;
+    eulerAngle.y += dt * 2 * M_PI * rotationVelocity.y;
+    scale += scaleVelocity * dt;
 }
 
 
@@ -23,14 +26,34 @@ void Object::MouseUp(SDL_Event event){
 void Object::KeyDown(SDL_Event event){
     switch(event.key.keysym.sym){
         case SDLK_a:
-            rotateRate = 0.5;
+            positionVelocity.x = 1.0;
             break;
         case SDLK_d:
-            rotateRate = -0.5;
+            positionVelocity.x = -1.0;
             break;
         case SDLK_w:
+            positionVelocity.z = 1.0;
             break;
         case SDLK_s:
+            positionVelocity.z = -1.0;
+            break;
+        case SDLK_q:
+            positionVelocity.y = -1.0;
+            break;
+        case SDLK_e:
+            positionVelocity.y = 1.0;
+            break;
+        case SDLK_LEFT:
+            rotationVelocity.y = 0.2;
+            break;
+        case SDLK_RIGHT:
+            rotationVelocity.y = -0.2;
+            break;
+        case SDLK_UP:
+            scaleVelocity.x = scaleVelocity.y = scaleVelocity.z = 0.2;
+            break;
+        case SDLK_DOWN:
+            scaleVelocity.x = scaleVelocity.y = scaleVelocity.z = -0.2;
             break;
         default:
             break;
@@ -38,7 +61,40 @@ void Object::KeyDown(SDL_Event event){
 }
 
 void Object::KeyUp(SDL_Event event){
-
+    switch(event.key.keysym.sym){
+        case SDLK_a:
+            positionVelocity.x = 0.0;
+            break;
+        case SDLK_d:
+            positionVelocity.x = 0.0;
+            break;
+        case SDLK_w:
+            positionVelocity.z = 0.0;
+            break;
+        case SDLK_s:
+            positionVelocity.z = 0.0;
+            break;
+        case SDLK_q:
+            positionVelocity.y = 0.0;
+            break;
+        case SDLK_e:
+            positionVelocity.y = 0.0;
+            break;
+        case SDLK_LEFT:
+            rotationVelocity.y = 0.0;
+            break;
+        case SDLK_RIGHT:
+            rotationVelocity.y = 0.0;
+            break;
+        case SDLK_UP:
+            scaleVelocity.x = scaleVelocity.y = scaleVelocity.z = 0.0;
+            break;
+        case SDLK_DOWN:
+            scaleVelocity.x = scaleVelocity.y = scaleVelocity.z = 0.0;
+            break;
+        default:
+            break;
+    }
 }
 
 void Object::MouseWheel(SDL_Event event){

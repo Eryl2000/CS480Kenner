@@ -10,17 +10,14 @@ class BaseObject{
 public:
     BaseObject(BaseObject *parent, std::string objectFile);
     virtual ~BaseObject();
-    void Update(double dt);
+    void Update(float dt);
     void Render();
 
     glm::mat4 GetModel();
+    void printModel() const;
 
     BaseObject *Getparent();
     void SetParent(BaseObject *parent_);
-
-    void setPosition(glm::vec3 pos);
-    void setEulerAngle(glm::vec3 eulerAngle);
-    void setScale(glm::vec3 scale);
 
     glm::vec3 getPosition() const;
     glm::vec3 getEulerAngle() const;
@@ -35,16 +32,20 @@ public:
     virtual void MouseWheel(SDL_Event event);
 
 protected:
-    virtual void DerivedUpdate(double dt) = 0;
+    virtual void DerivedUpdate(float dt) = 0;
     glm::mat4 model;
 
     glm::vec3 position;
+    glm::vec3 eulerAngle;
+    glm::vec3 scale;
 
     BaseObject *parent;
     std::vector<BaseObject *> children;
 
 private:
     bool LoadObject(std::string objectPath);
+
+    void SetTransform(glm::vec3 _position, glm::vec3 _eulerAngle, glm::vec3 _scale);
 
     std::vector<Vertex> Vertices;
     std::vector<unsigned int> Indices;

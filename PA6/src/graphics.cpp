@@ -16,6 +16,7 @@ void Graphics::createObjects(){
     objects.push_back(new Planet(NULL, 10, 0.3, 0.6));
     objects.push_back(new Planet(objects[0], 5, 0.9, 1.9));
     objects.push_back(new Planet(objects[0], 4, 0.8, 1.8));
+    //objects.push_back(new Object(NULL, "../obj/Tray.obj"));
 }
 
 bool Graphics::Initialize(int width, int height, std::string vertexShader, std::string fragmentShader, std::string objectPath){

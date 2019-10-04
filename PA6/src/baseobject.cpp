@@ -12,6 +12,8 @@ BaseObject::BaseObject(BaseObject *parent_, std::string objectPath) : parent(NUL
     model = glm::mat4(1.0);
 
     position = glm::vec3(0.0);
+    eulerAngle = glm::vec3(0.0, 0.0, 0.0);
+    scale = glm::vec3(1.0, 1.0, 1.0);
     angle = 0.0f;
 
     if(!LoadObject(objectPath)){
@@ -64,13 +66,19 @@ BaseObject::~BaseObject(){
     Indices.clear();
 }
 
-void BaseObject::Update(double dt){
-    if(parent == NULL){
-        model = glm::mat4(1.0f);
-    } else{
-        model = parent->model;
-    }
+void BaseObject::Update(float dt){
     DerivedUpdate(dt);
+    SetTransform(position, eulerAngle, scale);
+}
+
+void BaseObject::printModel() const{
+    for(int i = 0; i < 4; ++i){
+        for(int j = 0; j < 4; ++j){
+            std::cout << model[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
 }
 
 glm::mat4 BaseObject::GetModel(){
@@ -110,13 +118,35 @@ void BaseObject::Render(){
     glDisableVertexAttribArray(1);
 }
 
+void BaseObject::SetTransform(glm::vec3 _position, glm::vec3 _eulerAngle, glm::vec3 _scale){
+    model = glm::mat4(1.0f);
+    if(parent != NULL){
+        for(int i = 0; i < 4; ++i){
+            model[3][i] = parent->model[3][i];
+        }
+    }
 
-void BaseObject::setPosition(glm::vec3 pos){
-    model = glm::translate(model, pos - position);
+    position = _position;
+    eulerAngle = _eulerAngle;
+    scale = _scale;
+
+    model = glm::translate(model, position);
+    model = glm::rotate(model, eulerAngle.y, glm::vec3(0.0, 1.0, 0.0));
+    model = glm::rotate(model, eulerAngle.z, glm::vec3(0.0, 0.0, 1.0));
+    model = glm::rotate(model, eulerAngle.x, glm::vec3(1.0, 0.0, 0.0));
+    model = glm::scale(model, scale);
 }
 
 glm::vec3 BaseObject::getPosition() const{
     return position;
+}
+
+glm::vec3 BaseObject::getEulerAngle() const{
+    return eulerAngle;
+}
+
+glm::vec3 BaseObject::getScale() const{
+    return scale;
 }
 
 void BaseObject::MouseDown(SDL_Event event){
