@@ -7,7 +7,7 @@
 
 class Planet : public BaseObject{
 public:
-    Planet(BaseObject *_parent, float _orbitRadius, float _orbitRate, float _rotateRate,
+    Planet(std::string _name, BaseObject *_parent, float _orbitRadius, float _orbitRate, float _rotateRate,
             glm::vec3 _scale = glm::vec3(1.0, 1.0, 1.0));
     void DerivedUpdate(float dt);
 

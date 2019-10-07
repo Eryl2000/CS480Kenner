@@ -8,7 +8,7 @@
 
 class Object : public BaseObject{
 public:
-    Object(BaseObject *parent_, std::string objectPath);
+    Object(std::string _name, BaseObject *parent_, std::string objectPath);
     void DerivedUpdate(float dt);
 
     virtual void MouseDown(SDL_Event event);
@@ -21,6 +21,9 @@ private:
     glm::vec3 rotationVelocity;
     glm::vec3 positionVelocity;
     glm::vec3 scaleVelocity;
+
+    bool buttonHeld_control;
+    bool buttonHeld_alt;
 
 };
 

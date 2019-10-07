@@ -7,14 +7,14 @@
 #include <assimp/postprocess.h> //includes the postprocessing variables for the importer
 #include <assimp/color4.h> //includes the aiColor4 object, which is used to handle the colors from the mesh objects
 
-BaseObject::BaseObject(BaseObject *parent_, std::string objectPath) : parent(NULL){
+BaseObject::BaseObject(std::string _name, BaseObject *parent_, std::string objectPath) : parent(NULL){
     SetParent(parent_);
     model = glm::mat4(1.0);
 
     position = glm::vec3(0.0);
     eulerAngle = glm::vec3(0.0, 0.0, 0.0);
     scale = glm::vec3(1.0, 1.0, 1.0);
-    angle = 0.0f;
+    name = _name;
 
     if(!LoadObject(objectPath)){
         printf("Error loading model: %s\n", objectPath.c_str());

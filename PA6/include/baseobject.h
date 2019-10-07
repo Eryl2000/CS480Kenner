@@ -8,7 +8,7 @@
 
 class BaseObject{
 public:
-    BaseObject(BaseObject *parent, std::string objectFile);
+    BaseObject(std::string _name, BaseObject *parent, std::string objectFile);
     virtual ~BaseObject();
     void Update(float dt);
     void Render();
@@ -23,7 +23,7 @@ public:
     glm::vec3 getEulerAngle() const;
     glm::vec3 getScale() const;
 
-    float angle;
+    std::string name;
 
     virtual void MouseDown(SDL_Event event);
     virtual void MouseUp(SDL_Event event);

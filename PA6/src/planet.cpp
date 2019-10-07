@@ -1,7 +1,7 @@
 #include "planet.h"
 
-Planet::Planet(BaseObject *_parent, float _orbitRadius, float _orbitRate, float _rotateRate, glm::vec3 _scale)
-    : BaseObject(_parent, std::string("../obj/sphere.obj")),
+Planet::Planet(std::string _name, BaseObject *_parent, float _orbitRadius, float _orbitRate, float _rotateRate, glm::vec3 _scale)
+    : BaseObject(_name, _parent, std::string("../obj/sphere.obj")),
     orbitRadius(_orbitRadius),
     orbitRate(_orbitRate),
     rotateRate(_rotateRate){
