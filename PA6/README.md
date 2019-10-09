@@ -1,6 +1,6 @@
 # PA6: Assimp Texture Loading
 
-This project uses ASSIMP to load and display textures on objects.
+This project uses ASSIMP to load and display textures on objects. 
 
 ## Dependencies
 
@@ -18,6 +18,12 @@ cmake ..
 make
 ./Tutorial -v ../shaders/vertexShader.txt -f ../shaders/fragmentShader.txt -o ../obj/Tray.obj
 ```
+
+##Group Members
+
+Eryl Kenner, Kyle Brainard, Garrett Moore
+
 ## Notes
 
-Each vertex is assigned a color between black and red. The model file must be specified using the option -o.
+We used ImageMagick in our project, version 6.9.7-4.\
+Also, you can move the object using the WASD keys.
