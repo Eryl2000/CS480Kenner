@@ -10,8 +10,8 @@
 
 class BaseObject{
 public:
-    BaseObject(std::string _name, BaseObject *parent_, std::string objectFile);
-    BaseObject(std::string _name, BaseObject *parent_, const aiScene * scene, unsigned int modelIndex);
+    BaseObject(std::string _name, BaseObject *parent_, std::string objectFile, bool _onlyCopyParentPos = false);
+    BaseObject(std::string _name, BaseObject *parent_, const aiScene * scene, unsigned int modelIndex, bool _onlyCopyParentPos = false);
     virtual ~BaseObject();
     void Update(float dt);
     void Render();
@@ -39,6 +39,8 @@ public:
 protected:
     virtual void DerivedUpdate(float dt) = 0;
     glm::mat4 model;
+
+    bool onlyCopyParentPos;
 
     glm::vec3 position;
     glm::vec3 eulerAngle;

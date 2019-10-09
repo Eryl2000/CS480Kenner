@@ -9,8 +9,9 @@
 #include "object.h"
 
 
-BaseObject::BaseObject(std::string _name, BaseObject *parent_, std::string objectPath) : parent(NULL)
+BaseObject::BaseObject(std::string _name, BaseObject *parent_, std::string objectPath, bool _onlyCopyParentPos) : parent(NULL)
 {
+    onlyCopyParentPos = _onlyCopyParentPos;
     Setup(_name, parent_);
     if(!LoadObject(objectPath)){
         printf("Error loading model: %s\n", objectPath.c_str());
@@ -19,8 +20,9 @@ BaseObject::BaseObject(std::string _name, BaseObject *parent_, std::string objec
     Bind();
 }
 
-BaseObject::BaseObject(std::string _name, BaseObject *parent_, const aiScene * scene, unsigned int modelIndex) : parent(NULL)
+BaseObject::BaseObject(std::string _name, BaseObject *parent_, const aiScene * scene, unsigned int modelIndex, bool _onlyCopyParentPos) : parent(NULL)
 {
+    onlyCopyParentPos = _onlyCopyParentPos;
     Setup(_name, parent_);
     if(!LoadObject(scene, modelIndex)){
         printf("Error loading model: %d\n", modelIndex);
@@ -197,8 +199,13 @@ void BaseObject::Render(){
 void BaseObject::SetTransform(glm::vec3 _position, glm::vec3 _eulerAngle, glm::vec3 _scale){
     model = glm::mat4(1.0f);
     if(parent != NULL){
-        for(int i = 0; i < 4; ++i){
-            model[3][i] = parent->model[3][i];
+        if(onlyCopyParentPos){
+            //Only use the position of the parent, not the orientation
+            for(int i = 0; i < 4; ++i){
+                model[3][i] = parent->model[3][i];
+            }
+        } else{
+            model = parent->model;
         }
     }
 
