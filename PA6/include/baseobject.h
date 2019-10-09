@@ -4,9 +4,9 @@
 #include <vector>
 #include <string>
 #include <SDL2/SDL.h>
-#include <Magick++.h>
 #include <assimp/scene.h> //includes the aiScene object
 #include "graphics_headers.h"
+#include <Magick++.h>
 
 class BaseObject{
 public:
@@ -59,7 +59,7 @@ private:
     GLuint VB;
     GLuint IB;
 
-    Magick::Image *image;
+    Magick::Image *image = NULL;
     Magick::Blob blob;
 
     GLuint texture;

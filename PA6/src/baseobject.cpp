@@ -6,7 +6,6 @@
 #include <assimp/scene.h> //includes the aiScene object
 #include <assimp/postprocess.h> //includes the postprocessing variables for the importer
 #include <assimp/color4.h> //includes the aiColor4 object, which is used to handle the colors from the mesh objects
-#include <Magick++.h>
 #include "object.h"
 
 
@@ -84,41 +83,49 @@ bool BaseObject::LoadObject(const aiScene * scene, unsigned int modelIndex)
         return false;
     }
 
-    //for (unsigned int i = 0; i < scene->mNumMaterials; i++) {
-        const aiMaterial* pMaterial = scene->mMaterials[scene->mMeshes[modelIndex]->mMaterialIndex];
+    const aiMaterial* pMaterial = scene->mMaterials[scene->mMeshes[modelIndex]->mMaterialIndex];
 
-        if (pMaterial->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
-            aiString Path;
+    if (pMaterial->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
+        aiString Path;
 
-            if (pMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
-                image = new Magick::Image(std::string("../obj/" + std::string(Path.C_Str())));
-            }
+        if (pMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
+            image = new Magick::Image(std::string("../obj/" + std::string(Path.C_Str())));
         }
+    }
 
-   //}
+    if(image == NULL)
+    {
+        image = new Magick::Image("../obj/granite.jpg");
+    }
+
     image -> write(&blob, "RGBA");
-    aiColor3D color(0.0f, 0.0f, 0.0f);
-    int vertexOffset = 0;
-    for(unsigned int i = 0; i < scene->mNumMeshes; ++i){
-        Indices.reserve(3 * scene->mMeshes[i]->mNumFaces);
-        Vertices.reserve(scene->mMeshes[i]->mNumVertices);
-        for(unsigned int j = 0; j < scene->mMeshes[i]->mNumVertices; ++j){
-            aiVector3D *pos = &(scene->mMeshes[i]->mVertices[j]);
-            glm::vec3 vert(pos->x, pos->y, pos->z);
-            glm::vec3 col((rand() % 100) / 100.0, 0.0f, 0.0f);
 
-            aiVector3D *texture = &(scene->mMeshes[i]->mTextureCoords[0][j]);
-            glm::vec2 text(texture->x,texture->y);
+    Indices.reserve(3 * scene->mMeshes[modelIndex]->mNumFaces);
+    Vertices.reserve(scene->mMeshes[modelIndex]->mNumVertices);
+    for(unsigned int j = 0; j < scene->mMeshes[modelIndex]->mNumVertices; ++j){
+        aiVector3D *pos = &(scene->mMeshes[modelIndex]->mVertices[j]);
+        glm::vec3 vert(pos->x, pos->y, pos->z);
+        glm::vec3 col((rand() % 100) / 100.0, 0.0f, 0.0f);
 
-            Vertex v(vert, col, text);
-            Vertices.push_back(v);
+        aiVector3D * texture = NULL;
+        if(scene->mMeshes[modelIndex]->HasTextureCoords(0))
+        {
+            texture = &(scene->mMeshes[modelIndex]->mTextureCoords[0][j]);
         }
-        for(unsigned int j = 0; j < scene->mMeshes[i]->mNumFaces; j++){
-            Indices.push_back(scene->mMeshes[i]->mFaces[j].mIndices[0] + vertexOffset);
-            Indices.push_back(scene->mMeshes[i]->mFaces[j].mIndices[1] + vertexOffset);
-            Indices.push_back(scene->mMeshes[i]->mFaces[j].mIndices[2] + vertexOffset);
+        glm::vec2 text;
+        if(texture != NULL)
+        {
+            text.x = texture->x;
+            text.y = texture->y;
         }
-        vertexOffset += scene->mMeshes[i]->mNumVertices;
+
+        Vertex v(vert, col, text);
+        Vertices.push_back(v);
+    }
+    for(unsigned int j = 0; j < scene->mMeshes[modelIndex]->mNumFaces; j++){
+        Indices.push_back(scene->mMeshes[modelIndex]->mFaces[j].mIndices[0]);
+        Indices.push_back(scene->mMeshes[modelIndex]->mFaces[j].mIndices[1]);
+        Indices.push_back(scene->mMeshes[modelIndex]->mFaces[j].mIndices[2]);
     }
 
     return true;

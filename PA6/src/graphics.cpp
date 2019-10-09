@@ -16,7 +16,12 @@ void Graphics::createObjects(std::string object_path){
     //objects.push_back(new Planet("Sun", NULL, 0, 0, 0.02, glm::vec3(3.0, 3.0, 3.0)));
     //objects.push_back(new Planet("Earth", objects[0], 10, 0.1, 1.9, glm::vec3(1.0, 1.0, 1.0)));
     //objects.push_back(new Planet("Moon", objects[1], 2.5, 0.8, 4, glm::vec3(0.3, 0.3, 0.3)));
-    objects.push_back(new Object("Test", NULL, object_path));
+    Object * obj = new Object("Test", NULL, object_path);
+    objects.push_back(obj);
+    for(unsigned int i = 0; i < obj->children.size(); i ++)
+    {
+        objects.push_back(obj->children[i]);
+    }
 }
 
 bool Graphics::Initialize(int width, int height, std::string vertexShader, std::string fragmentShader, std::string objectPath){

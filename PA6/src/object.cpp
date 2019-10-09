@@ -36,59 +36,62 @@ void Object::MouseUp(SDL_Event event){
 }
 
 void Object::KeyDown(SDL_Event event){
-    switch(event.key.keysym.sym){
-        case SDLK_a:
-            positionVelocity.x = 1.0;
-            break;
-        case SDLK_d:
-            positionVelocity.x = -1.0;
-            break;
-        case SDLK_w:
-            positionVelocity.z = 1.0;
-            break;
-        case SDLK_s:
-            positionVelocity.z = -1.0;
-            break;
-        case SDLK_q:
-            positionVelocity.y = -1.0;
-            break;
-        case SDLK_e:
-            positionVelocity.y = 1.0;
-            break;
-        case SDLK_LEFT:
-            if(buttonHeld_control){
-                rotationVelocity.x = 0.2;
-            } else if(buttonHeld_alt){
-                rotationVelocity.z = 0.2;
-            } else{
-                rotationVelocity.y = 0.2;
-            }
-            break;
-        case SDLK_RIGHT:
-            if(buttonHeld_control){
-                rotationVelocity.x = -0.2;
-            } else if(buttonHeld_alt){
-                rotationVelocity.z = -0.2;
-            } else{
-                rotationVelocity.y = -0.2;
-            }
-            break;
-        case SDLK_UP:
-            scaleVelocity.x = scaleVelocity.y = scaleVelocity.z = 0.2;
-            break;
-        case SDLK_DOWN:
-            scaleVelocity.x = scaleVelocity.y = scaleVelocity.z = -0.2;
-            break;
-        case SDLK_LCTRL:
-        case SDLK_RCTRL:
-            buttonHeld_control = true;
-            break;
-        case SDLK_LALT:
-        case SDLK_RALT:
-            buttonHeld_alt = true;
-            break;
-        default:
-            break;
+    if(parent == NULL)
+    {
+        switch(event.key.keysym.sym){
+            case SDLK_a:
+                positionVelocity.x = 1.0;
+                break;
+            case SDLK_d:
+                positionVelocity.x = -1.0;
+                break;
+            case SDLK_w:
+                positionVelocity.z = 1.0;
+                break;
+            case SDLK_s:
+                positionVelocity.z = -1.0;
+                break;
+            case SDLK_q:
+                positionVelocity.y = -1.0;
+                break;
+            case SDLK_e:
+                positionVelocity.y = 1.0;
+                break;
+            case SDLK_LEFT:
+                if(buttonHeld_control){
+                    rotationVelocity.x = 0.2;
+                } else if(buttonHeld_alt){
+                    rotationVelocity.z = 0.2;
+                } else{
+                    rotationVelocity.y = 0.2;
+                }
+                break;
+            case SDLK_RIGHT:
+                if(buttonHeld_control){
+                    rotationVelocity.x = -0.2;
+                } else if(buttonHeld_alt){
+                    rotationVelocity.z = -0.2;
+                } else{
+                    rotationVelocity.y = -0.2;
+                }
+                break;
+            case SDLK_UP:
+                scaleVelocity.x = scaleVelocity.y = scaleVelocity.z = 0.2;
+                break;
+            case SDLK_DOWN:
+                scaleVelocity.x = scaleVelocity.y = scaleVelocity.z = -0.2;
+                break;
+            case SDLK_LCTRL:
+            case SDLK_RCTRL:
+                buttonHeld_control = true;
+                break;
+            case SDLK_LALT:
+            case SDLK_RALT:
+                buttonHeld_alt = true;
+                break;
+            default:
+                break;
+        }
     }
 }
 
