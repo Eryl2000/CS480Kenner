@@ -20,7 +20,7 @@ make
 ./Tutorial -v ../shaders/vertexShader.txt -f ../shaders/fragmentShader.txt -o ../obj/Tray.obj
 ```
 
-##Group Members
+## Group Members
 
 Eryl Kenner, Kyle Brainard, Garrett Moore
 
