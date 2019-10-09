@@ -1,12 +1,13 @@
 # PA6: Assimp Texture Loading
 
-This project uses ASSIMP to load and display textures on objects. 
+This project uses ASSIMP to load and display textures on objects.
 
 ## Dependencies
 
 ```bash
 sudo apt-get install libglew-dev libglm-dev libsdl2-dev
 sudo apt-get install libassimp-dev
+sudo apt-get install libmagick++-dev
 ```
 
 ## Running the Project
