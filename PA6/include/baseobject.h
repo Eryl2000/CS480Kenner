@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <SDL2/SDL.h>
+#include <Magick++.h>
 #include "graphics_headers.h"
 
 class BaseObject{
@@ -51,6 +52,12 @@ private:
     std::vector<unsigned int> Indices;
     GLuint VB;
     GLuint IB;
+
+    Magick::Image *image;
+    Magick::Blob blob;
+
+    GLuint texture;
+
 };
 
 #endif /* BASEOBJECT_H */

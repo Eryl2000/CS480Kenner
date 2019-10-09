@@ -26,8 +26,9 @@
 struct Vertex{
   glm::vec3 vertex;
   glm::vec3 color;
+  glm::vec2 texture;
 
-  Vertex(glm::vec3 v, glm::vec3 c): vertex(v), color(c) {}
+  Vertex(glm::vec3 v, glm::vec3 c, glm::vec2 t): vertex(v), color(c), texture(t) {}
 };
 
 #endif /* GRAPHICS_HEADERS_H */

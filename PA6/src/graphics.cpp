@@ -12,11 +12,11 @@ Graphics::~Graphics(){
     }
 }
 
-void Graphics::createObjects(){
-    objects.push_back(new Planet("Sun", NULL, 0, 0, 0.02, glm::vec3(3.0, 3.0, 3.0)));
-    objects.push_back(new Planet("Earth", objects[0], 10, 0.1, 1.9, glm::vec3(1.0, 1.0, 1.0)));
-    objects.push_back(new Planet("Moon", objects[1], 2.5, 0.8, 4, glm::vec3(0.3, 0.3, 0.3)));
-    //objects.push_back(new Object(NULL, "../obj/Tray.obj"));
+void Graphics::createObjects(std::string object_path){
+    //objects.push_back(new Planet("Sun", NULL, 0, 0, 0.02, glm::vec3(3.0, 3.0, 3.0)));
+    //objects.push_back(new Planet("Earth", objects[0], 10, 0.1, 1.9, glm::vec3(1.0, 1.0, 1.0)));
+    //objects.push_back(new Planet("Moon", objects[1], 2.5, 0.8, 4, glm::vec3(0.3, 0.3, 0.3)));
+    objects.push_back(new Object("Test", NULL, object_path));
 }
 
 bool Graphics::Initialize(int width, int height, std::string vertexShader, std::string fragmentShader, std::string objectPath){
@@ -50,7 +50,7 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
         return false;
     }
 
-    createObjects();
+    createObjects(objectPath);
 
     //Set up the shaders
     m_shader = new Shader();

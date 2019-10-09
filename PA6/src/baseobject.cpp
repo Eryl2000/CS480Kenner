@@ -6,6 +6,8 @@
 #include <assimp/scene.h> //includes the aiScene object
 #include <assimp/postprocess.h> //includes the postprocessing variables for the importer
 #include <assimp/color4.h> //includes the aiColor4 object, which is used to handle the colors from the mesh objects
+#include <Magick++.h>
+
 
 BaseObject::BaseObject(std::string _name, BaseObject *parent_, std::string objectPath) : parent(NULL){
     SetParent(parent_);
@@ -29,15 +31,37 @@ BaseObject::BaseObject(std::string _name, BaseObject *parent_, std::string objec
     glGenBuffers(1, &IB);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
+
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->columns(), image->rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data());
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    delete image;
 }
 
 
 bool BaseObject::LoadObject(std::string objectPath){
+    Magick::InitializeMagick(NULL);
     Assimp::Importer importer;
     const aiScene *scene = importer.ReadFile(objectPath.c_str(), aiProcess_Triangulate);
     if(!scene){
         return false;
     }
+
+    //for (unsigned int i = 0; i < scene->mNumMaterials; i++) {
+        const aiMaterial* pMaterial = scene->mMaterials[scene->mMeshes[0]->mMaterialIndex];
+
+        if (pMaterial->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
+            aiString Path;
+
+            if (pMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
+                image = new Magick::Image(std::string("../obj/" + std::string(Path.C_Str())));
+            }
+        }
+
+    //}
+    image -> write(&blob, "RGBA");
     aiColor3D color(0.0f, 0.0f, 0.0f);
     int vertexOffset = 0;
     for(unsigned int i = 0; i < scene->mNumMeshes; ++i){
@@ -47,7 +71,11 @@ bool BaseObject::LoadObject(std::string objectPath){
             aiVector3D *pos = &(scene->mMeshes[i]->mVertices[j]);
             glm::vec3 vert(pos->x, pos->y, pos->z);
             glm::vec3 col((rand() % 100) / 100.0, 0.0f, 0.0f);
-            Vertex v(vert, col);
+
+            aiVector3D *texture = &(scene->mMeshes[i]->mTextureCoords[0][j]);
+            glm::vec2 text(texture->x,texture->y);
+
+            Vertex v(vert, col, text);
             Vertices.push_back(v);
         }
         for(unsigned int j = 0; j < scene->mMeshes[i]->mNumFaces; j++){
@@ -105,12 +133,17 @@ BaseObject *BaseObject::Getparent(){
 void BaseObject::Render(){
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
 
     glBindBuffer(GL_ARRAY_BUFFER, VB);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,color));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,texture));
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture);
 
     glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
 
