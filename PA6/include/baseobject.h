@@ -5,11 +5,13 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include <Magick++.h>
+#include <assimp/scene.h> //includes the aiScene object
 #include "graphics_headers.h"
 
 class BaseObject{
 public:
-    BaseObject(std::string _name, BaseObject *parent, std::string objectFile);
+    BaseObject(std::string _name, BaseObject *parent_, std::string objectFile);
+    BaseObject(std::string _name, BaseObject *parent_, const aiScene * scene, unsigned int modelIndex);
     virtual ~BaseObject();
     void Update(float dt);
     void Render();
@@ -32,6 +34,8 @@ public:
     virtual void KeyUp(SDL_Event event);
     virtual void MouseWheel(SDL_Event event);
 
+    std::vector<BaseObject *> children;
+
 protected:
     virtual void DerivedUpdate(float dt) = 0;
     glm::mat4 model;
@@ -41,10 +45,12 @@ protected:
     glm::vec3 scale;
 
     BaseObject *parent;
-    std::vector<BaseObject *> children;
 
 private:
+    void Setup(std::string _name, BaseObject *parent_);
     bool LoadObject(std::string objectPath);
+    bool LoadObject(const aiScene * scene, unsigned int modelIndex);
+    void Bind();
 
     void SetTransform(glm::vec3 _position, glm::vec3 _eulerAngle, glm::vec3 _scale);
 

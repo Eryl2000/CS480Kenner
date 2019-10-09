@@ -9,6 +9,7 @@
 class Object : public BaseObject{
 public:
     Object(std::string _name, BaseObject *parent_, std::string objectPath);
+    Object(std::string _name, BaseObject *parent_, const aiScene * scene, unsigned int modelIndex);
     void DerivedUpdate(float dt);
 
     virtual void MouseDown(SDL_Event event);

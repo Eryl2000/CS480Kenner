@@ -7,9 +7,31 @@
 #include <assimp/postprocess.h> //includes the postprocessing variables for the importer
 #include <assimp/color4.h> //includes the aiColor4 object, which is used to handle the colors from the mesh objects
 #include <Magick++.h>
+#include "object.h"
 
 
-BaseObject::BaseObject(std::string _name, BaseObject *parent_, std::string objectPath) : parent(NULL){
+BaseObject::BaseObject(std::string _name, BaseObject *parent_, std::string objectPath) : parent(NULL)
+{
+    Setup(_name, parent_);
+    if(!LoadObject(objectPath)){
+        printf("Error loading model: %s\n", objectPath.c_str());
+        exit(1);
+    }
+    Bind();
+}
+
+BaseObject::BaseObject(std::string _name, BaseObject *parent_, const aiScene * scene, unsigned int modelIndex) : parent(NULL)
+{
+    Setup(_name, parent_);
+    if(!LoadObject(scene, modelIndex)){
+        printf("Error loading model: %d\n", modelIndex);
+        exit(1);
+    }
+    Bind();
+}
+
+void BaseObject::Setup(std::string _name, BaseObject *parent_)
+{
     SetParent(parent_);
     model = glm::mat4(1.0);
 
@@ -17,12 +39,10 @@ BaseObject::BaseObject(std::string _name, BaseObject *parent_, std::string objec
     eulerAngle = glm::vec3(0.0, 0.0, 0.0);
     scale = glm::vec3(1.0, 1.0, 1.0);
     name = _name;
+}
 
-    if(!LoadObject(objectPath)){
-        printf("Error loading model: %s\n", objectPath.c_str());
-        exit(1);
-    }
-
+void BaseObject::Bind()
+{
     //Bind buffers
     glGenBuffers(1, &VB);
     glBindBuffer(GL_ARRAY_BUFFER, VB);
@@ -42,15 +62,30 @@ BaseObject::BaseObject(std::string _name, BaseObject *parent_, std::string objec
 
 
 bool BaseObject::LoadObject(std::string objectPath){
-    Magick::InitializeMagick(NULL);
     Assimp::Importer importer;
     const aiScene *scene = importer.ReadFile(objectPath.c_str(), aiProcess_Triangulate);
     if(!scene){
         return false;
     }
 
+    LoadObject(scene, (unsigned int) 0);
+    for(unsigned int i = 1; i < scene->mNumMeshes; ++i)
+    {
+        new Object(name, this, scene, i);
+    }
+
+    return true;
+}
+
+bool BaseObject::LoadObject(const aiScene * scene, unsigned int modelIndex)
+{
+    Magick::InitializeMagick(NULL);
+    if(!scene){
+        return false;
+    }
+
     //for (unsigned int i = 0; i < scene->mNumMaterials; i++) {
-        const aiMaterial* pMaterial = scene->mMaterials[scene->mMeshes[0]->mMaterialIndex];
+        const aiMaterial* pMaterial = scene->mMaterials[scene->mMeshes[modelIndex]->mMaterialIndex];
 
         if (pMaterial->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
             aiString Path;
@@ -60,7 +95,7 @@ bool BaseObject::LoadObject(std::string objectPath){
             }
         }
 
-    //}
+   //}
     image -> write(&blob, "RGBA");
     aiColor3D color(0.0f, 0.0f, 0.0f);
     int vertexOffset = 0;
@@ -131,6 +166,7 @@ BaseObject *BaseObject::Getparent(){
 }
 
 void BaseObject::Render(){
+
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);

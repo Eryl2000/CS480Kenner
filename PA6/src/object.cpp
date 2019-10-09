@@ -10,6 +10,16 @@ Object::Object(std::string _name, BaseObject *parent_, std::string objectPath)
     buttonHeld_control = buttonHeld_alt = false;
 }
 
+Object::Object(std::string _name, BaseObject *parent_, const aiScene * scene, unsigned int modelIndex)
+: BaseObject(_name, parent_, scene, modelIndex)
+{
+    rotationVelocity = glm::vec3(0.0, 0.0, 0.0);
+    positionVelocity = glm::vec3(0.0, 0.0, 0.0);
+    scaleVelocity = glm::vec3(0.0, 0.0, 0.0);
+
+    buttonHeld_control = buttonHeld_alt = false;
+}
+
 void Object::DerivedUpdate(float dt){
     position += positionVelocity * dt;
     eulerAngle.y += dt * 2 * M_PI * rotationVelocity.y;
