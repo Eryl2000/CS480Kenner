@@ -1,6 +1,6 @@
 # PA7: Solar System
 
-A solar system
+An interactive solar system!
 
 ## Dependencies
 
@@ -20,10 +20,17 @@ make
 ./Tutorial -v ../shaders/vertexShader.txt -f ../shaders/fragmentShader.txt -o ../obj/Tray.obj
 ```
 
+#Key | Function
+------------ | -------------
+<kbd>W</kbd> | Moves forward
+<kbd>S</kbd> | Move backward
+<kbd>A</kbd> | Move left
+<kbd>D</kbd> | Move right
+
 ## Group Members
 
 Eryl Kenner, Kyle Brainard, Garrett Moore
 
 ## Notes
 
-We used ImageMagick in our project, version 6.9.7-4.
+ImageMagick version 6.9.7-4.
