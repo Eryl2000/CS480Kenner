@@ -9,29 +9,39 @@
 #include "object.h"
 
 
-BaseObject::BaseObject(std::string _name, BaseObject *parent_, std::string objectPath, bool _onlyCopyParentPos) : parent(NULL)
+BaseObject::BaseObject(std::string _name, BaseObject *parent_, std::string objectPath, bool _onlyCopyParentPos)
+    : parent(NULL),
+    name(_name),
+    doNotRender(objectPath == std::string("")),
+    onlyCopyParentPos(_onlyCopyParentPos)
 {
-    onlyCopyParentPos = _onlyCopyParentPos;
-    Setup(_name, parent_);
-    if(!LoadObject(objectPath)){
-        printf("Error loading model: %s\n", objectPath.c_str());
-        exit(1);
+    Setup(parent_);
+    if(!doNotRender){
+        if(!LoadObject(objectPath)){
+            printf("Error loading model: %s\n", objectPath.c_str());
+            exit(1);
+        }
+        Bind();
     }
-    Bind();
 }
 
-BaseObject::BaseObject(std::string _name, BaseObject *parent_, const aiScene * scene, unsigned int modelIndex, bool _onlyCopyParentPos) : parent(NULL)
+BaseObject::BaseObject(std::string _name, BaseObject *parent_, const aiScene * scene, unsigned int modelIndex, bool _onlyCopyParentPos)
+    : parent(NULL),
+    name(_name),
+    doNotRender(scene == NULL),
+    onlyCopyParentPos(_onlyCopyParentPos)
 {
-    onlyCopyParentPos = _onlyCopyParentPos;
-    Setup(_name, parent_);
-    if(!LoadObject(scene, modelIndex)){
-        printf("Error loading model: %d\n", modelIndex);
-        exit(1);
+    Setup(parent_);
+    if(!doNotRender){
+        if(!LoadObject(scene, modelIndex)){
+            printf("Error loading model: %d\n", modelIndex);
+            exit(1);
+        }
+        Bind();
     }
-    Bind();
 }
 
-void BaseObject::Setup(std::string _name, BaseObject *parent_)
+void BaseObject::Setup(BaseObject *parent_)
 {
     SetParent(parent_);
     model = glm::mat4(1.0);
@@ -39,7 +49,6 @@ void BaseObject::Setup(std::string _name, BaseObject *parent_)
     position = glm::vec3(0.0);
     eulerAngle = glm::vec3(0.0, 0.0, 0.0);
     scale = glm::vec3(1.0, 1.0, 1.0);
-    name = _name;
 }
 
 void BaseObject::Bind()
@@ -175,7 +184,9 @@ BaseObject *BaseObject::Getparent(){
 }
 
 void BaseObject::Render(){
-
+    if(doNotRender){
+        return;
+    }
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);

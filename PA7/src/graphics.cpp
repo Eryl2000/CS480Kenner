@@ -12,10 +12,16 @@ Graphics::~Graphics(){
     }
 }
 
-void Graphics::createObjects(std::string object_path){
+void Graphics::createObjects(int width, int height, std::string object_path){
+    m_camera = new Camera();
+    objects.push_back(m_camera);
+    if(!m_camera->Initialize(width, height)){
+        printf("Camera Failed to Initialize\n");
+        exit(1);
+    }
     objects.push_back(new Planet("Sun", NULL, 0, 0, 0.02, glm::vec3(3.0, 3.0, 3.0)));
-    objects.push_back(new Planet("Earth", objects[0], 10, 0.1, 1.9, glm::vec3(1.0, 1.0, 1.0)));
-    objects.push_back(new Planet("Moon", objects[1], 2.5, 0.8, 4, glm::vec3(0.3, 0.3, 0.3)));
+    objects.push_back(new Planet("Earth", objects[1], 10, 0.1, 1.9, glm::vec3(1.0, 1.0, 1.0)));
+    objects.push_back(new Planet("Moon", objects[2], 2.5, 0.8, 4, glm::vec3(0.3, 0.3, 0.3)));
     /*Object * obj = new Object("Test", NULL, object_path);
     objects.push_back(obj);
     for(unsigned int i = 0; i < obj->children.size(); i ++)
@@ -48,14 +54,7 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
-    //Init Camera
-    m_camera = new Camera();
-    if(!m_camera->Initialize(width, height)){
-        printf("Camera Failed to Initialize\n");
-        return false;
-    }
-
-    createObjects(objectPath);
+    createObjects(width, height, objectPath);
 
     //Set up the shaders
     m_shader = new Shader();
@@ -118,7 +117,7 @@ void Graphics::Update(double dt){
 
 void Graphics::Render(){
     //clear the screen
-    glClearColor(0.0, 0.0, 0.2, 1.0);
+    glClearColor(0.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Start the correct program

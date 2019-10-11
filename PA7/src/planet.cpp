@@ -31,22 +31,22 @@ void Planet::MouseUp(SDL_Event event){
 void Planet::KeyDown(SDL_Event event){
     switch(event.key.keysym.sym){
         case SDLK_a:
-            rotateDirection = 1.0;
+            //rotateDirection = 1.0;
             break;
         case SDLK_d:
-            rotateDirection = -1.0;
+            //rotateDirection = -1.0;
             break;
         case SDLK_w:
-            orbitDirection = 0.0;
+            //orbitDirection = 0.0;
             break;
         case SDLK_s:
-            rotateDirection = -0.0;
+            //rotateDirection = -0.0;
             break;
         case SDLK_q:
-            orbitDirection = -1.0;
+            //orbitDirection = -1.0;
             break;
         case SDLK_e:
-            orbitDirection = 1.0;
+            //orbitDirection = 1.0;
             break;
         default:
             break;

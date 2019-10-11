@@ -29,7 +29,7 @@ public:
 
 private:
     std::string ErrorString(GLenum error);
-    void createObjects(std::string object_path);
+    void createObjects(int width, int height, std::string object_path);
 
     Camera *m_camera;
     Shader *m_shader;

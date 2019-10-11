@@ -49,7 +49,7 @@ protected:
     BaseObject *parent;
 
 private:
-    void Setup(std::string _name, BaseObject *parent_);
+    void Setup(BaseObject *parent_);
     bool LoadObject(std::string objectPath);
     bool LoadObject(const aiScene * scene, unsigned int modelIndex);
     void Bind();
@@ -65,7 +65,7 @@ private:
     Magick::Blob blob;
 
     GLuint texture;
-
+    const bool doNotRender;
 };
 
 #endif /* BASEOBJECT_H */
