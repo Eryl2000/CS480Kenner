@@ -22,10 +22,14 @@ make
 
 #Key | Function
 ------------ | -------------
-<kbd>W</kbd> | Moves forward
+<kbd>W</kbd> | Move forward
 <kbd>S</kbd> | Move backward
 <kbd>A</kbd> | Move left
 <kbd>D</kbd> | Move right
+<kbd>Left Arrow</kbd> | Look left
+<kbd>Right Arrow</kbd> | Look right
+<kbd>Up Arrow</kbd> | Look up
+<kbd>Down Arrow</kbd> | Look down
 
 ## Group Members
 
