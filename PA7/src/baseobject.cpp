@@ -106,7 +106,7 @@ bool BaseObject::LoadObject(const aiScene * scene, unsigned int modelIndex)
 
     if(image == NULL)
     {
-        image = new Magick::Image("../obj/granite.jpg");
+        image = new Magick::Image("../obj/planetTextures/Earth.jpg");
     }
 
     image -> write(&blob, "RGBA");
