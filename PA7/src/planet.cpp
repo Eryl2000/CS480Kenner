@@ -1,7 +1,7 @@
 #include "planet.h"
 
-Planet::Planet(std::string _name, BaseObject *_parent, float _orbitRadius, float _orbitRate, float _rotateRate, glm::vec3 _scale)
-    : BaseObject(_name, _parent, std::string("../obj/sphererings.obj"), true),
+Planet::Planet(std::string _name, BaseObject *_parent, float _orbitRadius, float _orbitRate, float _rotateRate, bool hasRings, glm::vec3 _scale)
+    : BaseObject(_name, _parent, hasRings ? std::string("../obj/sphererings.obj") : std::string("../obj/sphere.obj"), true),
     orbitRadius(_orbitRadius),
     orbitRate(_orbitRate),
     rotateRate(_rotateRate){
@@ -59,4 +59,19 @@ void Planet::KeyUp(SDL_Event event){
 
 void Planet::MouseWheel(SDL_Event event){
 
+}
+
+const int simSpeed = 1e2;
+
+Planet * PlanetInfo::FromInfo(BaseObject * parent)
+{
+    return new Planet(
+        name,
+        parent,
+        (double) distFromSun / 8e9,
+        1 / (double) orbitPeriod * simSpeed,
+        1 / (double) rotationalPeriod * simSpeed,
+        hasRings,
+        glm::vec3(1.0, 1.0, 1.0) * (float) ((double) diameter / 1e7)
+    );
 }

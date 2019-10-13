@@ -7,7 +7,7 @@
 
 class Planet : public BaseObject{
 public:
-    Planet(std::string _name, BaseObject *_parent, float _orbitRadius, float _orbitRate, float _rotateRate,
+    Planet(std::string _name, BaseObject *_parent, float _orbitRadius, float _orbitRate, float _rotateRate, bool hasRings,
             glm::vec3 _scale = glm::vec3(1.0, 1.0, 1.0));
     void DerivedUpdate(float dt);
 
@@ -37,6 +37,27 @@ public:
 
 private:
 
+};
+
+struct PlanetInfo
+{
+    std::string name;
+    // meters
+    long diameter;
+
+    // hours
+    long rotationalPeriod;
+
+    // meters
+    long distFromSun;
+
+    // hours
+    long orbitPeriod;
+
+    int numMoon;
+    bool hasRings;
+
+    Planet * FromInfo(BaseObject * parent);
 };
 
 #endif /* PLANET_H */

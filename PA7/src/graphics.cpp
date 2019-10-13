@@ -1,5 +1,8 @@
 #include "graphics.h"
 #include "engine.h"
+#include "csv.h"
+#include <cstdlib>
+#include <ctime>
 
 Graphics::Graphics(Engine *_engine)
     : engine(_engine){
@@ -19,15 +22,69 @@ void Graphics::createObjects(int width, int height, std::string object_path){
         printf("Camera Failed to Initialize\n");
         exit(1);
     }
-    objects.push_back(new Planet("Sun", NULL, 0, 0, 0.02, glm::vec3(3.0, 3.0, 3.0)));
-    objects.push_back(new Planet("Earth", objects[1], 10, 0.1, 1.9, glm::vec3(1.0, 1.0, 1.0)));
-    objects.push_back(new Planet("Moon", objects[2], 2.5, 0.8, 4, glm::vec3(0.3, 0.3, 0.3)));
+
+
+    const long actualSunScale = 1e7;
+    const long adjustedSunScale = 8e8;
+    const bool adjusted = true;
+
+    const long sunScale = adjusted ? adjustedSunScale : actualSunScale;
+    objects.push_back(new Planet("Sun", NULL, 0, 0, 0.02, false, glm::vec3(1.0, 1.0, 1.0) * (float) ((double)1.4e9 / sunScale)));
+
+    const float planetOffset = 0.5;
+
+
+    std::srand(std::time(NULL));
+    std::vector<PlanetInfo> planets = getPlanets("../obj/planets.csv");
+    for(unsigned int i = 0; i < planets.size(); i++)
+    {
+        Planet * p = planets[i].FromInfo(objects[1]);
+        std::cout << "Created " << p->name << ", radius: " << p->orbitRadius << ", scale: " << p->getScale().x << ", orbit speed: " << p->orbitRate << std::endl;
+        objects.push_back(p);
+
+        for(int j = 0; j < planets[i].numMoon; j++)
+        {
+            objects.push_back(new Planet("Moon", p, p->getScale().x * (1 + planetOffset), (std::rand() % 5 + 1) * 0.2f, 4, false, p->getScale() * 0.25f));
+        }
+    }
+    //objects.push_back(new Planet("Earth", objects[1], 10, 0.1, 1.9, glm::vec3(1.0, 1.0, 1.0)));
+    //objects.push_back(new Planet("Moon", objects[2], 2.5, 0.8, 4, glm::vec3(0.3, 0.3, 0.3)));
     /*Object * obj = new Object("Test", NULL, object_path);
     objects.push_back(obj);
     for(unsigned int i = 0; i < obj->children.size(); i ++)
     {
         objects.push_back(obj->children[i]);
     }*/
+}
+
+std::vector<PlanetInfo> Graphics::getPlanets(std::string csv_file_name)
+{
+    std::vector<PlanetInfo> ret;
+    io::CSVReader<7> in(csv_file_name);
+    in.read_header(io::ignore_extra_column, "planet", "diameter (km)", "rotation_period (hrs)", "distance_from_sun (10^6 km)", "orbital_period (days)", "number_of_moons", "has_ring_system");
+    std::string name;
+    long diameter;
+    float rotationalPeriod;
+    float distFromSun;
+    float orbitPeriod;
+    int numMoon;
+    std::string hasRings;
+    while(in.read_row(name, diameter, rotationalPeriod, distFromSun, orbitPeriod, numMoon, hasRings))
+    {
+        PlanetInfo p;
+
+        p.name = name;
+        p.diameter = diameter * 1000;
+        p.rotationalPeriod = rotationalPeriod;
+        p.distFromSun = (long) distFromSun * 1e9;
+        p.orbitPeriod = (long) orbitPeriod * 24;
+        p.numMoon = numMoon;
+        p.hasRings = hasRings == "Yes";
+
+        ret.push_back(p);
+    }
+
+    return ret;
 }
 
 bool Graphics::Initialize(int width, int height, std::string vertexShader, std::string fragmentShader, std::string objectPath){

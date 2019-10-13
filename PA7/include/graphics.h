@@ -30,6 +30,7 @@ public:
 private:
     std::string ErrorString(GLenum error);
     void createObjects(int width, int height, std::string object_path);
+    std::vector<PlanetInfo> getPlanets(std::string csv_file_name);
 
     Camera *m_camera;
     Shader *m_shader;
