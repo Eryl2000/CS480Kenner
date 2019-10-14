@@ -30,6 +30,8 @@ make
 <kbd>Right Arrow</kbd> | Look right
 <kbd>Up Arrow</kbd> | Look up
 <kbd>Down Arrow</kbd> | Look down
+<kbd>O</kbd> | Slow down time
+<kbd>P</kbd> | Speed up time
 
 ## Group Members
 

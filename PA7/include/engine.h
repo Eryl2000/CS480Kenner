@@ -18,6 +18,7 @@ public:
 
     bool running;
     int smoothedFPS;
+    float timeScalar;
 
 	//References to other classes
 	Graphics *m_graphics;

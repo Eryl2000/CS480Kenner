@@ -220,6 +220,10 @@ void Graphics::HandleInput(SDL_Event event){
 	} else if (event.type == SDL_KEYDOWN){
         if(event.key.keysym.sym == SDLK_ESCAPE){
             engine->running = false;
+        } else if(event.key.keysym.sym == SDLK_o){
+            engine->timeScalar -= 0.25;
+        } else if(event.key.keysym.sym == SDLK_p){
+            engine->timeScalar += 0.25;
         } else{
             for(unsigned int i = 0; i < objects.size(); ++i){
                 objects[i]->KeyDown(event);

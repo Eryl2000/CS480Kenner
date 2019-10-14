@@ -9,6 +9,7 @@ Engine::Engine(std::string name, int width, int height){
     m_WINDOW_WIDTH = width;
     m_WINDOW_HEIGHT = height;
     m_FULLSCREEN = false;
+    timeScalar = 1.0;
 }
 
 Engine::Engine(std::string name){
@@ -16,6 +17,7 @@ Engine::Engine(std::string name){
     m_WINDOW_HEIGHT = 0;
     m_WINDOW_WIDTH = 0;
     m_FULLSCREEN = true;
+    timeScalar = 1.0;
 }
 
 Engine::~Engine(){
@@ -71,7 +73,7 @@ void Engine::Run(){
         //Fixed physics update loop
         accumulator += dt;
         while(accumulator >= dt){
-            m_graphics->Update(dt);
+            m_graphics->Update(dt * timeScalar);
             accumulator -= dt;
         }
 
