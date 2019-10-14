@@ -30,6 +30,8 @@ glm::mat4 Camera::GetView(){
 }
 
 void Camera::DerivedUpdate(float dt){
+    //Make the camera work forward in time when time is reversed
+    dt = dt < 0 ? -dt : dt;
     eulerAngle += rotationVelocity * dt;
     const float epsilon = 0.01;
     if(eulerAngle.x > M_PI / 2.0 - epsilon){
