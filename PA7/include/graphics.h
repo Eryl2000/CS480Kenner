@@ -24,6 +24,7 @@ public:
     void HandleInput(SDL_Event event);
 
     std::vector<BaseObject *> objects;
+    std::vector<Planet *> planets;
     SDL_Window* gWindow;
     Engine *engine;
 

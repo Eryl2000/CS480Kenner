@@ -5,8 +5,9 @@ Camera::Camera() : BaseObject(std::string("Camera"), NULL, std::string(""), true
     rotationVelocity = glm::vec3(0.0, 0.0, 0.0);
     positionVelocity = glm::vec3(0.0, 0.0, 0.0);
 
-    position = glm::vec3(0.0, 10.0, -16.0);
+    position = glm::vec3(0.0, 10.0, -200.0);
     forward = glm::vec3(0.0, 0.0, 1.0);
+    speedUp = 1;
 }
 
 bool Camera::Initialize(int w, int h){
@@ -35,7 +36,6 @@ glm::mat4 Camera::GetView(){
 
 void Camera::DerivedUpdate(float dt){
     //Make the camera work forward in time when time is reversed
-
     dt = dt < 0 ? -dt : dt;
     eulerAngle += rotationVelocity * dt;
     const float epsilon = 0.01;
@@ -49,7 +49,7 @@ void Camera::DerivedUpdate(float dt){
     forward = glm::vec3(rotateForward.x, sin(eulerAngle.x), rotateForward.y);
 
     glm::vec2 rotatedY = rotateVector(eulerAngle.y, glm::vec2(positionVelocity.x, positionVelocity.z));
-    position += glm::vec3(rotatedY.x, positionVelocity.y, rotatedY.y) * dt;
+    position += glm::vec3(rotatedY.x, positionVelocity.y, rotatedY.y) * speedUp * dt;
 
     view = glm::lookAt( position, //Eye Position
                         position + forward, //Focus point
@@ -75,24 +75,26 @@ void Camera::MouseUp(SDL_Event event){
 }
 
 void Camera::KeyDown(SDL_Event event){
+    const int velocity = 50;
+    const int speedIncrease = 10;
     switch(event.key.keysym.sym){
         case SDLK_w:
-            positionVelocity.z = 3;
+            positionVelocity.z = velocity;
             break;
         case SDLK_s:
-            positionVelocity.z = -3;
+            positionVelocity.z = -velocity;
             break;
         case SDLK_a:
-            positionVelocity.x = 3;
+            positionVelocity.x = velocity;
             break;
         case SDLK_d:
-            positionVelocity.x = -3;
+            positionVelocity.x = -velocity;
             break;
         case SDLK_q:
-            positionVelocity.y = -3;
+            positionVelocity.y = -velocity;
             break;
         case SDLK_e:
-            positionVelocity.y = 3;
+            positionVelocity.y = velocity;
             break;
         case SDLK_LEFT:
             rotationVelocity.y = -120 / 180.0 * M_PI;
@@ -105,6 +107,9 @@ void Camera::KeyDown(SDL_Event event){
             break;
         case SDLK_DOWN:
             rotationVelocity.x = -120 / 180.0 * M_PI;
+            break;
+        case SDLK_LSHIFT:
+            speedUp = speedIncrease;
             break;
         default:
             break;
@@ -142,6 +147,9 @@ void Camera::KeyUp(SDL_Event event){
             break;
         case SDLK_DOWN:
             rotationVelocity.x = 0.0;
+            break;
+        case SDLK_LSHIFT:
+            speedUp = 1;
             break;
         default:
             break;

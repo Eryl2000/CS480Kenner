@@ -32,6 +32,8 @@ private:
     glm::vec3 rotationVelocity;
     glm::vec3 positionVelocity;
 
+    float speedUp;
+
     float width;
     float height;
 

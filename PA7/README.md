@@ -26,6 +26,7 @@ make
 <kbd>S</kbd> | Move backward
 <kbd>A</kbd> | Move left
 <kbd>D</kbd> | Move right
+<kbd>Shift</kbd> | Speed up
 <kbd>Left Arrow</kbd> | Look left
 <kbd>Right Arrow</kbd> | Look right
 <kbd>Up Arrow</kbd> | Look up
@@ -34,6 +35,8 @@ make
 <kbd>P</kbd> | Speed up time
 <kbd>H</kbd> | HARRIS!
 <kbd>J</kbd> | NO HARRIS!
+<kbd>I</kbd> | Scale planet distances
+<kbd>K</kbd> | Normalize planet distances
 
 ## Group Members
 

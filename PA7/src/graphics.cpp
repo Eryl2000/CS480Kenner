@@ -23,29 +23,38 @@ void Graphics::createObjects(int width, int height){
         exit(1);
     }
 
-
-    const long actualSunScale = 1e7;
-    const long adjustedSunScale = 8e8;
+    const long actualSunScale = scaleMod;
+    const long adjustedSunScale = 3 * scaleMod;
     const bool adjusted = true;
 
     const long sunScale = adjusted ? adjustedSunScale : actualSunScale;
-    objects.push_back(new Planet("Sun", NULL, 0, 0, 0.02, false, glm::vec3(1.0, 1.0, 1.0) * (float) ((double)1.4e9 / sunScale)));
-
-    const float planetOffset = 0.5;
-
+    const long sunDiameter = 1.4e9;
+    Planet * sun = new Planet("Sun", NULL, NULL, NULL, 0, false, 0, 0.02, false, glm::vec3(1.0, 1.0, 1.0) * (float) ((double)sunDiameter/ sunScale));
+    objects.push_back(sun);
 
     std::srand(std::time(NULL));
-    std::vector<PlanetInfo> planets = getPlanets("../obj/planets.csv");
-    for(unsigned int i = 0; i < planets.size(); i++)
+    std::vector<PlanetInfo> planetInfos = getPlanets("../obj/planets.csv");
+    for(unsigned int i = 0; i < planetInfos.size(); i++)
     {
-        Planet * p = planets[i].FromInfo(objects[1]);
+        Planet * p = NULL;
+
+        if(i == 0)
+        {
+            p = planetInfos[i].FromInfo(sun, sun, NULL);
+        } else
+        {
+            p = planetInfos[i].FromInfo(sun, sun, planets[i-1]);
+        }
+
+        const float moonOffset = 0.25;
+        for(int j = 0; j < planetInfos[i].numMoon; j++)
+        {
+            objects.push_back(new Planet("Moon", p, NULL, NULL, p->GetRadius() * (1 + moonOffset), false, (std::rand() % planetInfos[i].numMoon + 1) * 0.2f, 4, false, p->getScale() * 0.25f));
+        }
+
         std::cout << "Created " << p->name << ", radius: " << p->orbitRadius << ", scale: " << p->getScale().x << ", orbit speed: " << p->orbitRate << std::endl;
         objects.push_back(p);
-
-        for(int j = 0; j < planets[i].numMoon; j++)
-        {
-            objects.push_back(new Planet("Moon", p, p->getScale().x * (1 + planetOffset), (std::rand() % 5 + 1) * 0.2f, 4, false, p->getScale() * 0.25f));
-        }
+        planets.push_back(p);
     }
 }
 
@@ -207,6 +216,9 @@ std::string Graphics::ErrorString(GLenum error){
 }
 
 void Graphics::HandleInput(SDL_Event event){
+
+    const float orbitParamIncrease = 2;
+
     if(event.type == SDL_QUIT){
         engine->running = false;
 	} else if (event.type == SDL_KEYDOWN){
@@ -226,14 +238,32 @@ void Graphics::HandleInput(SDL_Event event){
             for(unsigned int i = 1; i < objects.size(); ++i){
                 objects[i]->HarrisButton(harrisButton);
             }
+        } else if(event.key.keysym.sym == SDLK_i){
+            for(unsigned int i = 1; i < planets.size(); ++i){
+                planets[i]->orbitParamVel = orbitParamIncrease;
+            }
+        } else if(event.key.keysym.sym == SDLK_k){
+            for(unsigned int i = 1; i < planets.size(); ++i){
+                planets[i]->orbitParamVel = -orbitParamIncrease;
+            }
         } else{
             for(unsigned int i = 0; i < objects.size(); ++i){
                 objects[i]->KeyDown(event);
             }
         }
 	} else if (event.type == SDL_KEYUP){
-        for(unsigned int i = 0; i < objects.size(); ++i){
-            objects[i]->KeyUp(event);
+        if(event.key.keysym.sym == SDLK_i){
+            for(unsigned int i = 1; i < planets.size(); ++i){
+                planets[i]->orbitParamVel = 0;
+            }
+        } else if(event.key.keysym.sym == SDLK_k){
+            for(unsigned int i = 1; i < planets.size(); ++i){
+                planets[i]->orbitParamVel = 0;
+            }
+        } else {
+            for(unsigned int i = 0; i < objects.size(); ++i){
+                objects[i]->KeyUp(event);
+            }
         }
     } else if(event.type == SDL_MOUSEBUTTONDOWN){
         for(unsigned int i = 0; i < objects.size(); ++i){
