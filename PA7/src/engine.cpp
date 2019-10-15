@@ -27,7 +27,7 @@ Engine::~Engine(){
     m_graphics = NULL;
 }
 
-bool Engine::Initialize(std::string vertexShader, std::string fragmentShader, std::string objectPath){
+bool Engine::Initialize(std::string vertexShader, std::string fragmentShader){
     // Start a window
     m_window = new Window();
     if(!m_window->Initialize(m_WINDOW_NAME, &m_WINDOW_WIDTH, &m_WINDOW_HEIGHT)){
@@ -38,7 +38,7 @@ bool Engine::Initialize(std::string vertexShader, std::string fragmentShader, st
     // Start the graphics
     m_graphics = new Graphics(this);
     m_graphics->gWindow = m_window->getSDLWindow();
-    if(!m_graphics->Initialize(m_WINDOW_WIDTH, m_WINDOW_HEIGHT, vertexShader, fragmentShader, objectPath)){
+    if(!m_graphics->Initialize(m_WINDOW_WIDTH, m_WINDOW_HEIGHT, vertexShader, fragmentShader)){
         printf("The graphics failed to initialize.\n");
         return false;
     }

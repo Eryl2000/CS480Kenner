@@ -13,7 +13,7 @@ public:
     Engine(std::string name, int width, int height);
     Engine(std::string name);
     ~Engine();
-    bool Initialize(std::string vertexShader, std::string fragmentShader, std::string objectPath);
+    bool Initialize(std::string vertexShader, std::string fragmentShader);
     void Run();
 
     bool running;

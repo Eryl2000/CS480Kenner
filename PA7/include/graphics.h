@@ -18,7 +18,7 @@ class Graphics{
 public:
     Graphics(Engine *_engine);
     ~Graphics();
-    bool Initialize(int width, int height, std::string vertexShader, std::string fragmentShader, std::string objectPath);
+    bool Initialize(int width, int height, std::string vertexShader, std::string fragmentShader);
     void Update(double dt);
     void Render();
     void HandleInput(SDL_Event event);
@@ -31,7 +31,7 @@ private:
     bool harrisButton;
 
     std::string ErrorString(GLenum error);
-    void createObjects(int width, int height, std::string object_path);
+    void createObjects(int width, int height);
     std::vector<PlanetInfo> getPlanets(std::string csv_file_name);
 
     Camera *m_camera;

@@ -4,8 +4,8 @@
 
 
 int main(int argc, char **argv){
-    if(argc != 7){
-        printf("Usage\n\n  -v <vertexShaderFilename>\n  -f <fragmentShaderFilename>\n  -o <objectFilenam>\n\nSpecify vertex and fragment shader files.\n");
+    if(argc != 5){
+        printf("Usage\n\n  -v <vertexShaderFilename>\n  -f <fragmentShaderFilename>\n\nSpecify vertex and fragment shader files.\n");
         exit(1);
     }
 
@@ -18,14 +18,12 @@ int main(int argc, char **argv){
             vertexShader = std::string(argv[i + 1]);
         } else if(std::string(argv[i]) == "-f"){
             fragmentShader = std::string(argv[i + 1]);
-        } else if(std::string(argv[i]) == "-o"){
-            objectPath = std::string(argv[i + 1]);
         }
     }
 
     // Start an engine and run it then cleanup after
     Engine *engine = new Engine("Tutorial Window Name", 800, 600);
-    if(!engine->Initialize(vertexShader, fragmentShader, objectPath)){
+    if(!engine->Initialize(vertexShader, fragmentShader)){
         printf("The engine failed to start.\n");
         delete engine;
         engine = NULL;

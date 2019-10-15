@@ -17,7 +17,7 @@ mkdir build
 cd build
 cmake ..
 make
-./Tutorial -v ../shaders/vertexShader.txt -f ../shaders/fragmentShader.txt -o ../obj/Tray.obj
+./SolarSystem -v ../shaders/vertexShader.txt -f ../shaders/fragmentShader.txt
 ```
 
 #Key | Function
@@ -32,6 +32,8 @@ make
 <kbd>Down Arrow</kbd> | Look down
 <kbd>O</kbd> | Slow down time
 <kbd>P</kbd> | Speed up time
+<kbd>H</kbd> | HARRIS!
+<kbd>J</kbd> | NO HARRIS!
 
 ## Group Members
 

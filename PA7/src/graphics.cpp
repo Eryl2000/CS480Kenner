@@ -15,7 +15,7 @@ Graphics::~Graphics(){
     }
 }
 
-void Graphics::createObjects(int width, int height, std::string object_path){
+void Graphics::createObjects(int width, int height){
     m_camera = new Camera();
     objects.push_back(m_camera);
     if(!m_camera->Initialize(width, height)){
@@ -47,14 +47,6 @@ void Graphics::createObjects(int width, int height, std::string object_path){
             objects.push_back(new Planet("Moon", p, p->getScale().x * (1 + planetOffset), (std::rand() % 5 + 1) * 0.2f, 4, false, p->getScale() * 0.25f));
         }
     }
-    //objects.push_back(new Planet("Earth", objects[1], 10, 0.1, 1.9, glm::vec3(1.0, 1.0, 1.0)));
-    //objects.push_back(new Planet("Moon", objects[2], 2.5, 0.8, 4, glm::vec3(0.3, 0.3, 0.3)));
-    /*Object * obj = new Object("Test", NULL, object_path);
-    objects.push_back(obj);
-    for(unsigned int i = 0; i < obj->children.size(); i ++)
-    {
-        objects.push_back(obj->children[i]);
-    }*/
 }
 
 std::vector<PlanetInfo> Graphics::getPlanets(std::string csv_file_name)
@@ -87,7 +79,7 @@ std::vector<PlanetInfo> Graphics::getPlanets(std::string csv_file_name)
     return ret;
 }
 
-bool Graphics::Initialize(int width, int height, std::string vertexShader, std::string fragmentShader, std::string objectPath){
+bool Graphics::Initialize(int width, int height, std::string vertexShader, std::string fragmentShader){
     //Used for the linux OS
 #if !defined(__APPLE__) && !defined(MACOSX)
     //cout << glewGetString(GLEW_VERSION) << endl;
@@ -111,7 +103,7 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
-    createObjects(width, height, objectPath);
+    createObjects(width, height);
 
     //Set up the shaders
     m_shader = new Shader();
