@@ -76,7 +76,6 @@ void Camera::KeyDown(SDL_Event event){
     switch(event.key.keysym.sym){
         case SDLK_w:
             positionVelocity.z = 3;
-            std::cout<<"W"<<std::endl;
             break;
         case SDLK_s:
             positionVelocity.z = -3;
@@ -152,8 +151,6 @@ void Camera::MouseWheel(SDL_Event event){
 }
 
 void Camera::MouseMotion(SDL_Event event){
-    std::cout<<"MOUSE MOTION"<<std::endl;
-    std::cout<<"XREL "<<event.motion.xrel<<" YREL "<<event.motion.yrel<<std::endl;
     motionEvent = true;
     rotationVelocity.y = -120 / 1800.0 * event.motion.xrel;
     rotationVelocity.x = 120 / 1800.0 * event.motion.yrel;
