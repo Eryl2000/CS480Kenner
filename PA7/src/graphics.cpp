@@ -224,6 +224,16 @@ void Graphics::HandleInput(SDL_Event event){
             engine->timeScalar -= 0.25;
         } else if(event.key.keysym.sym == SDLK_p){
             engine->timeScalar += 0.25;
+        } else if(event.key.keysym.sym == SDLK_h){
+            harrisButton = true;
+            for(unsigned int i = 1; i < objects.size(); ++i){
+                objects[i]->HarrisButton(harrisButton);
+            }
+        } else if(event.key.keysym.sym == SDLK_j){
+            harrisButton = false;
+            for(unsigned int i = 1; i < objects.size(); ++i){
+                objects[i]->HarrisButton(harrisButton);
+            }
         } else{
             for(unsigned int i = 0; i < objects.size(); ++i){
                 objects[i]->KeyDown(event);

@@ -22,6 +22,8 @@ public:
     BaseObject *Getparent();
     void SetParent(BaseObject *parent_);
 
+    void HarrisButton(bool _harrisButton);
+
     glm::vec3 getPosition() const;
     glm::vec3 getEulerAngle() const;
     glm::vec3 getScale() const;
@@ -67,6 +69,7 @@ private:
 
     GLuint texture;
     const bool doNotRender;
+    bool harrisButton;
 };
 
 #endif /* BASEOBJECT_H */

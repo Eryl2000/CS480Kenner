@@ -68,6 +68,7 @@ void BaseObject::Bind()
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     delete image;
+    image = NULL;
 }
 
 
@@ -127,7 +128,7 @@ bool BaseObject::LoadObject(const aiScene * scene, unsigned int modelIndex)
         if(texture != NULL)
         {
             text.x = texture->x;
-            text.y = texture->y;
+            text.y = -texture->y;
         }
 
         Vertex v(vert, col, text);
@@ -145,6 +146,29 @@ bool BaseObject::LoadObject(const aiScene * scene, unsigned int modelIndex)
 BaseObject::~BaseObject(){
     Vertices.clear();
     Indices.clear();
+}
+
+void BaseObject::HarrisButton(bool _harrisButton){
+    if(harrisButton != _harrisButton){
+        harrisButton = _harrisButton;
+        if(harrisButton)
+        {
+            if(image != NULL){
+                delete image;
+            }
+            image = new Magick::Image(std::string("../obj/planetTextures/harris.jpg"));
+        } else{
+            if(image != NULL){
+                delete image;
+            }
+            image = new Magick::Image("../obj/planetTextures/" + name + ".jpg");
+        }
+        if(image != NULL){
+            image->write(&blob, "RGBA");
+            Bind();
+        }
+    }
+    std::cout << (harrisButton ? "HARRIS!" : "NOT HARRIS") << std::endl;
 }
 
 void BaseObject::Update(float dt){

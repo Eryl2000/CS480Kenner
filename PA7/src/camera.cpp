@@ -20,6 +20,8 @@ bool Camera::Initialize(int w, int h){
                                  float(w)/float(h), //Aspect Ratio, so Circles stay Circular
                                  0.01f, //Distance to the near plane, normally a small value like this
                                  1000.0f); //Distance to the far plane,
+    eulerAngle.x = -M_PI / 180 * 20.0;
+    eulerAngle.y = -M_PI / 180 * 34.0;
     return true;
 }
 
