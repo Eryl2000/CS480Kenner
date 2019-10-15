@@ -24,7 +24,7 @@ public:
     void HandleInput(SDL_Event event);
 
     std::vector<BaseObject *> objects;
-
+    SDL_Window* gWindow;
     Engine *engine;
 
 private:
@@ -38,6 +38,7 @@ private:
     GLint m_projectionMatrix;
     GLint m_viewMatrix;
     GLint m_modelMatrix;
+
 };
 
 #endif /* GRAPHICS_H */

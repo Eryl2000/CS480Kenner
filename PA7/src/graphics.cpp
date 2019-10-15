@@ -245,5 +245,10 @@ void Graphics::HandleInput(SDL_Event event){
         for(unsigned int i = 0; i < objects.size(); ++i){
             objects[i]->MouseWheel(event);
         }
+	} else if(event.type == SDL_MOUSEMOTION){
+        SDL_WarpMouseInWindow(gWindow,400,300);
+        for(unsigned int i = 0; i < objects.size(); ++i){
+            objects[i]->MouseMotion(event);
+        }
 	}
 }

@@ -143,3 +143,8 @@ void Object::KeyUp(SDL_Event event){
 void Object::MouseWheel(SDL_Event event){
 
 }
+
+void Object::MouseMotion(SDL_Event event){
+
+}
+

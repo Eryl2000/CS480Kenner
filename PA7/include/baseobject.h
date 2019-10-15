@@ -33,6 +33,7 @@ public:
     virtual void KeyDown(SDL_Event event);
     virtual void KeyUp(SDL_Event event);
     virtual void MouseWheel(SDL_Event event);
+    virtual void MouseMotion(SDL_Event event);
 
     std::vector<BaseObject *> children;
 

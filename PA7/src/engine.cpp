@@ -37,6 +37,7 @@ bool Engine::Initialize(std::string vertexShader, std::string fragmentShader, st
 
     // Start the graphics
     m_graphics = new Graphics(this);
+    m_graphics->gWindow = m_window->getSDLWindow();
     if(!m_graphics->Initialize(m_WINDOW_WIDTH, m_WINDOW_HEIGHT, vertexShader, fragmentShader, objectPath)){
         printf("The graphics failed to initialize.\n");
         return false;

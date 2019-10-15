@@ -262,3 +262,7 @@ void BaseObject::KeyUp(SDL_Event event){
 void BaseObject::MouseWheel(SDL_Event event){
 
 }
+
+void BaseObject::MouseMotion(SDL_Event event){
+
+}

@@ -43,6 +43,9 @@ bool Window::Initialize(const std::string &name, int* width, int* height){
         return false;
     }
 
+    SDL_SetWindowGrab(gWindow, SDL_TRUE);
+    //SDL_SetRelativeMouseMode(SDL_TRUE);
+    SDL_ShowCursor(SDL_FALSE);
     // Create context
     gContext = SDL_GL_CreateContext(gWindow);
     if(gContext == NULL){
@@ -61,4 +64,8 @@ bool Window::Initialize(const std::string &name, int* width, int* height){
 
 void Window::Swap(){
     SDL_GL_SwapWindow(gWindow);
+}
+
+SDL_Window* Window::getSDLWindow(){
+    return gWindow;
 }

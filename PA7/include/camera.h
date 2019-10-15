@@ -19,6 +19,7 @@ public:
     virtual void KeyDown(SDL_Event event);
     virtual void KeyUp(SDL_Event event);
     virtual void MouseWheel(SDL_Event event);
+    virtual void MouseMotion(SDL_Event event);
 
 private:
     glm::vec2 rotateVector(float angleRadians, glm::vec2 original) const;
@@ -30,6 +31,11 @@ private:
 
     glm::vec3 rotationVelocity;
     glm::vec3 positionVelocity;
+
+    float width;
+    float height;
+
+    bool motionEvent = false;
 };
 
 #endif /* CAMERA_H */

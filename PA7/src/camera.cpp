@@ -10,6 +10,8 @@ Camera::Camera() : BaseObject(std::string("Camera"), NULL, std::string(""), true
 }
 
 bool Camera::Initialize(int w, int h){
+    width = w;
+    height = h;
     view = glm::lookAt( position, //Eye Position
                         position + glm::vec3(0.0, 0.0, 10.0), //Focus point
                         glm::vec3(0.0, 1.0, 0.0)); //Positive Y is up
@@ -31,6 +33,7 @@ glm::mat4 Camera::GetView(){
 
 void Camera::DerivedUpdate(float dt){
     //Make the camera work forward in time when time is reversed
+
     dt = dt < 0 ? -dt : dt;
     eulerAngle += rotationVelocity * dt;
     const float epsilon = 0.01;
@@ -50,6 +53,10 @@ void Camera::DerivedUpdate(float dt){
                         position + forward, //Focus point
                         glm::vec3(0.0, 1, 0.0)); //Positive Y is up
     //std::cout << forward[0] << ", " << forward[1] << ", " << forward[2] << std::endl;
+
+    rotationVelocity.y = 0;
+    rotationVelocity.x = 0;   
+
 }
 
 glm::vec2 Camera::rotateVector(float angleRadians, glm::vec2 original) const{
@@ -69,6 +76,7 @@ void Camera::KeyDown(SDL_Event event){
     switch(event.key.keysym.sym){
         case SDLK_w:
             positionVelocity.z = 3;
+            std::cout<<"W"<<std::endl;
             break;
         case SDLK_s:
             positionVelocity.z = -3;
@@ -142,3 +150,13 @@ void Camera::KeyUp(SDL_Event event){
 void Camera::MouseWheel(SDL_Event event){
 
 }
+
+void Camera::MouseMotion(SDL_Event event){
+    std::cout<<"MOUSE MOTION"<<std::endl;
+    std::cout<<"XREL "<<event.motion.xrel<<" YREL "<<event.motion.yrel<<std::endl;
+    motionEvent = true;
+    rotationVelocity.y = -120 / 1800.0 * event.motion.xrel;
+    rotationVelocity.x = 120 / 1800.0 * event.motion.yrel;
+}
+
+
