@@ -20,7 +20,7 @@ make
 ./SolarSystem -v ../shaders/vertexShader.txt -f ../shaders/fragmentShader.txt
 ```
 
-#Key | Function
+Key | Function
 ------------ | -------------
 <kbd>W</kbd> | Move forward
 <kbd>S</kbd> | Move backward
