@@ -49,7 +49,16 @@ void Graphics::createObjects(int width, int height){
         const float moonOffset = 0.25;
         for(int j = 0; j < planetInfos[i].numMoon; j++)
         {
-            objects.push_back(new Planet("Moon", p, NULL, NULL, p->GetRadius() * (1 + moonOffset), false, (std::rand() % planetInfos[i].numMoon + 1) * 0.2f, 4, false, p->getScale() * 0.25f));
+            objects.push_back(new Planet("Moon",
+                                         p,
+                                         NULL,
+                                         NULL,
+                                         p->GetRadius() * (0.5 + moonOffset + (std::rand() % 700) / 1000.0f),
+                                         false,
+                                         (std::rand() % planetInfos[i].numMoon + 1) * 0.2f,
+                                         4,
+                                         false,
+                                         p->getScale() * (0.005f+ (std::rand() % 80) / 1000.0f)));
         }
 
         std::cout << "Created " << p->name << ", radius: " << p->orbitRadius << ", scale: " << p->getScale().x << ", orbit speed: " << p->orbitRate << std::endl;
@@ -225,9 +234,9 @@ void Graphics::HandleInput(SDL_Event event){
         if(event.key.keysym.sym == SDLK_ESCAPE){
             engine->running = false;
         } else if(event.key.keysym.sym == SDLK_o){
-            engine->timeScalar -= 0.25;
+            engine->timeScalar -= 0.1;
         } else if(event.key.keysym.sym == SDLK_p){
-            engine->timeScalar += 0.25;
+            engine->timeScalar += 0.1;
         } else if(event.key.keysym.sym == SDLK_h){
             harrisButton = true;
             for(unsigned int i = 1; i < objects.size(); ++i){
