@@ -1,13 +1,14 @@
 #include "camera.h"
 #include <iostream>
 
-Camera::Camera() : BaseObject(std::string("Camera"), NULL, std::string(""), true){
+Camera::Camera(Engine* _engine) : BaseObject(std::string("Camera"), NULL, std::string(""), true){
     rotationVelocity = glm::vec3(0.0, 0.0, 0.0);
     positionVelocity = glm::vec3(0.0, 0.0, 0.0);
 
     position = glm::vec3(0.0, 10.0, -200.0);
     forward = glm::vec3(0.0, 0.0, 1.0);
     speedUp = 1;
+    engine = _engine;
 }
 
 bool Camera::Initialize(int w, int h){
@@ -35,8 +36,7 @@ glm::mat4 Camera::GetView(){
 }
 
 void Camera::DerivedUpdate(float dt){
-    //Make the camera work forward in time when time is reversed
-    dt = dt < 0 ? -dt : dt;
+    dt = engine->dt;
     eulerAngle += rotationVelocity * dt;
     const float epsilon = 0.01;
     if(eulerAngle.x > M_PI / 2.0 - epsilon){
@@ -57,7 +57,7 @@ void Camera::DerivedUpdate(float dt){
     //std::cout << forward[0] << ", " << forward[1] << ", " << forward[2] << std::endl;
 
     rotationVelocity.y = 0;
-    rotationVelocity.x = 0;   
+    rotationVelocity.x = 0;
 
 }
 
@@ -165,5 +165,3 @@ void Camera::MouseMotion(SDL_Event event){
     rotationVelocity.y = -120 / 1800.0 * event.motion.xrel;
     rotationVelocity.x = 120 / 1800.0 * event.motion.yrel;
 }
-
-

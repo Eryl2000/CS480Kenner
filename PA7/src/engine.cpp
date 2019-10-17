@@ -60,7 +60,7 @@ void Engine::Run(){
     while(running){
         //Calculate dt
         curTime = high_resolution_clock::now();
-        double dt = duration_cast<nanoseconds>(curTime - prevTime).count() / 1000000000.0;
+        dt = duration_cast<nanoseconds>(curTime - prevTime).count() / 1000000000.0;
 
         //Calculate smooth fps
         fps = (1.0 / dt) * FPS_Alpha + fps * (1.0 - FPS_Alpha);

@@ -22,6 +22,7 @@ public:
 
 	//References to other classes
 	Graphics *m_graphics;
+    double dt;
 
 private:
     // Window related variables

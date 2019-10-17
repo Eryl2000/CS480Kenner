@@ -16,7 +16,7 @@ Graphics::~Graphics(){
 }
 
 void Graphics::createObjects(int width, int height){
-    m_camera = new Camera();
+    m_camera = new Camera(engine);
     objects.push_back(m_camera);
     if(!m_camera->Initialize(width, height)){
         printf("Camera Failed to Initialize\n");

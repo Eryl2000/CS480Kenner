@@ -3,11 +3,12 @@
 
 #include <SDL2/SDL.h>
 #include "baseobject.h"
+#include "engine.h"
 #include "graphics_headers.h"
 
 class Camera : public BaseObject{
 public:
-    Camera();
+    Camera(Engine* _engine);
     bool Initialize(int w, int h);
     void DerivedUpdate(float dt);
 
@@ -38,6 +39,7 @@ private:
     float height;
 
     bool motionEvent = false;
+    Engine* engine;
 };
 
 #endif /* CAMERA_H */
