@@ -51,6 +51,8 @@ Press K to move the planets into the normalized distance in which they as close 
 Press H to change the textures to a picture of Dr. Harris\
 Press J to change the textures back to normal
 
+Added rings to planets that have rings but did not tilt the rings properly for Nepture and Uranus
+
 ## Notes
 
 ImageMagick version 6.9.7-4.
