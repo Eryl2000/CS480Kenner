@@ -27,10 +27,6 @@ Key | Function
 <kbd>A</kbd> | Move left
 <kbd>D</kbd> | Move right
 <kbd>Shift</kbd> | Speed up
-<kbd>Left Arrow</kbd> | Look left
-<kbd>Right Arrow</kbd> | Look right
-<kbd>Up Arrow</kbd> | Look up
-<kbd>Down Arrow</kbd> | Look down
 <kbd>O</kbd> | Slow down time
 <kbd>P</kbd> | Speed up time
 <kbd>H</kbd> | HARRIS!
@@ -41,6 +37,21 @@ Key | Function
 ## Group Members
 
 Eryl Kenner, Kyle Brainard, Garrett Moore
+
+## Extra Credit
+
+The planets are loaded in according to the planets.csv file inside the obj folder
+
+Press O to slow down the simulation speed\
+Press P to speed up the simulation speed
+
+Press I to move the planets into the actual proportional distance from the sun\
+Press K to move the planets into the normalized distance in which they as close to each other as possible
+
+Press H to change the textures to a picture of Dr. Harris\
+Press J to change the textures back to normal
+
+Added rings to planets that have rings but did not tilt the rings properly for Nepture and Uranus
 
 ## Notes
 
