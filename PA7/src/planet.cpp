@@ -8,7 +8,7 @@ Planet::Planet(std::string _name,
                Planet * previousPlanet,
                float _orbitRadius,
                bool _orbitScaled,
-               float _orbitRate, 
+               float _orbitRate,
                float _rotateRate,
                bool _hasRings,
                glm::vec3 _scale)
@@ -25,12 +25,12 @@ Planet::Planet(std::string _name,
     hasRings = _hasRings;
 
     scaledRadius = 0;
-    
+
     if(sun != NULL)
     {
         scaledRadius = (orbitRadius + sun->GetRadius()) * (1 + planetOffset);
     }
-    
+
     normalizedRadius = 0;
     if(sun != NULL)
     {
@@ -65,6 +65,7 @@ void Planet::DerivedUpdate(float dt){
         orbitRadius = (1 - radiusParam) * normalizedRadius + radiusParam * scaledRadius;
     }
 
+    //Sets the position to be a circle around the centerpoint
     eulerAngle.y += 2 * M_PI * rotateRate * rotateDirection * dt;
     angleInOrbit += 2 * M_PI * orbitRate * orbitDirection * dt;
 

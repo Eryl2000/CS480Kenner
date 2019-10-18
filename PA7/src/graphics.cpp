@@ -15,6 +15,10 @@ Graphics::~Graphics(){
     }
 }
 
+/*
+ * Create the objects in the scene with the correct parenting and store
+ * them into a vector
+ */
 void Graphics::createObjects(int width, int height){
     m_camera = new Camera(engine);
     objects.push_back(m_camera);
@@ -67,6 +71,9 @@ void Graphics::createObjects(int width, int height){
     }
 }
 
+/*
+ * Parses the CSV file to get the information for the solar system
+ */
 std::vector<PlanetInfo> Graphics::getPlanets(std::string csv_file_name)
 {
     std::vector<PlanetInfo> ret;
@@ -176,12 +183,14 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
     return true;
 }
 
+//Updates each object in the scene
 void Graphics::Update(double dt){
     for(unsigned int i = 0; i < objects.size(); ++i){
         objects[i]->Update(dt);
     }
 }
 
+//Renders a single image to the screen
 void Graphics::Render(){
     //clear the screen
     glClearColor(0.0, 0.0, 0.0, 1.0);
@@ -224,6 +233,10 @@ std::string Graphics::ErrorString(GLenum error){
     }
 }
 
+/*
+ * Checks what type of event has occurred and call the corresponding callback
+ * for each object in the scene
+ */
 void Graphics::HandleInput(SDL_Event event){
 
     const float orbitParamIncrease = 2;

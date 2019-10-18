@@ -53,7 +53,7 @@ void BaseObject::Setup(BaseObject *parent_)
 
 void BaseObject::Bind()
 {
-    //Bind buffers
+    //Bind buffers and textures
     glGenBuffers(1, &VB);
     glBindBuffer(GL_ARRAY_BUFFER, VB);
     glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
@@ -148,6 +148,9 @@ BaseObject::~BaseObject(){
     Indices.clear();
 }
 
+/*
+ * HARRIS BUTTON! Changes all textures to a picture of Dr. Harris
+ */
 void BaseObject::HarrisButton(bool _harrisButton){
     if(harrisButton != _harrisButton){
         harrisButton = _harrisButton;
@@ -171,6 +174,10 @@ void BaseObject::HarrisButton(bool _harrisButton){
     std::cout << (harrisButton ? "HARRIS!" : "NOT HARRIS") << std::endl;
 }
 
+/*
+ * The base update function which is called by graphics class. It calls DerivedUpdate().
+ * Derived classes only override DerivedUpdate(), not the normal Update() function
+ */
 void BaseObject::Update(float dt){
     DerivedUpdate(dt);
     SetTransform(position, eulerAngle, scale);
@@ -190,6 +197,10 @@ glm::mat4 BaseObject::GetModel(){
     return model;
 }
 
+/*
+ * Sets an object as this object's parent which means its position and rotation
+ * will be based on the parent's position and rotation.
+ */
 void BaseObject::SetParent(BaseObject *parent_){
     if(parent_ == NULL){
         if(parent != NULL){
@@ -207,6 +218,10 @@ BaseObject *BaseObject::Getparent(){
     return parent;
 }
 
+/*
+ * Renders the object to the screen at the location, orientation, and size
+ * specified by the model matrix.
+ */
 void BaseObject::Render(){
     if(doNotRender){
         return;
@@ -231,6 +246,13 @@ void BaseObject::Render(){
     glDisableVertexAttribArray(2);
 }
 
+/*
+ * Sets the position, orientation, and scale of the object based on the member
+ * variables for each. This allows these member variables to be updated as many
+ * times as wanted within DerivedUpdate() while the calculations to update
+ * the model matrix correspondingly will only be done once, since this function
+ * is called after DerivedUpdate().
+ */
 void BaseObject::SetTransform(glm::vec3 _position, glm::vec3 _eulerAngle, glm::vec3 _scale){
     model = glm::mat4(1.0f);
     if(parent != NULL){

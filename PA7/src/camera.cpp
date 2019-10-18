@@ -45,22 +45,25 @@ void Camera::DerivedUpdate(float dt){
         eulerAngle.x = -M_PI / 2.0 + epsilon;
     }
 
+    //Look in the correct direction
     glm::vec2 rotateForward = rotateVector(eulerAngle.y, glm::vec2(0.0, 1.0));
     forward = glm::vec3(rotateForward.x, sin(eulerAngle.x), rotateForward.y);
 
-    glm::vec2 rotatedY = rotateVector(eulerAngle.y, glm::vec2(positionVelocity.x, positionVelocity.z));
-    position += glm::vec3(rotatedY.x, positionVelocity.y, rotatedY.y) * speedUp * dt;
+    //Updates the position based on the velocity
+    glm::vec2 rotatedPositionVelocity = rotateVector(eulerAngle.y, glm::vec2(positionVelocity.x, positionVelocity.z));
+    position += glm::vec3(rotatedPositionVelocity.x, positionVelocity.y, rotatedPositionVelocity.y) * speedUp * dt;
 
-    view = glm::lookAt( position, //Eye Position
-                        position + forward, //Focus point
-                        glm::vec3(0.0, 1, 0.0)); //Positive Y is up
-    //std::cout << forward[0] << ", " << forward[1] << ", " << forward[2] << std::endl;
-
+    //Looks in the correct direction from the correct location
+    view = glm::lookAt(position, //Eye Position
+                       position + forward, //Focus point
+                       glm::vec3(0.0, 1, 0.0)); //Positive Y is up
     rotationVelocity.y = 0;
     rotationVelocity.x = 0;
-
 }
 
+/*
+ * Rotates a vector by a given angle
+ */
 glm::vec2 Camera::rotateVector(float angleRadians, glm::vec2 original) const{
     return glm::vec2(cos(angleRadians) * original.x - sin(angleRadians) * original.y,
                      sin(angleRadians) * original.x + cos(angleRadians) * original.y);

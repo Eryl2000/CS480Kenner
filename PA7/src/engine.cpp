@@ -71,7 +71,7 @@ void Engine::Run(){
             m_graphics->HandleInput(event);
         }
 
-        //Fixed physics update loop
+        //Fixed-rate physics update loop
         accumulator += dt;
         while(accumulator >= dt){
             m_graphics->Update(dt * timeScalar);
