@@ -3,6 +3,7 @@
 #include "csv.h"
 #include <cstdlib>
 #include <ctime>
+#include <btBulletDynamicsCommon.h>
 
 Graphics::Graphics(Engine *_engine)
     : engine(_engine){
