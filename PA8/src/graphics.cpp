@@ -27,48 +27,8 @@ void Graphics::createObjects(int width, int height){
         exit(1);
     }
 
-    const long actualSunScale = scaleMod;
-    const long adjustedSunScale = 3 * scaleMod;
-    const bool adjusted = true;
+    objects.push_back(new Object(std::string("sphere"), NULL, std::string("../obj/sphere.obj")));
 
-    const long sunScale = adjusted ? adjustedSunScale : actualSunScale;
-    const long sunDiameter = 1.4e9;
-    Planet * sun = new Planet("Sun", NULL, NULL, NULL, 0, false, 0, 0.02, false, glm::vec3(1.0, 1.0, 1.0) * (float) ((double)sunDiameter/ sunScale));
-    objects.push_back(sun);
-
-    std::srand(std::time(NULL));
-    std::vector<PlanetInfo> planetInfos = getPlanets("../obj/planets.csv");
-    for(unsigned int i = 0; i < planetInfos.size(); i++)
-    {
-        Planet * p = NULL;
-
-        if(i == 0)
-        {
-            p = planetInfos[i].FromInfo(sun, sun, NULL);
-        } else
-        {
-            p = planetInfos[i].FromInfo(sun, sun, planets[i-1]);
-        }
-
-        const float moonOffset = 0.25;
-        for(int j = 0; j < planetInfos[i].numMoon; j++)
-        {
-            objects.push_back(new Planet("Moon",
-                                         p,
-                                         NULL,
-                                         NULL,
-                                         p->GetRadius() * (0.5 + moonOffset + (std::rand() % 700) / 1000.0f),
-                                         false,
-                                         (std::rand() % planetInfos[i].numMoon + 1) * 0.2f,
-                                         4,
-                                         false,
-                                         p->getScale() * (0.005f+ (std::rand() % 80) / 1000.0f)));
-        }
-
-        std::cout << "Created " << p->name << ", radius: " << p->orbitRadius << ", scale: " << p->getScale().x << ", orbit speed: " << p->orbitRate << std::endl;
-        objects.push_back(p);
-        planets.push_back(p);
-    }
 }
 
 /*
