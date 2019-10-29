@@ -13,7 +13,8 @@ BaseObject::BaseObject(std::string _name, BaseObject *parent_, std::string objec
     : parent(NULL),
     name(_name),
     doNotRender(objectPath == std::string("")),
-    onlyCopyParentPos(_onlyCopyParentPos)
+    onlyCopyParentPos(_onlyCopyParentPos),
+    rigidbody(NULL)
 {
     Setup(parent_);
     if(!doNotRender){
@@ -29,7 +30,8 @@ BaseObject::BaseObject(std::string _name, BaseObject *parent_, const aiScene * s
     : parent(NULL),
     name(_name),
     doNotRender(scene == NULL),
-    onlyCopyParentPos(_onlyCopyParentPos)
+    onlyCopyParentPos(_onlyCopyParentPos),
+    rigidbody(NULL)
 {
     Setup(parent_);
     if(!doNotRender){

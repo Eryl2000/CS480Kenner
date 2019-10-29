@@ -7,6 +7,7 @@
 #include <assimp/scene.h> //includes the aiScene object
 #include "graphics_headers.h"
 #include <Magick++.h>
+#include <btBulletDynamicsCommon.h>
 
 enum class ColliderType {None, Plane, Sphere, Cube, Cylinder, Mesh};
 enum class PhysicsType {Static, Kinematic, Dynamic};
@@ -47,6 +48,8 @@ public:
     virtual void MouseMotion(SDL_Event event);
 
     std::vector<BaseObject *> children;
+
+    btRigidBody * rigidbody;
 
 protected:
     virtual void DerivedUpdate(float dt) = 0;
