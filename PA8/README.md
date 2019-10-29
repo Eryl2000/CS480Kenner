@@ -17,7 +17,7 @@ mkdir build
 cd build
 cmake ..
 make
-./SolarSystem -v ../shaders/vertexShader.txt -f ../shaders/fragmentShader.txt
+./Bullet -v ../shaders/vertexShader.txt -f ../shaders/fragmentShader.txt
 ```
 
 Key | Function
