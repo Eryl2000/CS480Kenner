@@ -3,11 +3,15 @@
 #include "csv.h"
 #include <cstdlib>
 #include <ctime>
-#include <btBulletDynamicsCommon.h>
 
 Graphics::Graphics(Engine *_engine)
     : engine(_engine){
 
+    broadphase = NULL;
+    collisionConfiguration = NULL;
+    dispatcher = NULL;
+    solver = NULL;
+    dynamicsWorld = NULL;
 }
 
 Graphics::~Graphics(){
@@ -88,6 +92,12 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
     GLuint vao;
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
+
+    broadphase = new btDbvtBroadphase();
+    collisionConfiguration = new btDefaultCollisionConfiguration();
+    dispatcher = new btCollisionDispatcher(collisionConfiguration);
+    solver = new btSequentialImpulseConstraintSolver();
+    dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
 
     createObjects(width, height);
 

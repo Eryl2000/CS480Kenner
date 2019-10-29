@@ -11,6 +11,7 @@
 #include "planet.h"
 #include "object.h"
 #include <SDL2/SDL.h>
+#include <btBulletDynamicsCommon.h>
 
 class Engine;
 
@@ -41,6 +42,12 @@ private:
     GLint m_projectionMatrix;
     GLint m_viewMatrix;
     GLint m_modelMatrix;
+
+    btBroadphaseInterface *broadphase;
+    btDefaultCollisionConfiguration *collisionConfiguration;
+    btCollisionDispatcher *dispatcher;
+    btSequentialImpulseConstraintSolver *solver;
+    btDiscreteDynamicsWorld *dynamicsWorld;
 
 };
 
