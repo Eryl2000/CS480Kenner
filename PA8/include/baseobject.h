@@ -8,6 +8,15 @@
 #include "graphics_headers.h"
 #include <Magick++.h>
 
+enum class ColliderType {None, Plane, Sphere, Cube, Cylinder, Mesh};
+enum class PhysicsType {Static, Kinematic, Dynamic};
+
+struct PhysicsOptions{
+    bool hasPhysics;
+    ColliderType colliderType;
+    PhysicsType physicsType;
+};
+
 class BaseObject{
 public:
     BaseObject(std::string _name, BaseObject *parent_, std::string objectFile, bool _onlyCopyParentPos = false);
