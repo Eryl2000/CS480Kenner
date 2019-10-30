@@ -46,7 +46,7 @@ void Graphics::createObjects(int width, int height){
     dynamicsWorld->addRigidBody(m_camera->rigidbody, 0, 0);
 
     BaseObject *temp;
-    temp = new Movable(std::string("sphere"), NULL, std::string("../obj/sphere.obj"));
+    temp = new Movable(std::string("sphere"), NULL, std::string("../obj/newsphere.obj"));
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 0, 0);
 }
