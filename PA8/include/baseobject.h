@@ -49,6 +49,8 @@ public:
 
     std::vector<BaseObject *> children;
 
+    btRigidBody * rigidbody;
+
 protected:
     virtual void DerivedUpdate(float dt) = 0;
     glm::mat4 model;
