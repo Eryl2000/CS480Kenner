@@ -36,7 +36,7 @@ btCollisionShape * PhysicsObject::GetCollisionShape(struct PhysicsOptions physic
                 break;
 
         case ColliderType::Plane:
-                return new btStaticPlaneShape(btVector3(1.0f, 1.0f, 1.0f), 1);
+                return new btStaticPlaneShape(btVector3(0.0f, 1.0f, 0.0f), 1);
                 break;
 
         case ColliderType::Sphere:
