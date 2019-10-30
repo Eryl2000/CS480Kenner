@@ -5,7 +5,7 @@ Camera::Camera(Engine* _engine) : BaseObject(std::string("Camera"), NULL, std::s
     rotationVelocity = glm::vec3(0.0, 0.0, 0.0);
     positionVelocity = glm::vec3(0.0, 0.0, 0.0);
 
-    position = glm::vec3(0.0, 10.0, -200.0);
+    position = glm::vec3(0.0, 5.0, -10.0);
     forward = glm::vec3(0.0, 0.0, 1.0);
     speedUp = 1;
     engine = _engine;

@@ -9,7 +9,7 @@ Cube::Cube(std::string _name, BaseObject *parent_, std::string objectFile)
     btVector3 inertia(0, 0, 0);
     collider->calculateLocalInertia(mass, inertia);
     btRigidBody::btRigidBodyConstructionInfo shapeRigidBodyCI(mass, shapeMotionState, collider, inertia);
-    //rigidbody = new btRigidBody(shapeRigidBodyCI);
+    rigidbody = new btRigidBody(shapeRigidBodyCI);
 }
 
 void Cube::DerivedUpdate(float dt){

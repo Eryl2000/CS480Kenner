@@ -19,11 +19,11 @@ Graphics::~Graphics(){
     for(unsigned int i = 0; i < objects.size(); ++i){
         delete objects[i];
     }
-    delete broadphase;
-    delete collisionConfiguration;
-    delete dispatcher;
-    delete solver;
-    delete dynamicsWorld;
+    //delete broadphase;
+    //delete collisionConfiguration;
+    //delete dispatcher;
+    //delete solver;
+    //delete dynamicsWorld;
     broadphase = NULL;
     collisionConfiguration = NULL;
     dispatcher = NULL;
@@ -46,7 +46,7 @@ void Graphics::createObjects(int width, int height){
     BaseObject *temp;
     temp = new Cube(std::string("sphere"), NULL, std::string("../obj/sphere.obj"));
     objects.push_back(temp);
-    //dynamicsWorld->addRigidBody(temp->rigidBody, COLLIDE_MASK, CollidesWith);
+    dynamicsWorld->addRigidBody(temp->rigidbody, 0, 0);
 }
 
 /*
