@@ -169,6 +169,7 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
 
 //Updates each object in the scene
 void Graphics::Update(double dt){
+    dynamicsWorld->stepSimulation(dt, 10);
     for(unsigned int i = 0; i < objects.size(); ++i){
         objects[i]->Update(dt);
     }

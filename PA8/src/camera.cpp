@@ -9,6 +9,15 @@ Camera::Camera(Engine* _engine) : BaseObject(std::string("Camera"), NULL, std::s
     forward = glm::vec3(0.0, 0.0, 1.0);
     speedUp = 1;
     engine = _engine;
+
+    collider = new btBoxShape(btVector3(1.0f, 1.0f, 1.0f));
+    btDefaultMotionState *shapeMotionState = NULL;
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 0), btVector3(0, 0, 0)));
+    btScalar mass(1);
+    btVector3 inertia(0, 0, 0);
+    collider->calculateLocalInertia(mass, inertia);
+    btRigidBody::btRigidBodyConstructionInfo shapeRigidBodyCI(mass, shapeMotionState, collider, inertia);
+    rigidbody = new btRigidBody(shapeRigidBodyCI);
 }
 
 bool Camera::Initialize(int w, int h){
@@ -99,6 +108,7 @@ void Camera::KeyDown(SDL_Event event){
         case SDLK_e:
             positionVelocity.y = velocity;
             break;
+        /*
         case SDLK_LEFT:
             rotationVelocity.y = -120 / 180.0 * M_PI;
             break;
@@ -111,6 +121,7 @@ void Camera::KeyDown(SDL_Event event){
         case SDLK_DOWN:
             rotationVelocity.x = -120 / 180.0 * M_PI;
             break;
+        */
         case SDLK_LSHIFT:
             speedUp = speedIncrease;
             break;
@@ -139,6 +150,7 @@ void Camera::KeyUp(SDL_Event event){
         case SDLK_e:
             positionVelocity.y = 0.0;
             break;
+        /*
         case SDLK_LEFT:
             rotationVelocity.y = 0.0;
             break;
@@ -151,6 +163,7 @@ void Camera::KeyUp(SDL_Event event){
         case SDLK_DOWN:
             rotationVelocity.x = 0.0;
             break;
+        */
         case SDLK_LSHIFT:
             speedUp = 1;
             break;

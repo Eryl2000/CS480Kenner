@@ -1,11 +1,12 @@
 #include "cube.h"
+#include <iostream>
 
 Cube::Cube(std::string _name, BaseObject *parent_, std::string objectFile)
     : BaseObject(_name, parent_, objectFile, false){
     collider = new btBoxShape(btVector3(1.0f, 1.0f, 1.0f));
     btDefaultMotionState *shapeMotionState = NULL;
     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 0), btVector3(0, 0, 0)));
-    btScalar mass(1);
+    btScalar mass(10);
     btVector3 inertia(0, 0, 0);
     collider->calculateLocalInertia(mass, inertia);
     btRigidBody::btRigidBodyConstructionInfo shapeRigidBodyCI(mass, shapeMotionState, collider, inertia);
@@ -13,7 +14,12 @@ Cube::Cube(std::string _name, BaseObject *parent_, std::string objectFile)
 }
 
 void Cube::DerivedUpdate(float dt){
-
+    /*for(int i = 0; i < 4; ++i){
+        for(int j = 0; j < 4; ++j){
+            std::cout << model[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }*/
 }
 
 

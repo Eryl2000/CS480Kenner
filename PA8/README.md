@@ -27,12 +27,10 @@ Key | Function
 <kbd>A</kbd> | Move left
 <kbd>D</kbd> | Move right
 <kbd>Shift</kbd> | Speed up
-<kbd>O</kbd> | Slow down time
-<kbd>P</kbd> | Speed up time
-<kbd>H</kbd> | HARRIS!
-<kbd>J</kbd> | NO HARRIS!
-<kbd>I</kbd> | Scale planet distances
-<kbd>K</kbd> | Normalize planet distances
+<kbd>Up</kbd> | Move cube up
+<kbd>Down</kbd> | Move cube down
+<kbd>Left</kbd> | Move cube left
+<kbd>Right</kbd> | Move cube right
 
 ## Group Members
 

@@ -171,7 +171,14 @@ void BaseObject::HarrisButton(bool _harrisButton){
             if(image != NULL){
                 delete image;
             }
-            image = new Magick::Image("../obj/planetTextures/" + name + ".jpg");
+                if(image == NULL){
+                    image = new Magick::Image("../obj/" + name + ".jpg");
+                }
+
+                if(image == NULL){
+                    image = new Magick::Image("../obj/planetTextures/" + name + ".jpg");
+                }
+
         }
         if(image != NULL){
             image->write(&blob, "RGBA");
@@ -187,7 +194,29 @@ void BaseObject::HarrisButton(bool _harrisButton){
  */
 void BaseObject::Update(float dt){
     DerivedUpdate(dt);
-    SetTransform(position, eulerAngle, scale);
+    SyncBullet();
+    //SetTransform(position, eulerAngle, scale);
+}
+
+void BaseObject::SyncBullet()
+{
+    if(rigidbody != NULL)
+    {
+        btTransform trans;
+        btScalar m[16];
+
+        rigidbody->getMotionState()->getWorldTransform(trans);
+        trans.getOpenGLMatrix(m);
+        /*for(int i = 0; i < 16; ++i){
+            std::cout << m[i] << " ";
+        }*/
+        std::cout << std::endl;
+        model = glm::make_mat4(m);
+    } else
+    {
+        std::cerr << "Object \"" << name << "\" does not have a rigidbody (BaseObject::SyncBullet)" << std::endl;
+        exit(1);
+    }
 }
 
 void BaseObject::printModel() const{

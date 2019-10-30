@@ -24,6 +24,7 @@ public:
     BaseObject(std::string _name, BaseObject *parent_, const aiScene * scene, unsigned int modelIndex, bool _onlyCopyParentPos = false);
     virtual ~BaseObject();
     void Update(float dt);
+    void SyncBullet();
     void Render();
 
     glm::mat4 GetModel();
