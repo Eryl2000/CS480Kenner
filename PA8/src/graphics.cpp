@@ -48,15 +48,18 @@ void Graphics::createObjects(int width, int height){
 
     BaseObject *temp;
     PhysicsOptions ps(true, ColliderType::Sphere, PhysicsType::Dynamic);
+    ps.position = glm::vec3(0, 3, 0);
     temp = new Movable(std::string("sphere"), NULL, std::string("../obj/newsphere.obj"), ps);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
+    ps.position = glm::vec3(0, 3, 3);
     temp = new PhysicsObject(std::string("sphere"), NULL, std::string("../obj/newsphere.obj"), ps);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
     PhysicsOptions cylinderPS(true, ColliderType::Cylinder, PhysicsType::Dynamic);
+    cylinderPS.position = glm::vec3(5, 3, 0);
     temp = new PhysicsObject(std::string("sphere"), NULL, std::string("../obj/newcylinder.obj"), cylinderPS);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);

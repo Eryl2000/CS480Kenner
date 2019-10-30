@@ -5,7 +5,7 @@ PhysicsObject::PhysicsObject(std::string _name, BaseObject *parent_, std::string
     : BaseObject(_name, parent_, objectFile, false){
     collider = GetCollisionShape(physics);
     btDefaultMotionState *shapeMotionState = NULL;
-    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(physics.position.x, physics.position.y, physics.position.z)));
 
 
     const float defaultMass = 1;
@@ -29,31 +29,31 @@ PhysicsObject::PhysicsObject(std::string _name, BaseObject *parent_, std::string
 btCollisionShape * PhysicsObject::GetCollisionShape(struct PhysicsOptions physics)
 {
     switch(physics.colliderType)
-    { 
-    
+    {
+
         case ColliderType::None:
                 return NULL;
                 break;
 
         case ColliderType::Plane:
                 return new btStaticPlaneShape(btVector3(1.0f, 1.0f, 1.0f), 1);
-                break;  
-   
+                break;
+
         case ColliderType::Sphere:
                 return new btSphereShape(btScalar(1.0f));
-                break;   
-      
+                break;
+
         case ColliderType::Cube:
                 return new btBoxShape(btVector3(1.0f, 1.0f, 1.0f));
                 break;
- 
+
         case ColliderType::Cylinder:
                 return new btCylinderShape(btVector3(1.0f, 1.0f, 1.0f));
-                break;      
-  
+                break;
+
         case ColliderType::Mesh:
                 return new btBoxShape(btVector3(1.0f, 1.0f, 1.0f));
-                break;          
+                break;
 
     }
     return new btBoxShape(btVector3(1.0f, 1.0f, 1.0f));
