@@ -60,7 +60,7 @@ void Graphics::createObjects(int width, int height){
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
     PhysicsOptions cylinderPS(true, ColliderType::Cylinder, PhysicsType::Static);
-    cylinderPS.position = glm::vec3(5, 3, 0);
+    cylinderPS.position = glm::vec3(3, 2, 0);
     
     temp = new PhysicsObject(std::string("sphere"), NULL, std::string("../obj/newcylinder.obj"), cylinderPS);
     objects.push_back(temp);
