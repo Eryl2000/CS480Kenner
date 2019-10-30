@@ -7,6 +7,7 @@
 #include <assimp/scene.h> //includes the aiScene object
 #include "graphics_headers.h"
 #include <Magick++.h>
+#include <btBulletDynamicsCommon.h>
 
 enum class ColliderType {None, Plane, Sphere, Cube, Cylinder, Mesh};
 enum class PhysicsType {Static, Kinematic, Dynamic};
@@ -59,6 +60,8 @@ protected:
     glm::vec3 scale;
 
     BaseObject *parent;
+
+    btCollisionShape *collider;
 
 private:
     void Setup(BaseObject *parent_);
