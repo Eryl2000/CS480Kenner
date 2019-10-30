@@ -1,7 +1,7 @@
 #include "movable.h"
 
-Movable::Movable(std::string _name, BaseObject *parent_, std::string objectPath)
-    : Cube(_name, parent_, objectPath),
+Movable::Movable(std::string _name, BaseObject *parent_, std::string objectPath, struct PhysicsOptions physics)
+    : PhysicsObject(_name, parent_, objectPath, physics),
       force(100),
       forceVect(btVector3(0, 0, 0))
 {}

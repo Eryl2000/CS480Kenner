@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 #include "movable.h"
+#include "baseobject.h"
 
 Graphics::Graphics(Engine *_engine)
     : engine(_engine){
@@ -46,7 +47,11 @@ void Graphics::createObjects(int width, int height){
     dynamicsWorld->addRigidBody(m_camera->rigidbody, 0, 0);
 
     BaseObject *temp;
-    temp = new Movable(std::string("sphere"), NULL, std::string("../obj/newsphere.obj"));
+    PhysicsOptions ps;
+    ps.hasPhysics = true;
+    ps.colliderType = ColliderType::Sphere;
+    ps.physicsType = PhysicsType::Dynamic;
+    temp = new Movable(std::string("sphere"), NULL, std::string("../obj/newsphere.obj"), ps);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 0, 0);
 }
