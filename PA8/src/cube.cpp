@@ -14,12 +14,12 @@ Cube::Cube(std::string _name, BaseObject *parent_, std::string objectFile)
 }
 
 void Cube::DerivedUpdate(float dt){
-    /*for(int i = 0; i < 4; ++i){
+    for(int i = 0; i < 4; ++i){
         for(int j = 0; j < 4; ++j){
             std::cout << model[i][j] << " ";
         }
         std::cout << std::endl;
-    }*/
+    }
 }
 
 

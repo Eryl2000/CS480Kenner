@@ -22,19 +22,19 @@ void Movable::DerivedUpdate(float dt)
 void Movable::KeyDown(SDL_Event event){
     SDL_Keycode keycode = event.key.keysym.sym;
     if(keycode == SDLK_UP){
-        forceVect.z = force;
+        forceVect.setZ(force);
     }
 
     if(keycode == SDLK_DOWN){
-        forceVect.z = -force;
+        forceVect.setZ(-force);
     }
 
     if(keycode == SDLK_LEFT){
-        forceVect.x = -force;
+        forceVect.setX(-force);
     }
 
     if(keycode == SDLK_RIGHT){
-        forceVect.x = force;
+        forceVect.setX(force);
     }
 
 }
@@ -42,19 +42,19 @@ void Movable::KeyDown(SDL_Event event){
 void Movable::KeyUp(SDL_Event event){
     SDL_Keycode keycode = event.key.keysym.sym;
     if(keycode == SDLK_UP){
-        forceVect.z = 0;
+        forceVect.setZ(0);
     }
 
     if(keycode == SDLK_DOWN){
-        forceVect.z = 0;
+        forceVect.setZ(0);
     }
 
     if(keycode == SDLK_LEFT){
-        forceVect.x = 0;
+        forceVect.setX(0);
     }
 
     if(keycode == SDLK_RIGHT){
-        forceVect.x = 0;
+        forceVect.setX(0);
     }
 }
 

@@ -209,8 +209,9 @@ void BaseObject::SyncBullet()
         trans.getOpenGLMatrix(m);
         /*for(int i = 0; i < 16; ++i){
             std::cout << m[i] << " ";
-        }*/
+        }
         std::cout << std::endl;
+        */
         model = glm::make_mat4(m);
     } else
     {
