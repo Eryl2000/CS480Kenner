@@ -47,7 +47,7 @@ void Graphics::createObjects(int width, int height){
     dynamicsWorld->addRigidBody(m_camera->rigidbody, 1, 1);
 
     BaseObject *temp;
-    PhysicsOptions ps(true, ColliderType::Cube, PhysicsType::Dynamic);
+    PhysicsOptions ps(true, ColliderType::Cube, PhysicsType::Dynamic, 0);
     ps.position = glm::vec3(0, 3, 0);
     temp = new Movable(std::string("granite"), NULL, std::string("../obj/newcube.obj"), ps);
     objects.push_back(temp);
@@ -59,15 +59,35 @@ void Graphics::createObjects(int width, int height){
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
-    PhysicsOptions cylinderPS(true, ColliderType::Cylinder, PhysicsType::Static);
+    PhysicsOptions cylinderPS(true, ColliderType::Cylinder, PhysicsType::Static, 0);
     cylinderPS.position = glm::vec3(3, 2, 0);
-    
     temp = new PhysicsObject(std::string("sphere"), NULL, std::string("../obj/newcylinder.obj"), cylinderPS);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
-    PhysicsOptions planePS(true, ColliderType::Plane, PhysicsType::Static);
-    temp = new PhysicsObject(std::string("checker"), NULL, std::string("../obj/newtray.obj"), planePS);
+    //bottom plane
+    PhysicsOptions planePS(true, ColliderType::Plane, PhysicsType::Static, 0);
+    temp = new PhysicsObject(std::string("sphere"), NULL, std::string("../obj/newtray.obj"), planePS);
+    objects.push_back(temp);
+    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+    //left plane
+    planePS.planeType = 1;
+    temp = new PhysicsObject(std::string("sphere"), NULL, std::string("../obj/newtray.obj"), planePS);
+    objects.push_back(temp);
+    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+    //right plane
+    planePS.planeType = 2;
+    temp = new PhysicsObject(std::string("sphere"), NULL, std::string("../obj/newtray.obj"), planePS);
+    objects.push_back(temp);
+    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+    //back plane
+    planePS.planeType = 3;
+    temp = new PhysicsObject(std::string("sphere"), NULL, std::string("../obj/newtray.obj"), planePS);
+    objects.push_back(temp);
+    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+    //front plane
+    planePS.planeType = 4;
+    temp = new PhysicsObject(std::string("sphere"), NULL, std::string("../obj/newtray.obj"), planePS);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 }
