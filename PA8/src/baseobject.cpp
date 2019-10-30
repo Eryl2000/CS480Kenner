@@ -205,7 +205,7 @@ void BaseObject::SyncBullet()
         btTransform trans;
         btScalar m[16];
 
-        rigidbody->getMotionState()->getWorldTransform(trans);
+        trans = rigidbody->getWorldTransform();
         trans.getOpenGLMatrix(m);
         /*for(int i = 0; i < 16; ++i){
             std::cout << m[i] << " ";

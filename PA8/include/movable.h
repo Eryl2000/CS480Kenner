@@ -1,10 +1,10 @@
 #ifndef MOVABLE_H_
 #define MOVANLE_H_
 
-#include "object.h"
+#include "cube.h"
 #include <btBulletDynamicsCommon.h>
 
-class Movable : public BaseObject
+class Movable : public Cube
 {
     public:
         Movable(std::string _name, BaseObject *parent_, std::string objectPath);

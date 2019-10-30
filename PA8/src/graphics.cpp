@@ -3,7 +3,7 @@
 #include "csv.h"
 #include <cstdlib>
 #include <ctime>
-#include "cube.h"
+#include "movable.h"
 
 Graphics::Graphics(Engine *_engine)
     : engine(_engine){
@@ -43,8 +43,10 @@ void Graphics::createObjects(int width, int height){
         exit(1);
     }
 
+    dynamicsWorld->addRigidBody(m_camera->rigidbody, 0, 0);
+
     BaseObject *temp;
-    temp = new Cube(std::string("sphere"), NULL, std::string("../obj/sphere.obj"));
+    temp = new Movable(std::string("sphere"), NULL, std::string("../obj/sphere.obj"));
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 0, 0);
 }
@@ -109,8 +111,9 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
     broadphase = new btDbvtBroadphase();
     collisionConfiguration = new btDefaultCollisionConfiguration();
     dispatcher = new btCollisionDispatcher(collisionConfiguration);
-    solver = new btSequentialImpulseConstraintSolver();
+    solver = new btSequentialImpulseConstraintSolver;
     dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
+    dynamicsWorld->setGravity(btVector3(0, 0, 0));
 
     createObjects(width, height);
 

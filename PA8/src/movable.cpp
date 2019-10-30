@@ -1,8 +1,8 @@
 #include "movable.h"
 
 Movable::Movable(std::string _name, BaseObject *parent_, std::string objectPath)
-    : BaseObject(_name, parent_, objectPath),
-      force(5),
+    : Cube(_name, parent_, objectPath),
+      force(100),
       forceVect(btVector3(0, 0, 0))
 {}
 
@@ -30,11 +30,11 @@ void Movable::KeyDown(SDL_Event event){
     }
 
     if(keycode == SDLK_LEFT){
-        forceVect.setX(-force);
+        forceVect.setX(force);
     }
 
     if(keycode == SDLK_RIGHT){
-        forceVect.setX(force);
+        forceVect.setX(-force);
     }
 
 }
