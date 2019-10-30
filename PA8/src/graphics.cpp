@@ -44,7 +44,7 @@ void Graphics::createObjects(int width, int height){
         exit(1);
     }
 
-    dynamicsWorld->addRigidBody(m_camera->rigidbody, 0, 0);
+    dynamicsWorld->addRigidBody(m_camera->rigidbody, 1, 1);
 
     BaseObject *temp;
     PhysicsOptions ps;
@@ -53,7 +53,11 @@ void Graphics::createObjects(int width, int height){
     ps.physicsType = PhysicsType::Dynamic;
     temp = new Movable(std::string("sphere"), NULL, std::string("../obj/newsphere.obj"), ps);
     objects.push_back(temp);
-    dynamicsWorld->addRigidBody(temp->rigidbody, 0, 0);
+    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+
+    temp = new PhysicsObject(std::string("sphere"), NULL, std::string("../obj/newsphere.obj"), ps);
+    objects.push_back(temp);
+    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 }
 
 /*

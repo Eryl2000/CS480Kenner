@@ -6,11 +6,24 @@ PhysicsObject::PhysicsObject(std::string _name, BaseObject *parent_, std::string
     collider = GetCollisionShape(physics);
     btDefaultMotionState *shapeMotionState = NULL;
     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
-    btScalar mass(1);
+
+
+    const float defaultMass = 1;
+    btScalar mass(defaultMass);
+    if(physics.physicsType != PhysicsType::Dynamic)
+    {
+        mass = 0;
+    }
+
     btVector3 inertia(0, 0, 0);
     collider->calculateLocalInertia(mass, inertia);
     btRigidBody::btRigidBodyConstructionInfo shapeRigidBodyCI(mass, shapeMotionState, collider, inertia);
     rigidbody = new btRigidBody(shapeRigidBodyCI);
+
+    if(physics.physicsType == PhysicsType::Kinematic)
+    {
+        rigidbody->setCollisionFlags(rigidbody->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
+    }
 }
 
 btCollisionShape * PhysicsObject::GetCollisionShape(struct PhysicsOptions physics)
