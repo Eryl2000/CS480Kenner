@@ -15,6 +15,34 @@ PhysicsObject::PhysicsObject(std::string _name, BaseObject *parent_, std::string
 
 btCollisionShape * PhysicsObject::GetCollisionShape(struct PhysicsOptions physics)
 {
+    switch(physics.colliderType)
+    { 
+    
+        case ColliderType::None:
+                return NULL;
+                break;
+
+        case ColliderType::Plane:
+                return new btStaticPlaneShape(btVector3(1.0f, 1.0f, 1.0f), 1);
+                break;  
+   
+        case ColliderType::Sphere:
+                return new btSphereShape(btScalar(1.0f));
+                break;   
+      
+        case ColliderType::Cube:
+                return new btBoxShape(btVector3(1.0f, 1.0f, 1.0f));
+                break;
+ 
+        case ColliderType::Cylinder:
+                return new btCylinderShape(btVector3(1.0f, 1.0f, 1.0f));
+                break;      
+  
+        case ColliderType::Mesh:
+                return new btBoxShape(btVector3(1.0f, 1.0f, 1.0f));
+                break;          
+
+    }
     return new btBoxShape(btVector3(1.0f, 1.0f, 1.0f));
 }
 
