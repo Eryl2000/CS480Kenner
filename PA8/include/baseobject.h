@@ -13,6 +13,16 @@ enum class ColliderType {None, Plane, Sphere, Cube, Cylinder, Mesh};
 enum class PhysicsType {Static, Kinematic, Dynamic};
 
 struct PhysicsOptions{
+    PhysicsOptions()
+    : hasPhysics(true),
+      colliderType(ColliderType::Cube),
+      physicsType(PhysicsType::Dynamic)
+      {}
+
+
+    PhysicsOptions(bool _hasPhysics, ColliderType _colliderType, PhysicsType _physicType)
+    : hasPhysics(_hasPhysics), colliderType(_colliderType), physicsType(_physicType) {}
+
     bool hasPhysics;
     ColliderType colliderType;
     PhysicsType physicsType;

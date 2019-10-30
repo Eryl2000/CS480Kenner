@@ -47,10 +47,7 @@ void Graphics::createObjects(int width, int height){
     dynamicsWorld->addRigidBody(m_camera->rigidbody, 1, 1);
 
     BaseObject *temp;
-    PhysicsOptions ps;
-    ps.hasPhysics = true;
-    ps.colliderType = ColliderType::Sphere;
-    ps.physicsType = PhysicsType::Dynamic;
+    PhysicsOptions ps(true, ColliderType::Cube, PhysicsType::Dynamic);
     temp = new Movable(std::string("sphere"), NULL, std::string("../obj/newsphere.obj"), ps);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
