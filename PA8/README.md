@@ -1,6 +1,6 @@
-# PA7: Solar System
+# PA8: Bullet
 
-An interactive solar system!
+The purpose of this assignment is to become familiar with Bullet Physics, a 3D physics simulation engine. At the end of the assignment, you should be able to integrate 3D physics using Bullet into an OpenGL program with user interaction.
 
 ## Dependencies
 
@@ -8,6 +8,7 @@ An interactive solar system!
 sudo apt-get install libglew-dev libglm-dev libsdl2-dev
 sudo apt-get install libassimp-dev
 sudo apt-get install libmagick++-dev
+sudo apt-get install libbullet-dev
 ```
 
 ## Running the Project
@@ -22,11 +23,11 @@ make
 
 Key | Function
 ------------ | -------------
-<kbd>W</kbd> | Move forward
-<kbd>S</kbd> | Move backward
-<kbd>A</kbd> | Move left
-<kbd>D</kbd> | Move right
-<kbd>Shift</kbd> | Speed up
+<kbd>W</kbd> | Move forward camera
+<kbd>S</kbd> | Move backward camera
+<kbd>A</kbd> | Move left camera
+<kbd>D</kbd> | Move right camera
+<kbd>Shift</kbd> | Speed up camera
 <kbd>Up</kbd> | Move cube up
 <kbd>Down</kbd> | Move cube down
 <kbd>Left</kbd> | Move cube left
@@ -38,18 +39,7 @@ Eryl Kenner, Kyle Brainard, Garrett Moore
 
 ## Extra Credit
 
-The planets are loaded in according to the planets.csv file inside the obj folder
-
-Press O to slow down the simulation speed\
-Press P to speed up the simulation speed
-
-Press I to move the planets into the actual proportional distance from the sun\
-Press K to move the planets into the normalized distance in which they as close to each other as possible
-
-Press H to change the textures to a picture of Dr. Harris\
-Press J to change the textures back to normal
-
-Added rings to planets that have rings but did not tilt the rings properly for Nepture and Uranus
+N/A
 
 ## Notes
 
