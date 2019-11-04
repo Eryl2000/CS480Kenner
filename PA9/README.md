@@ -19,6 +19,7 @@ cd build
 cmake ..
 make
 ./Bullet -v ../shaders/vertexLight.vert -f ../shaders/vertexLight.frag
+./Bullet -v ../shaders/fragmentLight.vert -f ../shaders/fragmentLight.frag
 ```
 
 Key | Function

@@ -1,14 +1,22 @@
+#version 330
+
 // fragment shader
 
 // per-fragment interpolated values from the vertex shader
-in vec3 fN;
-in vec3 fL;
-in vec3 fE;
+smooth in vec3 fN;
+smooth in vec3 fL;
+smooth in vec3 fE;
+
+smooth in vec2 texture;
+
+out vec4 frag_color;
 
 uniform vec4 AmbientProduct, DiffuseProduct, SpecularProduct;
 uniform mat4 ModelView;
 uniform vec4 LightPosition;
 uniform float Shininess;
+
+uniform sampler2D sampler;
 
 void main() 
 { 
@@ -30,6 +38,9 @@ void main()
     if( dot(L, N) < 0.0 ) 
 	specular = vec4(0.0, 0.0, 0.0, 1.0);
     
-    gl_FragColor = ambient + diffuse + specular;
-    gl_FragColor.a = 1.0;
+    vec4 light_color = ambient + diffuse + specular;
+    light_color.a = 1.0;
+
+    vec4 text_color = texture2D(sampler, texture);
+    frag_color = light_color * text_color;
 } 
