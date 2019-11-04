@@ -18,7 +18,7 @@ mkdir build
 cd build
 cmake ..
 make
-./Bullet -v ../shaders/vertexShader.txt -f ../shaders/fragmentShader.txt
+./Bullet -v ../shaders/vertexLight.vert -f ../shaders/vertexLight.frag
 ```
 
 Key | Function

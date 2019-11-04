@@ -55,19 +55,19 @@ void Graphics::createObjects(int width, int height){
 
     ps.colliderType = ColliderType::Sphere;
     ps.position = glm::vec3(0, 2, 2);
-    temp = new PhysicsObject(std::string("sphere"), NULL, std::string("../obj/newsphere.obj"), ps);
+    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/newsphere.obj"), ps);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
     PhysicsOptions cylinderPS(true, ColliderType::Cylinder, PhysicsType::Static, 0);
     cylinderPS.position = glm::vec3(3, 2, 0);
-    temp = new PhysicsObject(std::string("sphere"), NULL, std::string("../obj/newcylinder.obj"), cylinderPS);
+    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/newcylinder.obj"), cylinderPS);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
     //bottom plane
     PhysicsOptions planePS(true, ColliderType::Plane, PhysicsType::Static, 0);
-    temp = new PhysicsObject(std::string("sphere"), NULL, std::string("../obj/newtray.obj"), planePS);
+    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/newtray.obj"), planePS);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
     
@@ -192,23 +192,46 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
     }
 
     //Locate the projection matrix in the shader
-    m_projectionMatrix = m_shader->GetUniformLocation("projectionMatrix");
+    m_projectionMatrix = m_shader->GetUniformLocation("Projection");
     if (m_projectionMatrix == INVALID_UNIFORM_LOCATION){
         printf("m_projectionMatrix not found\n");
         return false;
     }
 
-    //Locate the view matrix in the shader
-    m_viewMatrix = m_shader->GetUniformLocation("viewMatrix");
-    if (m_viewMatrix == INVALID_UNIFORM_LOCATION){
-        printf("m_viewMatrix not found\n");
+    //Locate the model view matrix in the shader
+    m_modelViewMatrix = m_shader->GetUniformLocation("ModelView");
+    if (m_modelViewMatrix == INVALID_UNIFORM_LOCATION){
+        printf("m_modelViewMatrix not found\n");
         return false;
     }
 
-    //Locate the model matrix in the shader
-    m_modelMatrix = m_shader->GetUniformLocation("modelMatrix");
-    if (m_modelMatrix == INVALID_UNIFORM_LOCATION){
-        printf("m_modelMatrix not found\n");
+    m_ambientProduct = m_shader->GetUniformLocation("AmbientProduct");
+    if (m_ambientProduct == INVALID_UNIFORM_LOCATION){
+        printf("m_ambientProduct not found. Are you using a non-lighting shader?\n");
+        return false;
+    }
+
+    m_diffuseProduct = m_shader->GetUniformLocation("DiffuseProduct");
+    if (m_diffuseProduct == INVALID_UNIFORM_LOCATION){
+        printf("m_diffuseProduct not found. Are you using a non-lighting shader?\n");
+        return false;
+    }
+
+    m_specularProduct = m_shader->GetUniformLocation("SpecularProduct");
+    if (m_specularProduct == INVALID_UNIFORM_LOCATION){
+        printf("m_specularProduct not found. Are you using a non-lighting shader?\n");
+        return false;
+    }
+
+    m_lightPosition = m_shader->GetUniformLocation("LightPosition");
+    if (m_lightPosition == INVALID_UNIFORM_LOCATION){
+        printf("m_lightPosition not found. Are you using a non-lighting shader?\n");
+        return false;
+    }
+
+    m_shininess = m_shader->GetUniformLocation("Shininess");
+    if (m_shininess == INVALID_UNIFORM_LOCATION){
+        printf("m_shininess not found. Are you using a non-lighting shader?\n");
         return false;
     }
 
@@ -236,13 +259,17 @@ void Graphics::Render(){
     // Start the correct program
     m_shader->Enable();
 
-    // Send in the projection and view to the shader
+    // Send in the projection to the shader
     glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
-    glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
+    glUniform4fv(m_ambientProduct, 1, glm::value_ptr(glm::vec4(0.5, 0.5, 0.5, 1)));
+    glUniform4fv(m_diffuseProduct, 1, glm::value_ptr(glm::vec4(0.8, 0.8, 0.8, 1)));
+    glUniform4fv(m_specularProduct, 1, glm::value_ptr(glm::vec4(0.5, 0.5, 0.5, 1)));
+    glUniform4fv(m_lightPosition, 1, glm::value_ptr(m_camera->GetView() * glm::vec4(5, 10, 0, 1)));
+    glUniform1f(m_shininess, 324);
 
     // Render the objects
     for(unsigned int i = 0; i < objects.size(); ++i){
-        glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(objects[i]->GetModel()));
+        glUniformMatrix4fv(m_modelViewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView() * objects[i]->GetModel()));
         objects[i]->Render();
     }
 

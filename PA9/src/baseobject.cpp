@@ -138,7 +138,16 @@ bool BaseObject::LoadObject(const aiScene * scene, unsigned int modelIndex)
             text.y = -texture->y;
         }
 
-        Vertex v(vert, col, text);
+        glm::vec3 normal;
+        if(scene->mMeshes[modelIndex]->HasNormals())
+        {
+            aiVector3D *norm = &(scene->mMeshes[modelIndex]->mNormals[j]);
+            normal.x = norm->x;
+            normal.y = norm->y;
+            normal.z = norm->z;
+        }
+
+        Vertex v(vert, col, text, normal);
         Vertices.push_back(v);
     }
     for(unsigned int j = 0; j < scene->mMeshes[modelIndex]->mNumFaces; j++){
@@ -266,6 +275,7 @@ void BaseObject::Render(){
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
+    glEnableVertexAttribArray(3);
 
     glBindBuffer(GL_ARRAY_BUFFER, VB);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
@@ -274,6 +284,7 @@ void BaseObject::Render(){
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texture));
+    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
     glActiveTexture(GL_TEXTURE0);
 
     glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
@@ -281,6 +292,7 @@ void BaseObject::Render(){
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
     glDisableVertexAttribArray(2);
+    glDisableVertexAttribArray(3);
 }
 
 /*
