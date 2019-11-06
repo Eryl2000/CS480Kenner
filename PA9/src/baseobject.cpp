@@ -280,6 +280,14 @@ void BaseObject::decrementSpecular(){
     ks = ks - glm::vec4(.05,.05,.05,0);
 }
 
+void BaseObject::incrementDiffuse(){
+    kd = kd + glm::vec4(.05,.05,.05,0);
+}
+
+void BaseObject::decrementDiffuse(){
+    kd = kd - glm::vec4(.05,.05,.05,0);
+}
+
 /*
  * Sets an object as this object's parent which means its position and rotation
  * will be based on the parent's position and rotation.

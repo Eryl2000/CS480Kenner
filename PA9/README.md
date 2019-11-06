@@ -18,8 +18,7 @@ mkdir build
 cd build
 cmake ..
 make
-./Bullet -v ../shaders/vertexLight.vert -f ../shaders/vertexLight.frag
-./Bullet -v ../shaders/fragmentLight.vert -f ../shaders/fragmentLight.frag
+./Bullet
 ```
 
 Key | Function
@@ -33,6 +32,13 @@ Key | Function
 <kbd>Down</kbd> | Move cube down
 <kbd>Left</kbd> | Move cube left
 <kbd>Right</kbd> | Move cube right
+<kbd>R</kbd> | Diffuse Lighting Lower
+<kbd>T</kbd> | Diffuse Lighting Higher
+<kbd>B</kbd> | Ambient Lighting Lower
+<kbd>N</kbd> | Ambient Lighting Higher
+<kbd>F</kbd> | Specular Lighting Lower
+<kbd>G</kbd> | Specular Lighting Higher
+<kbd>M</kbd> | Swap Shaders(Per Vertex as Default)
 
 ## Group Members
 

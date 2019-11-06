@@ -71,6 +71,8 @@ public:
     void decrementAmbient();
     void incrementSpecular();
     void decrementSpecular();
+    void incrementDiffuse();
+    void decrementDiffuse();
 
 protected:
     virtual void DerivedUpdate(float dt) = 0;

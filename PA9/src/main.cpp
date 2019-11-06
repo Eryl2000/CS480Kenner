@@ -4,15 +4,18 @@
 
 
 int main(int argc, char **argv){
+/*
     if(argc != 5){
         printf("Usage\n\n  -v <vertexShaderFilename>\n  -f <fragmentShaderFilename>\n\nSpecify vertex and fragment shader files.\n");
         exit(1);
     }
+*/
 
     //Parse command line arguments for the specified vertex and fragment shader filepaths
     std::string vertexShader;
     std::string fragmentShader;
     std::string objectPath;
+/*
     for(int i = 1; i < argc; i += 2){
         if(std::string(argv[i]) == "-v"){
             vertexShader = std::string(argv[i + 1]);
@@ -20,6 +23,7 @@ int main(int argc, char **argv){
             fragmentShader = std::string(argv[i + 1]);
         }
     }
+*/
 
     // Start an engine and run it then cleanup after
     Engine *engine = new Engine("Solar System", 1000, 800);

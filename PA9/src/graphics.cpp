@@ -414,6 +414,14 @@ void Graphics::HandleInput(SDL_Event event){
             for(unsigned int i = 0; i < objects.size(); ++i){
                 objects[i]->decrementSpecular();
             }
+        } else if(event.key.keysym.sym == SDLK_t){
+            for(unsigned int i = 0; i < objects.size(); ++i){
+                objects[i]->incrementDiffuse();
+            }
+        } else if(event.key.keysym.sym == SDLK_r){
+            for(unsigned int i = 0; i < objects.size(); ++i){
+                objects[i]->decrementDiffuse();
+            }
         }else{
             for(unsigned int i = 0; i < objects.size(); ++i){
                 objects[i]->KeyDown(event);
