@@ -430,15 +430,7 @@ void Graphics::toggleShader(){
     m_lightPosition = m_current->GetUniformLocation("LightPosition");
 
     m_shininess = m_current->GetUniformLocation("Shininess");
-/*
-      // Locate the view matrix in the shader
-      m_modelViewMatrix = m_current->GetUniformLocation("viewMatrix");
-      if (m_modelViewMatrix == INVALID_UNIFORM_LOCATION) 
-      {
-        printf("m_viewMatrix not found\n");
-        //return;
-      }
-*/
+
 }
 
 
