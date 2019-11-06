@@ -12,6 +12,7 @@
 #include "object.h"
 #include <SDL2/SDL.h>
 #include <btBulletDynamicsCommon.h>
+#include "pointLight.h"
 
 class Engine;
 
@@ -38,6 +39,7 @@ private:
 
     Camera *m_camera;
     Shader *m_shader;
+    PointLight *m_pointLight;
 
     GLint m_projectionMatrix;
     GLint m_modelViewMatrix;

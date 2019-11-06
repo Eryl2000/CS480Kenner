@@ -37,6 +37,8 @@ Graphics::~Graphics(){
  * them into a vector
  */
 void Graphics::createObjects(int width, int height){
+    m_pointLight = new PointLight("light", NULL, glm::vec4(5, 10, 0, 1), 0.4);
+
     m_camera = new Camera(engine);
     objects.push_back(m_camera);
     if(!m_camera->Initialize(width, height)){
@@ -261,7 +263,7 @@ void Graphics::Render(){
 
     // Send in the projection to the shader
     glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
-    glUniform4fv(m_lightPosition, 1, glm::value_ptr(m_camera->GetView() * glm::vec4(5, 10, 0, 1)));
+    glUniform4fv(m_lightPosition, 1, glm::value_ptr(m_camera->GetView() * m_pointLight->lightPosition));
 
     // Render the objects
     for(unsigned int i = 0; i < objects.size(); ++i){
