@@ -220,7 +220,7 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
 
 ////////////////////////////////////////////////////////////////////////
 
-    m_current = shaderPerFrag;
+    m_current = shaderPerVert;
 
     //Locate the projection matrix in the shader
     m_projectionMatrix = m_current->GetUniformLocation("Projection");
@@ -364,7 +364,6 @@ void Graphics::HandleInput(SDL_Event event){
                 planets[i]->orbitParamVel = -orbitParamIncrease;
             }
         } else if(event.key.keysym.sym == SDLK_m){
-            std::cout<<"SWAP SHADERS"<<std::endl;
             toggleShader();
         } else{
             for(unsigned int i = 0; i < objects.size(); ++i){
@@ -408,13 +407,15 @@ void Graphics::HandleInput(SDL_Event event){
 void Graphics::toggleShader(){
     if(isVertexLighting == true)
     {
+        std::cout<<"switching to per fragment lighting"<<std::endl;
         m_current = shaderPerFrag;
-        isVertexLighting = true;
+        isVertexLighting = false;
     }
     else
     {
+        std::cout<<"switching to per vertex lighting"<<std::endl;
         m_current = shaderPerVert;
-        isVertexLighting = false;
+        isVertexLighting = true;
     }
 
     m_modelViewMatrix = m_current->GetUniformLocation("ModelView");
