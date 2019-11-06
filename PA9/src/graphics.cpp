@@ -398,7 +398,23 @@ void Graphics::HandleInput(SDL_Event event){
             }
         } else if(event.key.keysym.sym == SDLK_m){
             toggleShader();
-        } else{
+        } else if(event.key.keysym.sym == SDLK_n){
+            for(unsigned int i = 0; i < objects.size(); ++i){
+                objects[i]->incrementAmbient();
+            }
+        } else if(event.key.keysym.sym == SDLK_b){
+            for(unsigned int i = 0; i < objects.size(); ++i){
+                objects[i]->decrementAmbient();
+            }
+        } else if(event.key.keysym.sym == SDLK_g){
+            for(unsigned int i = 0; i < objects.size(); ++i){
+                objects[i]->incrementSpecular();
+            }
+        } else if(event.key.keysym.sym == SDLK_f){
+            for(unsigned int i = 0; i < objects.size(); ++i){
+                objects[i]->decrementSpecular();
+            }
+        }else{
             for(unsigned int i = 0; i < objects.size(); ++i){
                 objects[i]->KeyDown(event);
             }

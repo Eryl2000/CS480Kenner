@@ -264,6 +264,22 @@ float BaseObject::GetShininess() const{
     return shininess;
 }
 
+void BaseObject::incrementAmbient(){
+    ka = ka + glm::vec4(.05,.05,.05,0);
+}
+
+void BaseObject::decrementAmbient(){
+    ka = ka - glm::vec4(.05,.05,.05,0);
+}
+
+void BaseObject::incrementSpecular(){
+    ks = ks + glm::vec4(.05,.05,.05,0);
+}
+
+void BaseObject::decrementSpecular(){
+    ks = ks - glm::vec4(.05,.05,.05,0);
+}
+
 /*
  * Sets an object as this object's parent which means its position and rotation
  * will be based on the parent's position and rotation.

@@ -67,6 +67,11 @@ public:
     glm::vec4 GetSpecular() const;
     float GetShininess() const;
 
+    void incrementAmbient();
+    void decrementAmbient();
+    void incrementSpecular();
+    void decrementSpecular();
+
 protected:
     virtual void DerivedUpdate(float dt) = 0;
     glm::mat4 model;
@@ -91,7 +96,6 @@ private:
     bool LoadObject(std::string objectPath);
     bool LoadObject(const aiScene * scene, unsigned int modelIndex);
     void Bind();
-
     void SetTransform(glm::vec3 _position, glm::vec3 _eulerAngle, glm::vec3 _scale);
 
     std::vector<Vertex> Vertices;
