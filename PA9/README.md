@@ -1,6 +1,6 @@
-# PA8: Bullet
+# PA9: Lighting
 
-The purpose of this assignment is to become familiar with Bullet Physics, a 3D physics simulation engine. At the end of the assignment, you should be able to integrate 3D physics using Bullet into an OpenGL program with user interaction.
+The purpose of this assignment is to create multiple shaders to do per vertex lighting and per fragment lighting in OpenGL.
 
 ## Dependencies
 

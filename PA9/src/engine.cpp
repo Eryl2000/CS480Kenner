@@ -73,12 +73,12 @@ void Engine::Run(){
 
         //Fixed-rate physics update loop
         accumulator += dt;
+        m_graphics->Render();
         while(accumulator >= dt){
             m_graphics->Update(dt * timeScalar);
             accumulator -= dt;
         }
 
-        m_graphics->Render();
 
         // Swap to the Window
         m_window->Swap();

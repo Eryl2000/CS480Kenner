@@ -203,13 +203,13 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
     }
 
     //Add the vertex shader
-    if(!shaderPerFrag->AddShader(GL_VERTEX_SHADER, "../shaders/vertexLight.vert")){
+    if(!shaderPerFrag->AddShader(GL_VERTEX_SHADER, "../shaders/fragmentLight.vert")){
         printf("Vertex Shader failed to Initialize\n");
         return false;
     }
 
     //Add the fragment shader
-    if(!shaderPerFrag->AddShader(GL_FRAGMENT_SHADER, "../shaders/vertexLight.frag")){
+    if(!shaderPerFrag->AddShader(GL_FRAGMENT_SHADER, "../shaders/fragmentLight.frag")){
         printf("Fragment Shader failed to Initialize\n");
         return false;
     }
@@ -315,7 +315,7 @@ void Graphics::Render(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Start the correct program
-    shaderPerVert->Enable();
+    m_current->Enable();
 
     // Send in the projection to the shader
     glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
@@ -451,11 +451,11 @@ void Graphics::toggleShader(){
         isVertexLighting = true;
     }
 
-    m_modelMatrix = m_current->GetUniformLocation("Model");
+    m_projectionMatrix = m_current->GetUniformLocation("Projection");
 
     m_viewMatrix = m_current->GetUniformLocation("View");
 
-    m_projectionMatrix = m_current->GetUniformLocation("projectionMatrix");
+    m_modelMatrix = m_current->GetUniformLocation("Model");
 
     m_ambientProduct = m_current->GetUniformLocation("AmbientProduct");
 
