@@ -11,40 +11,62 @@ smooth out vec2 texture;
 
 // light and material properties
 uniform vec4 AmbientProduct, DiffuseProduct, SpecularProduct;
-uniform mat4 ModelView;
+uniform mat4 Model;
+uniform mat4 View;
 uniform mat4 Projection;
 uniform vec4 LightPosition;
 uniform float Shininess;
+
+uniform vec3 SpotPos;
+uniform vec3 SpotDir;
+uniform float SpotCutOff;
+
+vec4 calcLight(vec3 N, vec3 E, vec3 L);
 
 void main()
 {
     vec4 v = vec4(vPosition, 1.0);
     // Transform vertex  position into eye coordinates
-    vec3 pos = (ModelView * v).xyz;
+    vec3 pos = (Model * v).xyz;
 	
     vec3 L = normalize( LightPosition.xyz - pos );
     vec3 E = normalize( -pos );
-    vec3 H = normalize( L + E );
 
     // Transform vertex normal into eye coordinates
-    vec3 N = normalize( ModelView*vec4(vNormal, 0.0) ).xyz;
-    // Compute terms in the illumination equation
-    vec4 ambient = AmbientProduct;
+    vec3 N = normalize( Model*vec4(vNormal, 0.0) ).xyz;
 
-    float Kd = max( dot(L, N), 0.0 );
-    vec4  diffuse = Kd*DiffuseProduct;
-    float Ks = pow( max(dot(N, H), 0.0), Shininess );
-    vec4  specular = Ks * SpecularProduct;
-    if( dot(L, N) < 0.0 )
-    {
-        specular = vec4(0.0, 0.0, 0.0, 1.0);
+    color = calcLight(N, E, L);
+
+     // calculate spotlight
+    vec3 spotLightDir = normalize(SpotPos + E);
+    float spotTheta = dot(spotLightDir, normalize(-SpotDir));
+        
+    if(spotTheta > SpotCutOff) 
+    {       
+        // do lighting calculations
+        color += calcLight(N, E, spotLightDir);
     }
-    gl_Position = Projection * ModelView * v;
 
-    color = ambient + diffuse + specular;
     color.a = 1.0;
 
-    //color = vec4(0, 0, 0, 1);
+    gl_Position = Projection * View * Model * v;
 
     texture = vTexture;
+}
+
+vec4 calcLight(vec3 N, vec3 E, vec3 L)
+{
+    vec3 H = normalize( L + E );   
+    vec4 ambient = AmbientProduct;
+    float Kd = max(dot(L, N), 0.0);
+    vec4 diffuse = Kd*DiffuseProduct;
+    
+    float Ks = pow(max(dot(N, H), 0.0), Shininess);
+    vec4 specular = Ks*SpecularProduct;
+
+    // discard the specular highlight if the light's behind the vertex
+    if( dot(L, N) < 0.0 ) 
+	specular = vec4(0.0, 0.0, 0.0, 1.0);
+    
+    return ambient + diffuse + specular;
 }

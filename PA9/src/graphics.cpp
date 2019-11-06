@@ -198,10 +198,16 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
         return false;
     }
 
+    m_viewMatrix = m_shader->GetUniformLocation("View");
+    if (m_viewMatrix == INVALID_UNIFORM_LOCATION){
+        printf("m_viewMatrix not found\n");
+        return false;
+    }
+
     //Locate the model view matrix in the shader
-    m_modelViewMatrix = m_shader->GetUniformLocation("ModelView");
-    if (m_modelViewMatrix == INVALID_UNIFORM_LOCATION){
-        printf("m_modelViewMatrix not found\n");
+    m_modelMatrix = m_shader->GetUniformLocation("Model");
+    if (m_modelMatrix == INVALID_UNIFORM_LOCATION){
+        printf("m_modelMatrix not found\n");
         return false;
     }
 
@@ -235,6 +241,25 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
         return false;
     }
 
+    m_spotPosition = m_shader->GetUniformLocation("SpotPos");
+    if (m_spotPosition == INVALID_UNIFORM_LOCATION){
+        printf("m_spotPosition not found. Are you using a non-lighting shader?\n");
+        return false;
+    }
+
+    m_spotDirection = m_shader->GetUniformLocation("SpotDir");
+    if (m_spotDirection == INVALID_UNIFORM_LOCATION){
+        printf("m_spotDirection not found. Are you using a non-lighting shader?\n");
+        return false;
+    }
+
+    m_spotCutoff = m_shader->GetUniformLocation("SpotCutOff");
+    if (m_spotCutoff == INVALID_UNIFORM_LOCATION){
+        printf("m_spotCutoff not found. Are you using a non-lighting shader?\n");
+        return false;
+    }
+
+
     //enable depth testing
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -261,15 +286,21 @@ void Graphics::Render(){
 
     // Send in the projection to the shader
     glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
+    glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
     glUniform4fv(m_ambientProduct, 1, glm::value_ptr(glm::vec4(0.5, 0.5, 0.5, 1)));
     glUniform4fv(m_diffuseProduct, 1, glm::value_ptr(glm::vec4(0.8, 0.8, 0.8, 1)));
     glUniform4fv(m_specularProduct, 1, glm::value_ptr(glm::vec4(0.75, 0.75, 0.75, 1)));
-    glUniform4fv(m_lightPosition, 1, glm::value_ptr(m_camera->GetView() * glm::vec4(5, 10, 0, 1)));
+    glUniform4fv(m_lightPosition, 1, glm::value_ptr(glm::vec4(5, 20, 0, 1)));
     glUniform1f(m_shininess, 324);
+
+    glUniform3fv(m_spotPosition, 1, glm::value_ptr(glm::vec3(0, 10, 0)));
+    glUniform3fv(m_spotDirection, 1, glm::value_ptr(glm::vec3(0,-1, 0)));
+    float cutOff = glm::cos(glm::radians(2.0f));
+    glUniform1f(m_spotCutoff, cutOff);
 
     // Render the objects
     for(unsigned int i = 0; i < objects.size(); ++i){
-        glUniformMatrix4fv(m_modelViewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView() * objects[i]->GetModel()));
+        glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(objects[i]->GetModel()));
         objects[i]->Render();
     }
 

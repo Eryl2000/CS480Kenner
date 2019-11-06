@@ -40,12 +40,16 @@ private:
     Shader *m_shader;
 
     GLint m_projectionMatrix;
-    GLint m_modelViewMatrix;
+    GLint m_viewMatrix;
+    GLint m_modelMatrix;
     GLint m_ambientProduct;
     GLint m_diffuseProduct;
     GLint m_specularProduct;
     GLint m_lightPosition;
     GLint m_shininess;
+    GLint m_spotPosition;
+    GLint m_spotDirection;
+    GLint m_spotCutoff;
 
     btBroadphaseInterface *broadphase;
     btDefaultCollisionConfiguration *collisionConfiguration;
