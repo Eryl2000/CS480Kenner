@@ -67,7 +67,7 @@ void Graphics::createObjects(int width, int height){
 
     //bottom plane
     PhysicsOptions planePS(true, ColliderType::Plane, PhysicsType::Static, 0);
-    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/newtray.obj"), planePS);
+    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/newtray2.obj"), planePS);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
     
