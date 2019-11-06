@@ -23,6 +23,7 @@ public:
     void Update(double dt);
     void Render();
     void HandleInput(SDL_Event event);
+    void toggleShader();
 
     std::vector<BaseObject *> objects;
     std::vector<Planet *> planets;
@@ -31,13 +32,16 @@ public:
 
 private:
     bool harrisButton;
+    bool isVertexLighting = true;
 
     std::string ErrorString(GLenum error);
     void createObjects(int width, int height);
     std::vector<PlanetInfo> getPlanets(std::string csv_file_name);
 
     Camera *m_camera;
-    Shader *m_shader;
+    Shader *m_current;
+    Shader *shaderPerVert;
+    Shader *shaderPerFrag;
 
     GLint m_projectionMatrix;
     GLint m_modelViewMatrix;

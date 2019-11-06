@@ -166,70 +166,101 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
 
     createObjects(width, height);
 
-    //Set up the shaders
-    m_shader = new Shader();
-    if(!m_shader->Initialize()){
+    //Set up the per vertex shader
+    shaderPerVert = new Shader();
+    if(!shaderPerVert->Initialize()){
         printf("Shader Failed to Initialize\n");
         return false;
     }
 
     //Add the vertex shader
-    if(!m_shader->AddShader(GL_VERTEX_SHADER, vertexShader)){
+    if(!shaderPerVert->AddShader(GL_VERTEX_SHADER, "../shaders/vertexLight.vert")){
         printf("Vertex Shader failed to Initialize\n");
         return false;
     }
 
     //Add the fragment shader
-    if(!m_shader->AddShader(GL_FRAGMENT_SHADER, fragmentShader)){
+    if(!shaderPerVert->AddShader(GL_FRAGMENT_SHADER, "../shaders/vertexLight.frag")){
         printf("Fragment Shader failed to Initialize\n");
         return false;
     }
 
     //Connect the program
-    if(!m_shader->Finalize()){
+    if(!shaderPerVert->Finalize()){
         printf("Program to Finalize\n");
         return false;
     }
 
+////////////////////////////////////////////////////////////////////////
+
+    //Set up the per fragment shader
+    shaderPerFrag = new Shader();
+    if(!shaderPerFrag->Initialize()){
+        printf("Shader Failed to Initialize\n");
+        return false;
+    }
+
+    //Add the vertex shader
+    if(!shaderPerFrag->AddShader(GL_VERTEX_SHADER, "../shaders/vertexLight.vert")){
+        printf("Vertex Shader failed to Initialize\n");
+        return false;
+    }
+
+    //Add the fragment shader
+    if(!shaderPerFrag->AddShader(GL_FRAGMENT_SHADER, "../shaders/vertexLight.frag")){
+        printf("Fragment Shader failed to Initialize\n");
+        return false;
+    }
+
+    //Connect the program
+    if(!shaderPerFrag->Finalize()){
+        printf("Program to Finalize\n");
+        return false;
+    }
+
+////////////////////////////////////////////////////////////////////////
+
+    m_current = shaderPerFrag;
+
     //Locate the projection matrix in the shader
-    m_projectionMatrix = m_shader->GetUniformLocation("Projection");
+    m_projectionMatrix = m_current->GetUniformLocation("Projection");
     if (m_projectionMatrix == INVALID_UNIFORM_LOCATION){
         printf("m_projectionMatrix not found\n");
         return false;
     }
 
     //Locate the model view matrix in the shader
-    m_modelViewMatrix = m_shader->GetUniformLocation("ModelView");
+    m_modelViewMatrix = m_current->GetUniformLocation("ModelView");
     if (m_modelViewMatrix == INVALID_UNIFORM_LOCATION){
         printf("m_modelViewMatrix not found\n");
         return false;
     }
 
-    m_ambientProduct = m_shader->GetUniformLocation("AmbientProduct");
+    m_ambientProduct = m_current->GetUniformLocation("AmbientProduct");
     if (m_ambientProduct == INVALID_UNIFORM_LOCATION){
         printf("m_ambientProduct not found. Are you using a non-lighting shader?\n");
         return false;
     }
 
-    m_diffuseProduct = m_shader->GetUniformLocation("DiffuseProduct");
+    m_diffuseProduct = m_current->GetUniformLocation("DiffuseProduct");
     if (m_diffuseProduct == INVALID_UNIFORM_LOCATION){
         printf("m_diffuseProduct not found. Are you using a non-lighting shader?\n");
         return false;
     }
 
-    m_specularProduct = m_shader->GetUniformLocation("SpecularProduct");
+    m_specularProduct = m_current->GetUniformLocation("SpecularProduct");
     if (m_specularProduct == INVALID_UNIFORM_LOCATION){
         printf("m_specularProduct not found. Are you using a non-lighting shader?\n");
         return false;
     }
 
-    m_lightPosition = m_shader->GetUniformLocation("LightPosition");
+    m_lightPosition = m_current->GetUniformLocation("LightPosition");
     if (m_lightPosition == INVALID_UNIFORM_LOCATION){
         printf("m_lightPosition not found. Are you using a non-lighting shader?\n");
         return false;
     }
 
-    m_shininess = m_shader->GetUniformLocation("Shininess");
+    m_shininess = m_current->GetUniformLocation("Shininess");
     if (m_shininess == INVALID_UNIFORM_LOCATION){
         printf("m_shininess not found. Are you using a non-lighting shader?\n");
         return false;
@@ -257,7 +288,7 @@ void Graphics::Render(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Start the correct program
-    m_shader->Enable();
+    shaderPerVert->Enable();
 
     // Send in the projection to the shader
     glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
@@ -332,6 +363,9 @@ void Graphics::HandleInput(SDL_Event event){
             for(unsigned int i = 1; i < planets.size(); ++i){
                 planets[i]->orbitParamVel = -orbitParamIncrease;
             }
+        } else if(event.key.keysym.sym == SDLK_m){
+            std::cout<<"SWAP SHADERS"<<std::endl;
+            toggleShader();
         } else{
             for(unsigned int i = 0; i < objects.size(); ++i){
                 objects[i]->KeyDown(event);
@@ -370,3 +404,42 @@ void Graphics::HandleInput(SDL_Event event){
         }
 	}
 }
+
+void Graphics::toggleShader(){
+    if(isVertexLighting == true)
+    {
+        m_current = shaderPerFrag;
+        isVertexLighting = true;
+    }
+    else
+    {
+        m_current = shaderPerVert;
+        isVertexLighting = false;
+    }
+
+    m_modelViewMatrix = m_current->GetUniformLocation("ModelView");
+
+    m_projectionMatrix = m_current->GetUniformLocation("projectionMatrix");
+
+    m_ambientProduct = m_current->GetUniformLocation("AmbientProduct");
+
+    m_diffuseProduct = m_current->GetUniformLocation("DiffuseProduct");
+
+    m_specularProduct = m_current->GetUniformLocation("SpecularProduct");
+
+    m_lightPosition = m_current->GetUniformLocation("LightPosition");
+
+    m_shininess = m_current->GetUniformLocation("Shininess");
+/*
+      // Locate the view matrix in the shader
+      m_modelViewMatrix = m_current->GetUniformLocation("viewMatrix");
+      if (m_modelViewMatrix == INVALID_UNIFORM_LOCATION) 
+      {
+        printf("m_viewMatrix not found\n");
+        //return;
+      }
+*/
+}
+
+
+
