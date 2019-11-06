@@ -62,10 +62,19 @@ public:
     std::vector<BaseObject *> children;
 
     btRigidBody * rigidbody;
+    glm::vec4 GetAmbient() const;
+    glm::vec4 GetDiffuse() const;
+    glm::vec4 GetSpecular() const;
+    float GetShininess() const;
 
 protected:
     virtual void DerivedUpdate(float dt) = 0;
     glm::mat4 model;
+
+    glm::vec4 ka;
+    glm::vec4 kd;
+    glm::vec4 ks;
+    float shininess;
 
     bool onlyCopyParentPos;
 

@@ -21,7 +21,7 @@ void main()
     vec4 v = vec4(vPosition, 1.0);
     // Transform vertex  position into eye coordinates
     vec3 pos = (ModelView * v).xyz;
-	
+
     vec3 L = normalize( LightPosition.xyz - pos );
     vec3 E = normalize( -pos );
     vec3 H = normalize( L + E );

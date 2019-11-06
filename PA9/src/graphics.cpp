@@ -70,7 +70,7 @@ void Graphics::createObjects(int width, int height){
     temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/newtray.obj"), planePS);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
-    
+
     //left plane
     planePS.planeType = 1;
     planePS.position = glm::vec3(-7, 0, 0);
@@ -261,15 +261,15 @@ void Graphics::Render(){
 
     // Send in the projection to the shader
     glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
-    glUniform4fv(m_ambientProduct, 1, glm::value_ptr(glm::vec4(0.5, 0.5, 0.5, 1)));
-    glUniform4fv(m_diffuseProduct, 1, glm::value_ptr(glm::vec4(0.8, 0.8, 0.8, 1)));
-    glUniform4fv(m_specularProduct, 1, glm::value_ptr(glm::vec4(0.75, 0.75, 0.75, 1)));
     glUniform4fv(m_lightPosition, 1, glm::value_ptr(m_camera->GetView() * glm::vec4(5, 10, 0, 1)));
-    glUniform1f(m_shininess, 324);
 
     // Render the objects
     for(unsigned int i = 0; i < objects.size(); ++i){
         glUniformMatrix4fv(m_modelViewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView() * objects[i]->GetModel()));
+        glUniform4fv(m_ambientProduct, 1, glm::value_ptr(objects[i]->GetAmbient()));
+        glUniform4fv(m_diffuseProduct, 1, glm::value_ptr(objects[i]->GetDiffuse()));
+        glUniform4fv(m_specularProduct, 1, glm::value_ptr(objects[i]->GetSpecular()));
+        glUniform1f(m_shininess, objects[i]->GetShininess());
         objects[i]->Render();
     }
 
