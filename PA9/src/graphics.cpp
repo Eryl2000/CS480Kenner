@@ -287,13 +287,13 @@ void Graphics::Render(){
     // Send in the projection to the shader
     glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
     glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
-    glUniform4fv(m_ambientProduct, 1, glm::value_ptr(glm::vec4(0.5, 0.5, 0.5, 1)));
+    glUniform4fv(m_ambientProduct, 1, glm::value_ptr(glm::vec4(0.25, 0.25, 0.25, 1)));
     glUniform4fv(m_diffuseProduct, 1, glm::value_ptr(glm::vec4(0.8, 0.8, 0.8, 1)));
     glUniform4fv(m_specularProduct, 1, glm::value_ptr(glm::vec4(0.75, 0.75, 0.75, 1)));
-    glUniform4fv(m_lightPosition, 1, glm::value_ptr(glm::vec4(5, 20, 0, 1)));
+    glUniform4fv(m_lightPosition, 1, glm::value_ptr(glm::vec4(10, 10, 0, 1)));
     glUniform1f(m_shininess, 324);
 
-    glUniform3fv(m_spotPosition, 1, glm::value_ptr(glm::vec3(0, 10, 0)));
+    glUniform3fv(m_spotPosition, 1, glm::value_ptr(glm::vec3(0, 20, 0)));
     glUniform3fv(m_spotDirection, 1, glm::value_ptr(glm::vec3(0,-1, 0)));
     float cutOff = glm::cos(glm::radians(2.0f));
     glUniform1f(m_spotCutoff, cutOff);

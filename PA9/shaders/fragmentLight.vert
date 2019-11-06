@@ -7,8 +7,8 @@ layout (location = 2) in vec2 vTexture;
 layout (location = 3) in vec3 vNormal;
 
 // output values that will be interpolatated per-fragment
-smooth out vec3 fN;
-smooth out vec3 fE;
+out vec3 fN;
+out vec3 fE;
 out vec3 fL;
 
 smooth out vec2 texture;
@@ -24,12 +24,12 @@ void main()
 
     vec4 v = vec4(vPosition, 1.0f);
 
-    fN = (Model * vec4(vNormal, 0.0)).xyz;
-    fE = (Model * v).xyz;
+    fN = mat3(transpose(inverse(Model))) * vNormal;
+    fE = -(Model * v).xyz;
     fL = LightPosition.xyz;
     
     if( LightPosition.w != 0.0 ) {
-	    fL = LightPosition.xyz - vPosition.xyz;
+	    fL = LightPosition.xyz + fE;
     }
 
     gl_Position = Projection * View * Model * v;

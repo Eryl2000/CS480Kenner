@@ -3,9 +3,9 @@
 // fragment shader
 
 // per-fragment interpolated values from the vertex shader
-smooth in vec3 fN;
+in vec3 fN;
 in vec3 fL;
-smooth in vec3 fE;
+in vec3 fE;
 
 smooth in vec2 texture;
 
@@ -30,7 +30,7 @@ void main()
     vec3 E = normalize(fE);
     vec3 L = normalize(fL);
 
-    vec4 light_color = calcLight(N, E, L);
+    vec4 light_color = AmbientProduct + calcLight(N, E, L);
 
     // calculate spotlight
     vec3 spotLightDir = normalize(SpotPos + E);
@@ -40,6 +40,9 @@ void main()
     {       
         // do lighting calculations
         light_color += calcLight(N, E, spotLightDir);
+    } else
+    {
+        //light_color = vec4(1, 0, 0, 1);
     }
 
     light_color.a = 1.0;
@@ -51,7 +54,7 @@ void main()
 vec4 calcLight(vec3 N, vec3 E, vec3 L)
 {
     vec3 H = normalize( L + E );   
-    vec4 ambient = AmbientProduct;
+
     float Kd = max(dot(L, N), 0.0);
     vec4 diffuse = Kd*DiffuseProduct;
     
@@ -62,5 +65,5 @@ vec4 calcLight(vec3 N, vec3 E, vec3 L)
     if( dot(L, N) < 0.0 ) 
 	specular = vec4(0.0, 0.0, 0.0, 1.0);
     
-    return ambient + diffuse + specular;
+    return diffuse + specular;
 }
