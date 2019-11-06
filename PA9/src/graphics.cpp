@@ -37,6 +37,8 @@ Graphics::~Graphics(){
  * them into a vector
  */
 void Graphics::createObjects(int width, int height){
+    m_pointLight = new PointLight("light", NULL, glm::vec4(5, 10, 0, 1), 0.4);
+
     m_camera = new Camera(engine);
     objects.push_back(m_camera);
     if(!m_camera->Initialize(width, height)){
@@ -70,7 +72,7 @@ void Graphics::createObjects(int width, int height){
     temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/newtray2.obj"), planePS);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
-    
+
     //left plane
     planePS.planeType = 1;
     planePS.position = glm::vec3(-7, 0, 0);
@@ -166,94 +168,125 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
 
     createObjects(width, height);
 
-    //Set up the shaders
-    m_shader = new Shader();
-    if(!m_shader->Initialize()){
+    //Set up the per vertex shader
+    shaderPerVert = new Shader();
+    if(!shaderPerVert->Initialize()){
         printf("Shader Failed to Initialize\n");
         return false;
     }
 
     //Add the vertex shader
-    if(!m_shader->AddShader(GL_VERTEX_SHADER, vertexShader)){
+    if(!shaderPerVert->AddShader(GL_VERTEX_SHADER, "../shaders/vertexLight.vert")){
         printf("Vertex Shader failed to Initialize\n");
         return false;
     }
 
     //Add the fragment shader
-    if(!m_shader->AddShader(GL_FRAGMENT_SHADER, fragmentShader)){
+    if(!shaderPerVert->AddShader(GL_FRAGMENT_SHADER, "../shaders/vertexLight.frag")){
         printf("Fragment Shader failed to Initialize\n");
         return false;
     }
 
     //Connect the program
-    if(!m_shader->Finalize()){
+    if(!shaderPerVert->Finalize()){
         printf("Program to Finalize\n");
         return false;
     }
 
+////////////////////////////////////////////////////////////////////////
+
+    //Set up the per fragment shader
+    shaderPerFrag = new Shader();
+    if(!shaderPerFrag->Initialize()){
+        printf("Shader Failed to Initialize\n");
+        return false;
+    }
+
+    //Add the vertex shader
+    if(!shaderPerFrag->AddShader(GL_VERTEX_SHADER, "../shaders/vertexLight.vert")){
+        printf("Vertex Shader failed to Initialize\n");
+        return false;
+    }
+
+    //Add the fragment shader
+    if(!shaderPerFrag->AddShader(GL_FRAGMENT_SHADER, "../shaders/vertexLight.frag")){
+        printf("Fragment Shader failed to Initialize\n");
+        return false;
+    }
+
+    //Connect the program
+    if(!shaderPerFrag->Finalize()){
+        printf("Program to Finalize\n");
+        return false;
+    }
+
+////////////////////////////////////////////////////////////////////////
+
+    m_current = shaderPerVert;
+
     //Locate the projection matrix in the shader
-    m_projectionMatrix = m_shader->GetUniformLocation("Projection");
+    m_projectionMatrix = m_current->GetUniformLocation("Projection");
     if (m_projectionMatrix == INVALID_UNIFORM_LOCATION){
         printf("m_projectionMatrix not found\n");
         return false;
     }
 
-    m_viewMatrix = m_shader->GetUniformLocation("View");
+    m_viewMatrix = m_current->GetUniformLocation("View");
     if (m_viewMatrix == INVALID_UNIFORM_LOCATION){
         printf("m_viewMatrix not found\n");
         return false;
     }
 
     //Locate the model view matrix in the shader
-    m_modelMatrix = m_shader->GetUniformLocation("Model");
+    m_modelMatrix = m_current->GetUniformLocation("Model");
     if (m_modelMatrix == INVALID_UNIFORM_LOCATION){
         printf("m_modelMatrix not found\n");
         return false;
     }
 
-    m_ambientProduct = m_shader->GetUniformLocation("AmbientProduct");
+    m_ambientProduct = m_current->GetUniformLocation("AmbientProduct");
     if (m_ambientProduct == INVALID_UNIFORM_LOCATION){
         printf("m_ambientProduct not found. Are you using a non-lighting shader?\n");
         return false;
     }
 
-    m_diffuseProduct = m_shader->GetUniformLocation("DiffuseProduct");
+    m_diffuseProduct = m_current->GetUniformLocation("DiffuseProduct");
     if (m_diffuseProduct == INVALID_UNIFORM_LOCATION){
         printf("m_diffuseProduct not found. Are you using a non-lighting shader?\n");
         return false;
     }
 
-    m_specularProduct = m_shader->GetUniformLocation("SpecularProduct");
+    m_specularProduct = m_current->GetUniformLocation("SpecularProduct");
     if (m_specularProduct == INVALID_UNIFORM_LOCATION){
         printf("m_specularProduct not found. Are you using a non-lighting shader?\n");
         return false;
     }
 
-    m_lightPosition = m_shader->GetUniformLocation("LightPosition");
+    m_lightPosition = m_current->GetUniformLocation("LightPosition");
     if (m_lightPosition == INVALID_UNIFORM_LOCATION){
         printf("m_lightPosition not found. Are you using a non-lighting shader?\n");
         return false;
     }
 
-    m_shininess = m_shader->GetUniformLocation("Shininess");
+    m_shininess = m_current->GetUniformLocation("Shininess");
     if (m_shininess == INVALID_UNIFORM_LOCATION){
         printf("m_shininess not found. Are you using a non-lighting shader?\n");
         return false;
     }
 
-    m_spotPosition = m_shader->GetUniformLocation("SpotPos");
+    m_spotPosition = m_current->GetUniformLocation("SpotPos");
     if (m_spotPosition == INVALID_UNIFORM_LOCATION){
         printf("m_spotPosition not found. Are you using a non-lighting shader?\n");
         return false;
     }
 
-    m_spotDirection = m_shader->GetUniformLocation("SpotDir");
+    m_spotDirection = m_current->GetUniformLocation("SpotDir");
     if (m_spotDirection == INVALID_UNIFORM_LOCATION){
         printf("m_spotDirection not found. Are you using a non-lighting shader?\n");
         return false;
     }
 
-    m_spotCutoff = m_shader->GetUniformLocation("SpotCutOff");
+    m_spotCutoff = m_current->GetUniformLocation("SpotCutOff");
     if (m_spotCutoff == INVALID_UNIFORM_LOCATION){
         printf("m_spotCutoff not found. Are you using a non-lighting shader?\n");
         return false;
@@ -282,16 +315,12 @@ void Graphics::Render(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Start the correct program
-    m_shader->Enable();
+    shaderPerVert->Enable();
 
     // Send in the projection to the shader
     glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
     glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
-    glUniform4fv(m_ambientProduct, 1, glm::value_ptr(glm::vec4(0.25, 0.25, 0.25, 1)));
-    glUniform4fv(m_diffuseProduct, 1, glm::value_ptr(glm::vec4(0.8, 0.8, 0.8, 1)));
-    glUniform4fv(m_specularProduct, 1, glm::value_ptr(glm::vec4(0.75, 0.75, 0.75, 1)));
-    glUniform4fv(m_lightPosition, 1, glm::value_ptr(glm::vec4(10, 10, 0, 1)));
-    glUniform1f(m_shininess, 324);
+    glUniform4fv(m_lightPosition, 1, glm::value_ptr(m_pointLight->lightPosition));
 
     glUniform3fv(m_spotPosition, 1, glm::value_ptr(glm::vec3(0, 20, 0)));
     glUniform3fv(m_spotDirection, 1, glm::value_ptr(glm::vec3(0,-1, 0)));
@@ -301,6 +330,10 @@ void Graphics::Render(){
     // Render the objects
     for(unsigned int i = 0; i < objects.size(); ++i){
         glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(objects[i]->GetModel()));
+        glUniform4fv(m_ambientProduct, 1, glm::value_ptr(objects[i]->GetAmbient()));
+        glUniform4fv(m_diffuseProduct, 1, glm::value_ptr(objects[i]->GetDiffuse()));
+        glUniform4fv(m_specularProduct, 1, glm::value_ptr(objects[i]->GetSpecular()));
+        glUniform1f(m_shininess, objects[i]->GetShininess());
         objects[i]->Render();
     }
 
@@ -363,6 +396,8 @@ void Graphics::HandleInput(SDL_Event event){
             for(unsigned int i = 1; i < planets.size(); ++i){
                 planets[i]->orbitParamVel = -orbitParamIncrease;
             }
+        } else if(event.key.keysym.sym == SDLK_m){
+            toggleShader();
         } else{
             for(unsigned int i = 0; i < objects.size(); ++i){
                 objects[i]->KeyDown(event);
@@ -401,3 +436,44 @@ void Graphics::HandleInput(SDL_Event event){
         }
 	}
 }
+
+void Graphics::toggleShader(){
+    if(isVertexLighting == true)
+    {
+        std::cout<<"Switching to per fragment lighting"<<std::endl;
+        m_current = shaderPerFrag;
+        isVertexLighting = false;
+    }
+    else
+    {
+        std::cout<<"Switching to per vertex lighting"<<std::endl;
+        m_current = shaderPerVert;
+        isVertexLighting = true;
+    }
+
+    m_modelMatrix = m_current->GetUniformLocation("Model");
+
+    m_viewMatrix = m_current->GetUniformLocation("View");
+
+    m_projectionMatrix = m_current->GetUniformLocation("projectionMatrix");
+
+    m_ambientProduct = m_current->GetUniformLocation("AmbientProduct");
+
+    m_diffuseProduct = m_current->GetUniformLocation("DiffuseProduct");
+
+    m_specularProduct = m_current->GetUniformLocation("SpecularProduct");
+
+    m_lightPosition = m_current->GetUniformLocation("LightPosition");
+
+    m_shininess = m_current->GetUniformLocation("Shininess");
+
+    m_spotPosition = m_current->GetUniformLocation("SpotPos");
+
+    m_spotDirection = m_current->GetUniformLocation("SpotDir");
+
+    m_spotCutoff = m_current->GetUniformLocation("SpotCutOff");
+
+}
+
+
+

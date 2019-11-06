@@ -12,6 +12,7 @@
 #include "object.h"
 #include <SDL2/SDL.h>
 #include <btBulletDynamicsCommon.h>
+#include "pointLight.h"
 
 class Engine;
 
@@ -23,6 +24,7 @@ public:
     void Update(double dt);
     void Render();
     void HandleInput(SDL_Event event);
+    void toggleShader();
 
     std::vector<BaseObject *> objects;
     std::vector<Planet *> planets;
@@ -31,13 +33,18 @@ public:
 
 private:
     bool harrisButton;
+    bool isVertexLighting = true;
 
     std::string ErrorString(GLenum error);
     void createObjects(int width, int height);
     std::vector<PlanetInfo> getPlanets(std::string csv_file_name);
 
     Camera *m_camera;
+    Shader *m_current;
+    Shader *shaderPerVert;
+    Shader *shaderPerFrag;
     Shader *m_shader;
+    PointLight *m_pointLight;
 
     GLint m_projectionMatrix;
     GLint m_viewMatrix;

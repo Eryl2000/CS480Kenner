@@ -51,6 +51,11 @@ void BaseObject::Setup(BaseObject *parent_)
     position = glm::vec3(0.0);
     eulerAngle = glm::vec3(0.0, 0.0, 0.0);
     scale = glm::vec3(1.0, 1.0, 1.0);
+
+    ka = glm::vec4(0.5, 0.5, 0.5, 1);
+    kd = glm::vec4(0.8, 0.8, 0.8, 1);
+    ks = glm::vec4(0.75, 0.75, 0.75, 1);
+    shininess = 324;
 }
 
 void BaseObject::Bind()
@@ -241,6 +246,22 @@ void BaseObject::printModel() const{
 
 glm::mat4 BaseObject::GetModel(){
     return model;
+}
+
+glm::vec4 BaseObject::GetAmbient() const{
+    return ka;
+}
+
+glm::vec4 BaseObject::GetDiffuse() const{
+    return kd;
+}
+
+glm::vec4 BaseObject::GetSpecular() const{
+    return ks;
+}
+
+float BaseObject::GetShininess() const{
+    return shininess;
 }
 
 /*
