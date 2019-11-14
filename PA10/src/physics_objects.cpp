@@ -56,8 +56,8 @@ btCollisionShape * PhysicsObject::GetCollisionShape(struct PhysicsOptions physic
                 {
                     return new btStaticPlaneShape(btVector3(0.0f, 0.0f, -1.0f), 1);
                 }
-                break;  
-   
+                break;
+
         case ColliderType::Sphere:
                 return new btSphereShape(btScalar(1.0f));
                 break;
@@ -71,9 +71,8 @@ btCollisionShape * PhysicsObject::GetCollisionShape(struct PhysicsOptions physic
                 break;
 
         case ColliderType::Mesh:
-                return new btBoxShape(btVector3(1.0f, 1.0f, 1.0f));
+                return new btBvhTriangleMeshShape(objTriMesh, true);
                 break;
-
     }
     return new btBoxShape(btVector3(1.0f, 1.0f, 1.0f));
 }
