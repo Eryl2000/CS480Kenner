@@ -47,7 +47,7 @@ void Graphics::createObjects(int width, int height){
     }
 
     dynamicsWorld->addRigidBody(m_camera->rigidbody, 1, 1);
-
+/*
     BaseObject *temp;
     PhysicsOptions ps(true, ColliderType::Cube, PhysicsType::Dynamic, 0);
     ps.position = glm::vec3(0, 2, 0);
@@ -64,15 +64,44 @@ void Graphics::createObjects(int width, int height){
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
-    PhysicsOptions cylinderPS(true, ColliderType::Cylinder, PhysicsType::Static, 0);
-    cylinderPS.position = glm::vec3(3, 2, 0);
-    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/newcylinder.obj"), cylinderPS);
+*/
+
+    //right flipper
+    BaseObject *temp;
+    PhysicsOptions fr(true, ColliderType::Cube, PhysicsType::Dynamic, 0);
+    fr.position = glm::vec3(4, 0, -1);
+    temp = new Movable(std::string("checker"), NULL, std::string("../obj/flipperright.obj"), fr);
+    objects.push_back(temp);
+    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+
+    temp->rigidbody->setLinearFactor(btVector3(0,0,0));
+    temp->rigidbody->setAngularFactor(btVector3(0,2,0));
+    //left flipper
+    PhysicsOptions fl(true, ColliderType::Cube, PhysicsType::Dynamic, 0);
+    fl.position = glm::vec3(4, 0, 2);
+    temp = new Movable(std::string("checker"), NULL, std::string("../obj/flipperleft.obj"), fl);
+    objects.push_back(temp);
+    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+
+    temp->rigidbody->setLinearFactor(btVector3(0,0,0));
+    temp->rigidbody->setAngularFactor(btVector3(0,2,0));
+    //"ball"
+    PhysicsOptions ps(true, ColliderType::Cube, PhysicsType::Dynamic, 0);
+    ps.colliderType = ColliderType::Sphere;
+    ps.position = glm::vec3(0, 2, 2);
+    temp = sphere = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/newsphere.obj"), ps);
+    objects.push_back(temp);
+    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+
+
+    //bottom plane
+    PhysicsOptions planePS(true, ColliderType::Plane, PhysicsType::Static, 0);
+    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/pinballtablev2.obj"), planePS);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
     //bottom plane
-    PhysicsOptions planePS(true, ColliderType::Plane, PhysicsType::Static, 0);
-    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/newtray2.obj"), planePS);
+    temp = new PhysicsObject(std::string("checker"), NULL, std::string("../obj/objectsseparate.obj"), planePS);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
