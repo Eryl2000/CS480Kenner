@@ -21,7 +21,9 @@ uniform vec3 SpotPos;
 uniform vec3 SpotDir;
 uniform float SpotCutOff;
 
-vec4 calcLight(vec3 N, vec3 E, vec3 L);
+uniform vec3 DiffuseColor;
+
+vec4 calcLight(vec3 N, vec3 E, vec3 L, vec3 dColor);
 
 void main()
 {
@@ -35,16 +37,16 @@ void main()
     // Transform vertex normal into eye coordinates
     vec3 N = normalize( Model*vec4(vNormal, 0.0) ).xyz;
 
-    color = AmbientProduct + calcLight(N, E, L);
+    color = AmbientProduct + calcLight(N, E, L, DiffuseColor);
 
      // calculate spotlight
-    vec3 spotLightDir = normalize(SpotPos + E);
+    vec3 spotLightDir = normalize(SpotPos - pos);
     float spotTheta = dot(spotLightDir, normalize(-SpotDir));
         
     if(spotTheta > SpotCutOff) 
     {       
         // do lighting calculations
-        color += calcLight(N, E, spotLightDir);
+        color += calcLight(N, E, spotLightDir, vec3(1, 1, 1));
     }
 
     color.a = 1.0;
@@ -54,11 +56,11 @@ void main()
     texture = vTexture;
 }
 
-vec4 calcLight(vec3 N, vec3 E, vec3 L)
+vec4 calcLight(vec3 N, vec3 E, vec3 L, vec3 dColor)
 {
     vec3 H = normalize( L + E );   
     float Kd = max(dot(L, N), 0.0);
-    vec4 diffuse = Kd*DiffuseProduct;
+    vec4 diffuse = Kd*DiffuseProduct*vec4(dColor, 1);
     
     float Ks = pow(max(dot(N, H), 0.0), Shininess);
     vec4 specular = Ks*SpecularProduct;

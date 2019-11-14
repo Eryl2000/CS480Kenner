@@ -13,6 +13,7 @@
 #include <SDL2/SDL.h>
 #include <btBulletDynamicsCommon.h>
 #include "pointLight.h"
+#include "physics_object.h"
 
 class Engine;
 
@@ -45,6 +46,7 @@ private:
     Shader *shaderPerFrag;
     Shader *m_shader;
     PointLight *m_pointLight;
+    PhysicsObject * sphere;
 
     GLint m_projectionMatrix;
     GLint m_viewMatrix;
@@ -57,6 +59,7 @@ private:
     GLint m_spotPosition;
     GLint m_spotDirection;
     GLint m_spotCutoff;
+    GLint m_diffuseColor;
 
     btBroadphaseInterface *broadphase;
     btDefaultCollisionConfiguration *collisionConfiguration;

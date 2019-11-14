@@ -10,6 +10,7 @@ layout (location = 3) in vec3 vNormal;
 out vec3 fN;
 out vec3 fE;
 out vec3 fL;
+out vec3 fS;
 
 smooth out vec2 texture;
 
@@ -17,6 +18,7 @@ uniform mat4 Model;
 uniform mat4 View;
 uniform mat4 Projection;
 
+uniform vec3 SpotPos;
 uniform vec4 LightPosition;
 
 void main()
@@ -27,6 +29,7 @@ void main()
     fN = mat3(transpose(inverse(Model))) * vNormal;
     fE = -(Model * v).xyz;
     fL = LightPosition.xyz;
+    fS = SpotPos + fE;
     
     if( LightPosition.w != 0.0 ) {
 	    fL = LightPosition.xyz + fE;
