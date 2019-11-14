@@ -38,7 +38,7 @@ void main()
     color = AmbientProduct + calcLight(N, E, L);
 
      // calculate spotlight
-    vec3 spotLightDir = normalize(SpotPos + E);
+    vec3 spotLightDir = normalize(SpotPos - pos);
     float spotTheta = dot(spotLightDir, normalize(-SpotDir));
         
     if(spotTheta > SpotCutOff) 

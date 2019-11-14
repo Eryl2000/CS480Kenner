@@ -57,7 +57,7 @@ void Graphics::createObjects(int width, int height){
 
     ps.colliderType = ColliderType::Sphere;
     ps.position = glm::vec3(0, 2, 2);
-    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/newsphere.obj"), ps);
+    temp = sphere = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/newsphere.obj"), ps);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
@@ -322,9 +322,12 @@ void Graphics::Render(){
     glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
     glUniform4fv(m_lightPosition, 1, glm::value_ptr(m_pointLight->lightPosition));
 
-    glUniform3fv(m_spotPosition, 1, glm::value_ptr(glm::vec3(0, 20, 0)));
-    glUniform3fv(m_spotDirection, 1, glm::value_ptr(glm::vec3(0,-1, 0)));
-    float cutOff = glm::cos(glm::radians(2.0f));
+    // Get the position of the ball
+    glm::vec3 spherePos = sphere->GetModel()[3];
+    glm::vec3 lightPos = glm::vec3(0, 20, 0);
+    glUniform3fv(m_spotPosition, 1, glm::value_ptr(lightPos));
+    glUniform3fv(m_spotDirection, 1, glm::value_ptr(spherePos-lightPos));
+    float cutOff = glm::cos(glm::radians(3.0f));
     glUniform1f(m_spotCutoff, cutOff);
 
     // Render the objects

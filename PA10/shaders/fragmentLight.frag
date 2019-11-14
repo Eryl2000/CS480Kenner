@@ -6,6 +6,7 @@
 in vec3 fN;
 in vec3 fL;
 in vec3 fE;
+in vec3 fS;
 
 smooth in vec2 texture;
 
@@ -29,17 +30,17 @@ void main()
     vec3 N = normalize(fN);
     vec3 E = normalize(fE);
     vec3 L = normalize(fL);
+    vec3 S = normalize(fS);
 
     vec4 light_color = AmbientProduct + calcLight(N, E, L);
 
     // calculate spotlight
-    vec3 spotLightDir = normalize(SpotPos + E);
-    float spotTheta = dot(spotLightDir, normalize(-SpotDir));
+    float spotTheta = dot(S, normalize(-SpotDir));
         
     if(spotTheta > SpotCutOff) 
     {       
         // do lighting calculations
-        light_color += calcLight(N, E, spotLightDir);
+        light_color += calcLight(N, E, S);
     } else
     {
         //light_color = vec4(1, 0, 0, 1);
