@@ -55,6 +55,9 @@ void Graphics::createObjects(int width, int height){
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
+    temp->rigidbody->setLinearFactor(btVector3(0,0,0));
+    temp->rigidbody->setAngularFactor(btVector3(0,1,0));
+
     ps.colliderType = ColliderType::Sphere;
     ps.position = glm::vec3(0, 2, 2);
     temp = sphere = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/newsphere.obj"), ps);

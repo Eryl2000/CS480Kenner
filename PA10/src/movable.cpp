@@ -11,7 +11,36 @@ void Movable::DerivedUpdate(float dt)
     if(rigidbody != NULL && !rigidbody->isStaticObject())
     {
         rigidbody->activate(true);
-        rigidbody->applyCentralForce( dt * forceVect);
+        //rigidbody->applyTorque( dt * forceVect.z() * btVector3(0, 1, 0));
+
+        float x, y, z;
+        btTransform tran;
+        rigidbody->getMotionState()->getWorldTransform(tran);
+        tran.getRotation().getEulerZYX(z, y, x);
+
+        float thres = glm::radians(60.0f);
+        const float speed = 10;
+        std::cout << "Thres: " << thres << ", Y: " << y << std::endl;
+
+        if(y < -thres)
+        {
+            rigidbody->setAngularVelocity(btVector3(0, 0, 0));
+        }
+
+        if(y > -thres)
+        {
+            rigidbody->setAngularVelocity(btVector3(0, -speed / 2, 0));
+        }
+
+        if(y == thres)
+        {
+            rigidbody->setAngularVelocity(btVector3(0, 0, 0));
+        }
+
+        if(forceVect.z() > 0 && y < thres)
+        {
+            rigidbody->setAngularVelocity(btVector3(0, speed, 0));
+        }
     } else
     {
         std::cerr << "Object \"" << name << "\" does not have a rigidbody (Movable::DerivedUpdate)" << std::endl;
