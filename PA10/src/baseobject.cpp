@@ -161,6 +161,18 @@ bool BaseObject::LoadObject(const aiScene * scene, unsigned int modelIndex)
         Indices.push_back(scene->mMeshes[modelIndex]->mFaces[j].mIndices[2]);
     }
 
+    objTriMesh = new btTriangleMesh();
+    for(unsigned int j = 0; j < scene->mMeshes[modelIndex]->mNumFaces; j++){
+        btVector3 triArray[3];
+        for(unsigned int index = 0; index < 3; ++index){
+            aiFace face = scene->mMeshes[modelIndex]->mFaces[j];
+            int mIndex = face.mIndices[index];
+            aiVector3D position = scene->mMeshes[modelIndex]->mVertices[mIndex];
+            triArray[index] = btVector3(position.x, position.y, position.z);
+        }
+        objTriMesh->addTriangle(triArray[0], triArray[1], triArray[2]);
+    }
+
     return true;
 }
 
