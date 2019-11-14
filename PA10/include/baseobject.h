@@ -93,6 +93,8 @@ protected:
 
     btCollisionShape *collider;
 
+    btTriangleMesh *objTriMesh;
+
 private:
     void Setup(BaseObject *parent_);
     bool LoadObject(std::string objectPath);
