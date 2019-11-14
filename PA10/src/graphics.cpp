@@ -102,7 +102,7 @@ void Graphics::createObjects(int width, int height){
     //"ball"
     PhysicsOptions ps(true, ColliderType::Sphere, PhysicsType::Dynamic, 0);
     ps.position = glm::vec3(0, 1, 2);
-    temp = sphere = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/newsphere.obj"), ps);
+    temp = sphere = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/scaledball.obj"), ps);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
