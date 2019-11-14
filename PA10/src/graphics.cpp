@@ -49,6 +49,20 @@ void Graphics::createObjects(int width, int height){
     dynamicsWorld->addRigidBody(m_camera->rigidbody, 1, 1);
 /*
     BaseObject *temp;
+    PhysicsOptions ps(true, ColliderType::Mesh, PhysicsType::Static, 0);
+    ps.position = glm::vec3(0, 2, 0);
+    temp = new PhysicsObject(std::string("checker"), NULL, std::string("../obj/pinballtablev3.obj"), ps);
+    objects.push_back(temp);
+    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+
+    ps.colliderType = ColliderType::Sphere;
+    ps.physicsType = PhysicsType::Dynamic;
+    ps.position = glm::vec3(0, 10, 2);
+    sphere = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/newsphere.obj"), ps);
+    objects.push_back(sphere);
+    dynamicsWorld->addRigidBody(sphere->rigidbody, 1, 1);
+
+    /*BaseObject *temp;
     PhysicsOptions ps(true, ColliderType::Cube, PhysicsType::Dynamic, 0);
     ps.position = glm::vec3(0, 2, 0);
     temp = new Movable(std::string("checker"), NULL, std::string("../obj/flipperright.obj"), ps);
@@ -131,7 +145,7 @@ void Graphics::createObjects(int width, int height){
     planePS.position = glm::vec3(0, 0, 5);
     temp = new PhysicsObject(std::string("sphere"), NULL, std::string("../obj/traywall.obj"), planePS);
     objects.push_back(temp);
-    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);*/
 }
 
 /*
@@ -542,6 +556,3 @@ void Graphics::toggleShader(){
     m_diffuseColor = m_current->GetUniformLocation("DiffuseColor");
 
 }
-
-
-

@@ -1,6 +1,6 @@
-# PA9: Lighting
+# PA10: Pinball
 
-The purpose of this assignment is to create multiple shaders to do per vertex lighting and per fragment lighting in OpenGL.
+The purpose of this assignment is to create a game of pinball using Bullet for physics and Assimp for model loading/texturing.
 
 ## Dependencies
 
@@ -28,10 +28,6 @@ Key | Function
 <kbd>A</kbd> | Move left camera
 <kbd>D</kbd> | Move right camera
 <kbd>Shift</kbd> | Speed up camera
-<kbd>Up</kbd> | Move cube up
-<kbd>Down</kbd> | Move cube down
-<kbd>Left</kbd> | Move cube left
-<kbd>Right</kbd> | Move cube right
 <kbd>R</kbd> | Diffuse Lighting Lower
 <kbd>T</kbd> | Diffuse Lighting Higher
 <kbd>B</kbd> | Ambient Lighting Lower
