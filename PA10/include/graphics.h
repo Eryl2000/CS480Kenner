@@ -59,6 +59,7 @@ private:
     GLint m_spotPosition;
     GLint m_spotDirection;
     GLint m_spotCutoff;
+    GLint m_diffuseColor;
 
     btBroadphaseInterface *broadphase;
     btDefaultCollisionConfiguration *collisionConfiguration;

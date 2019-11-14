@@ -292,6 +292,12 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
         return false;
     }
 
+    m_diffuseColor = m_current->GetUniformLocation("DiffuseColor");
+    if (m_diffuseColor == INVALID_UNIFORM_LOCATION){
+        printf("m_diffuseColor not found. Are you using a non-lighting shader?\n");
+        return false;
+    }
+
 
     //enable depth testing
     glEnable(GL_DEPTH_TEST);
@@ -321,6 +327,7 @@ void Graphics::Render(){
     glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
     glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
     glUniform4fv(m_lightPosition, 1, glm::value_ptr(m_pointLight->lightPosition));
+    glUniform3fv(m_diffuseColor, 1, glm::value_ptr(glm::vec3(0, 0, 0.2)));
 
     // Get the position of the ball
     glm::vec3 spherePos = sphere->GetModel()[3];
@@ -499,6 +506,8 @@ void Graphics::toggleShader(){
     m_spotDirection = m_current->GetUniformLocation("SpotDir");
 
     m_spotCutoff = m_current->GetUniformLocation("SpotCutOff");
+
+    m_diffuseColor = m_current->GetUniformLocation("DiffuseColor");
 
 }
 
