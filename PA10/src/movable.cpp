@@ -19,8 +19,7 @@ void Movable::DerivedUpdate(float dt)
         tran.getRotation().getEulerZYX(z, y, x);
 
         float thres = glm::radians(60.0f);
-        const float speed = 10;
-        std::cout << "Thres: " << thres << ", Y: " << y << std::endl;
+        const float speed = 15;
 
         if(y < -thres)
         {

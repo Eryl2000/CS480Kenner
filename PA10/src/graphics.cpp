@@ -51,7 +51,7 @@ void Graphics::createObjects(int width, int height){
     BaseObject *temp;
     PhysicsOptions ps(true, ColliderType::Cube, PhysicsType::Dynamic, 0);
     ps.position = glm::vec3(0, 2, 0);
-    temp = new Movable(std::string("granite"), NULL, std::string("../obj/newcube.obj"), ps);
+    temp = new Movable(std::string("checker"), NULL, std::string("../obj/flipperright.obj"), ps);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
