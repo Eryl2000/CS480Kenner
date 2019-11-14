@@ -62,7 +62,7 @@ void Graphics::createObjects(int width, int height){
     objects.push_back(sphere);
     dynamicsWorld->addRigidBody(sphere->rigidbody, 1, 1);
 
-    /*BaseObject *temp;
+    BaseObject *temp;
     PhysicsOptions ps(true, ColliderType::Cube, PhysicsType::Dynamic, 0);
     ps.position = glm::vec3(0, 2, 0);
     temp = new Movable(std::string("checker"), NULL, std::string("../obj/flipperright.obj"), ps);
@@ -100,17 +100,17 @@ void Graphics::createObjects(int width, int height){
     temp->rigidbody->setLinearFactor(btVector3(0,0,0));
     temp->rigidbody->setAngularFactor(btVector3(0,2,0));
     //"ball"
-    PhysicsOptions ps(true, ColliderType::Cube, PhysicsType::Dynamic, 0);
-    ps.colliderType = ColliderType::Sphere;
-    ps.position = glm::vec3(0, 2, 2);
+    PhysicsOptions ps(true, ColliderType::Sphere, PhysicsType::Dynamic, 0);
+    ps.position = glm::vec3(0, 1, 2);
     temp = sphere = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/newsphere.obj"), ps);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
 
+    
     //bottom plane
-    PhysicsOptions planePS(true, ColliderType::Plane, PhysicsType::Static, 0);
-    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/pinballtablev2.obj"), planePS);
+    PhysicsOptions planePS(true, ColliderType::Mesh, PhysicsType::Static, 0);
+    temp = new PhysicsObject(std::string("metal-texture"), NULL, std::string("../obj/pinballtablev2.obj"), planePS);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
@@ -119,6 +119,8 @@ void Graphics::createObjects(int width, int height){
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
+
+    /*
     //left plane
     planePS.planeType = 1;
     planePS.position = glm::vec3(-7, 0, 0);
@@ -145,7 +147,8 @@ void Graphics::createObjects(int width, int height){
     planePS.position = glm::vec3(0, 0, 5);
     temp = new PhysicsObject(std::string("sphere"), NULL, std::string("../obj/traywall.obj"), planePS);
     objects.push_back(temp);
-    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);*/
+    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+    */
 }
 
 /*
@@ -210,7 +213,7 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
     dispatcher = new btCollisionDispatcher(collisionConfiguration);
     solver = new btSequentialImpulseConstraintSolver;
     dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
-    dynamicsWorld->setGravity(btVector3(0, -9.81, 0));
+    dynamicsWorld->setGravity(btVector3(5, -9.81, 0));
 
     createObjects(width, height);
 
@@ -373,7 +376,7 @@ void Graphics::Render(){
     glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
     glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
     glUniform4fv(m_lightPosition, 1, glm::value_ptr(m_pointLight->lightPosition));
-    glUniform3fv(m_diffuseColor, 1, glm::value_ptr(glm::vec3(0, 0, 0.2)));
+    glUniform3fv(m_diffuseColor, 1, glm::value_ptr(glm::vec3(0, 0, 0)));
 
     // Get the position of the ball
     glm::vec3 spherePos = sphere->GetModel()[3];
