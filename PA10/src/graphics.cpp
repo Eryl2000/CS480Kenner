@@ -129,13 +129,13 @@ void Graphics::createObjects(int width, int height){
 
     //pinball table
     PhysicsOptions table(true, ColliderType::Mesh, PhysicsType::Static, 0);
-    temp = new PhysicsObject(std::string("stars"), NULL, std::string("../obj/pinballtablev2.obj"), table);
+    temp = new PhysicsObject(std::string("stars"), NULL, std::string("../obj/testboard.obj"), table);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
     //Obstacles
     table.position = glm::vec3(0, 0, 0);
-    obstacles = new PhysicsObject(std::string("asteroid"), NULL, std::string("../obj/objects_separate_flat.obj"), table);
+    obstacles = new PhysicsObject(std::string("asteroid"), NULL, std::string("../obj/separateobjectsv3.obj"), table);
     objects.push_back(obstacles);
     dynamicsWorld->addRigidBody(obstacles->rigidbody, 1, 1);
 
