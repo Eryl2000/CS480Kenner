@@ -38,7 +38,7 @@ btCollisionShape * PhysicsObject::GetCollisionShape(struct PhysicsOptions physic
         case ColliderType::Plane:
                 if(physics.planeType == 0)
                 {
-                    return new btStaticPlaneShape(btVector3(0.0f, 1.0f, 0.0f), 1);
+                    return new btStaticPlaneShape(btVector3(0.0f, -1.0f, 0.0f), 1);
                 }
                 if(physics.planeType == 1)
                 {
@@ -59,7 +59,7 @@ btCollisionShape * PhysicsObject::GetCollisionShape(struct PhysicsOptions physic
                 break;
 
         case ColliderType::Sphere:
-                return new btSphereShape(btScalar(1.0f));
+                return new btSphereShape(btScalar(.25f));
                 break;
 
         case ColliderType::Cube:
