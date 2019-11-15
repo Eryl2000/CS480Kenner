@@ -84,7 +84,7 @@ void Engine::Run(){
         m_window->Swap();
 
         if(time_point_cast<seconds>(curTime) != time_point_cast<seconds>(prevTime)){
-            std::cout << "FPS: " << smoothedFPS << std::endl;
+            //std::cout << "FPS: " << smoothedFPS << std::endl;
         }
 
         prevTime = curTime;

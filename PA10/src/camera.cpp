@@ -5,8 +5,8 @@ Camera::Camera(Engine* _engine) : BaseObject(std::string("Camera"), NULL, std::s
     rotationVelocity = glm::vec3(0.0, 0.0, 0.0);
     positionVelocity = glm::vec3(0.0, 0.0, 0.0);
 
-    position = glm::vec3(0.0, 5.0, -10.0);
-    forward = glm::vec3(0.0, 0.0, 1.0);
+    position = glm::vec3(10.0, 7.0, 0.0);
+    forward = glm::vec3(-1.0, 0.0, 0.0);
     speedUp = 1;
     engine = _engine;
 
@@ -31,8 +31,8 @@ bool Camera::Initialize(int w, int h){
                                  float(w)/float(h), //Aspect Ratio, so Circles stay Circular
                                  0.01f, //Distance to the near plane, normally a small value like this
                                  1000.0f); //Distance to the far plane,
-    eulerAngle.x = -M_PI / 180 * 20.0;
-    eulerAngle.y = -M_PI / 180 * 34.0;
+    eulerAngle.x = -M_PI / 180 * 30.0;
+    eulerAngle.y = -M_PI / 180 * 270.0;
     return true;
 }
 
