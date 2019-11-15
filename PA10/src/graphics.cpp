@@ -139,7 +139,7 @@ void Graphics::createObjects(int width, int height){
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
     //bottom plane
-    temp = new PhysicsObject(std::string("checker"), NULL, std::string("../obj/objectsseparate.obj"), table);
+    temp = new PhysicsObject(std::string("checker"), NULL, std::string("../obj/objectsseparatev2.obj"), table);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
