@@ -35,6 +35,9 @@ Key | Function
 <kbd>F</kbd> | Specular Lighting Lower
 <kbd>G</kbd> | Specular Lighting Higher
 <kbd>M</kbd> | Swap Shaders(Per Vertex as Default)
+<kbd>Space</kbd> | Plunge ball
+<kbd>Left Arrow</kbd> | Left flipper
+<kbd>Right Arrow</kbd> | Right flipper
 <kbd>Z</kbd> | Spawn a new ball
 
 ## Group Members
