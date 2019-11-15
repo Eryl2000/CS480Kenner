@@ -52,6 +52,7 @@ private:
 
     bool wasCollidedWithObstacle;
     int score;
+    int ballNumber = 0;
 
     GLint m_projectionMatrix;
     GLint m_viewMatrix;

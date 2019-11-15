@@ -174,11 +174,19 @@ void Graphics::createObjects(int width, int height){
 void Graphics::createBall()
 {
     //ball
-    PhysicsOptions ps(true, ColliderType::Sphere, PhysicsType::Dynamic, 0);
-    ps.position = glm::vec3(3, 1, -3.25);
-    sphere = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/scaledball.obj"), ps);
-    objects.push_back(sphere);
-    dynamicsWorld->addRigidBody(sphere->rigidbody, 1, 1);
+    if(ballNumber <= 2)
+    {
+        PhysicsOptions ps(true, ColliderType::Sphere, PhysicsType::Dynamic, 0);
+        ps.position = glm::vec3(3, 1, -3.25);
+        sphere = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/scaledball.obj"), ps);
+        objects.push_back(sphere);
+        dynamicsWorld->addRigidBody(sphere->rigidbody, 1, 1);
+        ballNumber++;
+    }
+    else
+    {
+        std::cout<<"No more balls left!"<<std::endl;
+    }
 }
 
 /*
@@ -431,7 +439,7 @@ void Graphics::Render(){
     glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
     glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
     glUniform4fv(m_lightPosition, 1, glm::value_ptr(m_pointLight->lightPosition));
-    glUniform3fv(m_diffuseColor, 1, glm::value_ptr(glm::vec3(0, 0, 0)));
+    glUniform3fv(m_diffuseColor, 1, glm::value_ptr(glm::vec3(1, 0, 1)));
 
     // Get the position of the ball
     glm::vec3 spherePos = sphere->GetModel()[3];
