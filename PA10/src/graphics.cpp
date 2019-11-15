@@ -16,6 +16,8 @@ Graphics::Graphics(Engine *_engine)
     dispatcher = NULL;
     solver = NULL;
     dynamicsWorld = NULL;
+    wasCollidedWithObstacle = false;
+    score = 0;
 }
 
 Graphics::~Graphics(){
@@ -131,10 +133,11 @@ void Graphics::createObjects(int width, int height){
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
-    //bottom plane
-    temp = new PhysicsObject(std::string("checker"), NULL, std::string("../obj/objects_separate_flat.obj"), table);
-    objects.push_back(temp);
-    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+    //Obstacles
+    table.position = glm::vec3(0, 0, 0);
+    obstacles = new PhysicsObject(std::string("checker"), NULL, std::string("../obj/objects_separate_flat.obj"), table);
+    objects.push_back(obstacles);
+    dynamicsWorld->addRigidBody(obstacles->rigidbody, 1, 1);
 
 
     /*
@@ -385,6 +388,31 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
 //Updates each object in the scene
 void Graphics::Update(double dt){
     dynamicsWorld->stepSimulation(dt, 10);
+
+    bool CollidedWithObstacle = false;
+    int numManifolds = dynamicsWorld->getDispatcher()->getNumManifolds();
+    for (int i=0;i<numManifolds;i++){
+        btPersistentManifold* contactManifold =  dynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
+        const btCollisionObject* obA = (contactManifold->getBody0());
+        const btCollisionObject* obB = (contactManifold->getBody1());
+
+        /*if(obA == sphere->rigidbody && obB == obstacles->rigidbody){
+            CollidedWithObstacle = true;
+        } else if(obB == sphere->rigidbody && obA == obstacles->rigidbody){
+            CollidedWithObstacle = true;
+        }*/
+        if(obA == sphere->rigidbody && (obB == objects[2]->rigidbody || obB == objects[3]->rigidbody)){
+            CollidedWithObstacle = true;
+        } else if(obB == sphere->rigidbody && (obA == objects[2]->rigidbody || obB == objects[3]->rigidbody)){
+            CollidedWithObstacle = true;
+        }
+    }
+    if(CollidedWithObstacle && !wasCollidedWithObstacle){
+        score += 10;
+        std::cout << "Score: " << score << std::endl;
+    }
+    wasCollidedWithObstacle = CollidedWithObstacle;
+
     for(unsigned int i = 0; i < objects.size(); ++i){
         objects[i]->Update(dt);
     }

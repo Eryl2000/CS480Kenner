@@ -48,6 +48,10 @@ private:
     Shader *m_shader;
     PointLight *m_pointLight;
     PhysicsObject * sphere;
+    PhysicsObject * obstacles;
+
+    bool wasCollidedWithObstacle;
+    int score;
 
     GLint m_projectionMatrix;
     GLint m_viewMatrix;
