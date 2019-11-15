@@ -88,7 +88,7 @@ void Graphics::createObjects(int width, int height){
     BaseObject *temp;
     PhysicsOptions plunger(true, ColliderType::Mesh, PhysicsType::Dynamic, 0);
     plunger.position = glm::vec3(5, 0, -3.25);
-    temp = new Plunger(std::string("checker"), NULL, std::string("../obj/plunger.obj"), plunger, SDLK_SPACE);
+    temp = new Plunger(std::string("stars"), NULL, std::string("../obj/plunger.obj"), plunger, SDLK_SPACE);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
@@ -98,7 +98,7 @@ void Graphics::createObjects(int width, int height){
     //right flipper
     PhysicsOptions fr(true, ColliderType::Mesh, PhysicsType::Dynamic, 0);
     fr.position = glm::vec3(4, 0, -1.25);
-    temp = new Flipper(std::string("checker"), NULL, std::string("../obj/flipperright.obj"), fr, false, SDLK_RIGHT);
+    temp = new Flipper(std::string("stars"), NULL, std::string("../obj/flipperright.obj"), fr, false, SDLK_RIGHT);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
@@ -107,7 +107,7 @@ void Graphics::createObjects(int width, int height){
     //left flipper
     PhysicsOptions fl(true, ColliderType::Mesh, PhysicsType::Dynamic, 0);
     fl.position = glm::vec3(4, 0, 2.5);
-    temp = new Flipper(std::string("checker"), NULL, std::string("../obj/flipperleft.obj"), fl, true, SDLK_LEFT);
+    temp = new Flipper(std::string("stars"), NULL, std::string("../obj/flipperleft.obj"), fl, true, SDLK_LEFT);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
@@ -134,12 +134,12 @@ void Graphics::createObjects(int width, int height){
     
     //pinball table
     PhysicsOptions table(true, ColliderType::Mesh, PhysicsType::Static, 0);
-    temp = new PhysicsObject(std::string("metal-texture"), NULL, std::string("../obj/pinballtablev2.obj"), table);
+    temp = new PhysicsObject(std::string("stars"), NULL, std::string("../obj/pinballtablev2.obj"), table);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
     //bottom plane
-    temp = new PhysicsObject(std::string("checker"), NULL, std::string("../obj/objects_separate_flat.obj"), table);
+    temp = new PhysicsObject(std::string("asteroid"), NULL, std::string("../obj/objects_separate_flat.obj"), table);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 

@@ -42,7 +42,7 @@ Eryl Kenner, Kyle Brainard, Garrett Moore
 
 ## Extra Credit
 
-N/A
+Spotlight follows the ball around
 
 ## Notes
 
