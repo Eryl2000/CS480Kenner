@@ -41,7 +41,7 @@ Graphics::~Graphics(){
  * them into a vector
  */
 void Graphics::createObjects(int width, int height){
-    m_pointLight = new PointLight("light", NULL, glm::vec4(5, 10, 0, 1), 0.4);
+    m_pointLight = new PointLight("light", NULL, glm::vec4(0, 10, 0, 1), 0.4);
 
     m_camera = new Camera(engine);
     objects.push_back(m_camera);
@@ -439,7 +439,7 @@ void Graphics::Render(){
     glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
     glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
     glUniform4fv(m_lightPosition, 1, glm::value_ptr(m_pointLight->lightPosition));
-    glUniform3fv(m_diffuseColor, 1, glm::value_ptr(glm::vec3(1, 0, 1)));
+    glUniform3fv(m_diffuseColor, 1, glm::value_ptr(glm::vec3(1, 0.25f, 1)));
 
     // Get the position of the ball
     glm::vec3 spherePos = sphere->GetModel()[3];

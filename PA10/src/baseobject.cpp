@@ -55,7 +55,7 @@ void BaseObject::Setup(BaseObject *parent_)
     ka = glm::vec4(0.5, 0.5, 0.5, 1);
     kd = glm::vec4(0.8, 0.8, 0.8, 1);
     ks = glm::vec4(0.75, 0.75, 0.75, 1);
-    shininess = 324;
+    shininess = 2;
 }
 
 void BaseObject::Bind()
