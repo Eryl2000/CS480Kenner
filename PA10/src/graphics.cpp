@@ -5,6 +5,7 @@
 #include <ctime>
 #include "movable.h"
 #include "baseobject.h"
+#include "flipper.h"
 
 Graphics::Graphics(Engine *_engine)
     : engine(_engine){
@@ -82,18 +83,18 @@ void Graphics::createObjects(int width, int height){
 
     //right flipper
     BaseObject *temp;
-    PhysicsOptions fr(true, ColliderType::Cube, PhysicsType::Dynamic, 0);
+    PhysicsOptions fr(true, ColliderType::Mesh, PhysicsType::Dynamic, 0);
     fr.position = glm::vec3(4, 0, -1);
-    temp = new Movable(std::string("checker"), NULL, std::string("../obj/flipperright.obj"), fr);
+    temp = new Flipper(std::string("checker"), NULL, std::string("../obj/flipperright.obj"), fr, false, SDLK_RIGHT);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
     temp->rigidbody->setLinearFactor(btVector3(0,0,0));
     temp->rigidbody->setAngularFactor(btVector3(0,2,0));
     //left flipper
-    PhysicsOptions fl(true, ColliderType::Cube, PhysicsType::Dynamic, 0);
+    PhysicsOptions fl(true, ColliderType::Mesh, PhysicsType::Dynamic, 0);
     fl.position = glm::vec3(4, 0, 2);
-    temp = new Movable(std::string("checker"), NULL, std::string("../obj/flipperleft.obj"), fl);
+    temp = new Flipper(std::string("checker"), NULL, std::string("../obj/flipperleft.obj"), fl, true, SDLK_LEFT);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 

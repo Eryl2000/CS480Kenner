@@ -31,11 +31,6 @@ void Movable::DerivedUpdate(float dt)
             rigidbody->setAngularVelocity(btVector3(0, -speed / 2, 0));
         }
 
-        if(y == thres)
-        {
-            rigidbody->setAngularVelocity(btVector3(0, 0, 0));
-        }
-
         if(forceVect.z() > 0 && y < thres)
         {
             rigidbody->setAngularVelocity(btVector3(0, speed, 0));
