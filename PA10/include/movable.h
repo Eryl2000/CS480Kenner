@@ -1,5 +1,5 @@
 #ifndef MOVABLE_H_
-#define MOVANLE_H_
+#define MOVABLE_H_
 
 #include "physics_object.h"
 #include <btBulletDynamicsCommon.h>

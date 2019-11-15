@@ -5,6 +5,8 @@
 #include <ctime>
 #include "movable.h"
 #include "baseobject.h"
+#include "flipper.h"
+#include "plunger.h"
 
 Graphics::Graphics(Engine *_engine)
     : engine(_engine){
@@ -80,42 +82,64 @@ void Graphics::createObjects(int width, int height){
 
 */
 
-    //right flipper
+
+
+    //plunger
     BaseObject *temp;
-    PhysicsOptions fr(true, ColliderType::Cube, PhysicsType::Dynamic, 0);
-    fr.position = glm::vec3(4, 0, -1);
-    temp = new Movable(std::string("checker"), NULL, std::string("../obj/flipperright.obj"), fr);
+    PhysicsOptions plunger(true, ColliderType::Mesh, PhysicsType::Dynamic, 0);
+    plunger.position = glm::vec3(5, 0, -3.25);
+    temp = new Plunger(std::string("checker"), NULL, std::string("../obj/plunger.obj"), plunger, SDLK_SPACE);
+    objects.push_back(temp);
+    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+
+    temp->rigidbody->setGravity(btVector3(0, 0, 0));
+    temp->rigidbody->setLinearFactor(btVector3(1, 0, 0));
+
+    //right flipper
+    PhysicsOptions fr(true, ColliderType::Mesh, PhysicsType::Dynamic, 0);
+    fr.position = glm::vec3(4, 0, -1.25);
+    temp = new Flipper(std::string("checker"), NULL, std::string("../obj/flipperright.obj"), fr, false, SDLK_RIGHT);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
     temp->rigidbody->setLinearFactor(btVector3(0,0,0));
     temp->rigidbody->setAngularFactor(btVector3(0,2,0));
     //left flipper
-    PhysicsOptions fl(true, ColliderType::Cube, PhysicsType::Dynamic, 0);
-    fl.position = glm::vec3(4, 0, 2);
-    temp = new Movable(std::string("checker"), NULL, std::string("../obj/flipperleft.obj"), fl);
+    PhysicsOptions fl(true, ColliderType::Mesh, PhysicsType::Dynamic, 0);
+    fl.position = glm::vec3(4, 0, 2.5);
+    temp = new Flipper(std::string("checker"), NULL, std::string("../obj/flipperleft.obj"), fl, true, SDLK_LEFT);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
     temp->rigidbody->setLinearFactor(btVector3(0,0,0));
     temp->rigidbody->setAngularFactor(btVector3(0,2,0));
-    //"ball"
+
+    //ball
     PhysicsOptions ps(true, ColliderType::Sphere, PhysicsType::Dynamic, 0);
-    ps.position = glm::vec3(0, 1, 2);
+    ps.position = glm::vec3(3, 1, -3.25);
     temp = sphere = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/scaledball.obj"), ps);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
 
+    //glass plane
+    PhysicsOptions planePS(true, ColliderType::Plane, PhysicsType::Static, 0);
+    planePS.position = glm::vec3(0, 2, 0);
+    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/traywall.obj"), planePS);
+    objects.push_back(temp);
+    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+
+
+
     
-    //bottom plane
-    PhysicsOptions planePS(true, ColliderType::Mesh, PhysicsType::Static, 0);
-    temp = new PhysicsObject(std::string("metal-texture"), NULL, std::string("../obj/pinballtablev2.obj"), planePS);
+    //pinball table
+    PhysicsOptions table(true, ColliderType::Mesh, PhysicsType::Static, 0);
+    temp = new PhysicsObject(std::string("metal-texture"), NULL, std::string("../obj/pinballtablev2.obj"), table);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
     //bottom plane
-    temp = new PhysicsObject(std::string("checker"), NULL, std::string("../obj/objectsseparate.obj"), planePS);
+    temp = new PhysicsObject(std::string("checker"), NULL, std::string("../obj/objectsseparatev2.obj"), table);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
