@@ -35,6 +35,7 @@ Key | Function
 <kbd>F</kbd> | Specular Lighting Lower
 <kbd>G</kbd> | Specular Lighting Higher
 <kbd>M</kbd> | Swap Shaders(Per Vertex as Default)
+<kbd>Z</kbd> | Spawn a new ball
 
 ## Group Members
 
@@ -42,7 +43,8 @@ Eryl Kenner, Kyle Brainard, Garrett Moore
 
 ## Extra Credit
 
-Spotlight follows the ball around
+Spotlight follows ball
+
 
 ## Notes
 

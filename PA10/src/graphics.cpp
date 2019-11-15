@@ -114,13 +114,6 @@ void Graphics::createObjects(int width, int height){
     temp->rigidbody->setLinearFactor(btVector3(0,0,0));
     temp->rigidbody->setAngularFactor(btVector3(0,2,0));
 
-    //ball
-    PhysicsOptions ps(true, ColliderType::Sphere, PhysicsType::Dynamic, 0);
-    ps.position = glm::vec3(3, 1, -3.25);
-    temp = sphere = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/scaledball.obj"), ps);
-    objects.push_back(temp);
-    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
-
 
     //glass plane
     PhysicsOptions planePS(true, ColliderType::Plane, PhysicsType::Static, 0);
@@ -129,9 +122,9 @@ void Graphics::createObjects(int width, int height){
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
+    //ball
+    createBall();
 
-
-    
     //pinball table
     PhysicsOptions table(true, ColliderType::Mesh, PhysicsType::Static, 0);
     temp = new PhysicsObject(std::string("stars"), NULL, std::string("../obj/pinballtablev2.obj"), table);
@@ -173,6 +166,16 @@ void Graphics::createObjects(int width, int height){
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
     */
+}
+
+void Graphics::createBall()
+{
+    //ball
+    PhysicsOptions ps(true, ColliderType::Sphere, PhysicsType::Dynamic, 0);
+    ps.position = glm::vec3(3, 1, -3.25);
+    sphere = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/scaledball.obj"), ps);
+    objects.push_back(sphere);
+    dynamicsWorld->addRigidBody(sphere->rigidbody, 1, 1);
 }
 
 /*
@@ -505,6 +508,8 @@ void Graphics::HandleInput(SDL_Event event){
             for(unsigned int i = 0; i < objects.size(); ++i){
                 objects[i]->decrementDiffuse();
             }
+        } else if(event.key.keysym.sym == SDLK_z){
+                createBall();
         }else{
             for(unsigned int i = 0; i < objects.size(); ++i){
                 objects[i]->KeyDown(event);

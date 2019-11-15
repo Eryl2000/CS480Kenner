@@ -26,6 +26,7 @@ public:
     void Render();
     void HandleInput(SDL_Event event);
     void toggleShader();
+    void createBall();
 
     std::vector<BaseObject *> objects;
     std::vector<Planet *> planets;
