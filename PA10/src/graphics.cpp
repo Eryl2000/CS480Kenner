@@ -101,7 +101,7 @@ void Graphics::createObjects(int width, int height){
     temp->rigidbody->setAngularFactor(btVector3(0,2,0));
     //left flipper
     PhysicsOptions fl(true, ColliderType::Mesh, PhysicsType::Dynamic, 0);
-    fl.position = glm::vec3(4, 0, 2.25);
+    fl.position = glm::vec3(4, 0, 2.5);
     temp = new Movable(std::string("checker"), NULL, std::string("../obj/flipperleft.obj"), fl);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
