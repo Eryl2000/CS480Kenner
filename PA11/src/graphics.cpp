@@ -36,7 +36,7 @@ Graphics::~Graphics(){
  * them into a vector
  */
 void Graphics::createObjects(int width, int height){
-    m_pointLight = new PointLight("light", NULL, glm::vec4(0, 10, 0, 1), 0.4);
+    m_pointLight = new PointLight("light", NULL, glm::vec4(-5, 10, 0, 0), 0.4);
 
     m_camera = new Camera(engine);
     objects.push_back(m_camera);
@@ -49,24 +49,20 @@ void Graphics::createObjects(int width, int height){
 
     //car
     BaseObject *temp;
-    PhysicsOptions plunger(true, ColliderType::Mesh, PhysicsType::Dynamic, 0);
-    plunger.position = glm::vec3(0, 0, 0);
-    temp = new Plunger(std::string("stars"), NULL, std::string("../obj/car.obj"), plunger, SDLK_SPACE);
+    PhysicsOptions car(true, ColliderType::Cube, PhysicsType::Dynamic, 0);
+    car.position = glm::vec3(-8, 2, 0);
+    temp = sphere = new PhysicsObject(std::string("stars"), NULL, std::string("../obj/car_origin.obj"), car);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
-    temp->rigidbody->setGravity(btVector3(0, 0, 0));
-    temp->rigidbody->setLinearFactor(btVector3(1, 0, 0));
-
-    //seg faults if this line of code is gone
-    createBall();
+    temp->rigidbody->setGravity(btVector3(0, -9.8, 0));
+    temp->rigidbody->setLinearFactor(btVector3(1, 1, 1));
 
     //racetrack
-    PhysicsOptions table(true, ColliderType::Mesh, PhysicsType::Static, 0);
-    temp = new PhysicsObject(std::string("stars"), NULL, std::string("../obj/racetrack.obj"), table);
+    PhysicsOptions track(true, ColliderType::Mesh, PhysicsType::Static, 0);
+    temp = new PhysicsObject(std::string("stars"), NULL, std::string("../obj/racetrack.obj"), track);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
-    table.position = glm::vec3(0, 0, 0);
 
 }
 
@@ -340,14 +336,15 @@ void Graphics::Render(){
     glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
     glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
     glUniform4fv(m_lightPosition, 1, glm::value_ptr(m_pointLight->lightPosition));
-    glUniform3fv(m_diffuseColor, 1, glm::value_ptr(glm::vec3(1, 0.25f, 1)));
+    glUniform3fv(m_diffuseColor, 1, glm::value_ptr(glm::vec3(1, 1, 1)));
 
     // Get the position of the ball
     glm::vec3 spherePos = sphere->GetModel()[3];
-    glm::vec3 lightPos = glm::vec3(0, 20, 0);
-    glUniform3fv(m_spotPosition, 1, glm::value_ptr(lightPos));
-    glUniform3fv(m_spotDirection, 1, glm::value_ptr(spherePos-lightPos));
-    float cutOff = glm::cos(glm::radians(3.0f));
+    //std::cout << "Car pos: " << spherePos.x << ", " << spherePos.y << ", " << spherePos.z << std::endl;
+    glm::vec3 lightPos = glm::vec3(0, 0, 0);
+    glUniform3fv(m_spotPosition, 1, glm::value_ptr(lightPos + spherePos));
+    glUniform3fv(m_spotDirection, 1, glm::value_ptr(glm::vec3(0, -0.25f, 1)));
+    float cutOff = glm::cos(glm::radians(15.0f));
     glUniform1f(m_spotCutoff, cutOff);
 
     // Render the objects
