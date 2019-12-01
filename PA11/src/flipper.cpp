@@ -5,7 +5,7 @@ Flipper::Flipper(std::string _name, BaseObject *parent_, std::string objectPath,
   left(_left),
   pressThis(triggerKey),
   threshold(40.0f),
-  speed(10.0f)
+  speed(1.0f)
 {}
 
 void Flipper::DerivedUpdate(float dt)
