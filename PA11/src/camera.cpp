@@ -67,7 +67,7 @@ void Camera::DerivedUpdate(float dt){
         position = car->getPosition() + glm::vec3(0, 0.4, 0);
         forward = car->vel + glm::vec3(0, 0, 0.001);
         if(car->speed < 0){
-            forward.z *= -1;
+            forward *= -1;
         }
     }
     //Looks in the correct direction from the correct location
