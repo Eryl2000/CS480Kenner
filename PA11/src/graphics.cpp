@@ -65,18 +65,6 @@ void Graphics::createObjects(int width, int height){
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
-    //random cube
-    PhysicsOptions cube(false, ColliderType::Cube, PhysicsType::Static, 0);
-    cube.position = glm::vec3(-7.6, 0, 5);
-    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/cube.obj"), cube);
-    objects.push_back(temp);
-    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
-
-    cube.position = glm::vec3(-7.6, 0, 15);
-    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/cube.obj"), cube);
-    objects.push_back(temp);
-    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
-
 }
 
 void Graphics::createBall()
@@ -219,7 +207,7 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
 
 ////////////////////////////////////////////////////////////////////////
 
-    m_current = shaderPerVert;
+    m_current = shaderPerFrag;
 
     //Locate the projection matrix in the shader
     m_projectionMatrix = m_current->GetUniformLocation("Projection");

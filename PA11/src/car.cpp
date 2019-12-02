@@ -2,7 +2,7 @@
 
 Car::Car(std::string _name, BaseObject *parent_, std::string objectPath, struct PhysicsOptions physics)
 : PhysicsObject(_name, parent_, objectPath, physics),
-  speed(0.0f),
+  speed(0.1f),
   turn(0.0f),
   angle(0.0f)
 {
@@ -41,11 +41,11 @@ void Car::KeyDown(SDL_Event event)
 {
     if(event.key.keysym.sym == SDLK_UP)
     {
-        speed += 2;
+        speed += 1;
     }
     if(event.key.keysym.sym == SDLK_DOWN)
     {
-        speed -= 2;
+        speed -= 1;
     }
     if(event.key.keysym.sym == SDLK_LEFT)
     {

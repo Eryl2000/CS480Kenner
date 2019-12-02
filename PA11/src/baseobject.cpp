@@ -52,7 +52,7 @@ void BaseObject::Setup(BaseObject *parent_)
     eulerAngle = glm::vec3(0.0, 0.0, 0.0);
     scale = glm::vec3(1.0, 1.0, 1.0);
 
-    ka = glm::vec4(0.5, 0.5, 0.5, 1);
+    ka = glm::vec4(-0.8, -0.8, -0.8, 1);
     kd = glm::vec4(0.8, 0.8, 0.8, 1);
     ks = glm::vec4(0.75, 0.75, 0.75, 1);
     shininess = 2;

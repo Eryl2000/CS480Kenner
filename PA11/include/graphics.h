@@ -35,7 +35,7 @@ public:
 
 private:
     bool harrisButton;
-    bool isVertexLighting = true;
+    bool isVertexLighting = false;
 
     std::string ErrorString(GLenum error);
     void createObjects(int width, int height);
