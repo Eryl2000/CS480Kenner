@@ -4,7 +4,8 @@ Car::Car(std::string _name, BaseObject *parent_, std::string objectPath, struct 
 : PhysicsObject(_name, parent_, objectPath, physics),
   speed(0.1f),
   turn(0.0f),
-  angle(0.0f)
+  angle(0.0f),
+  speedChange(0.0f)
 {
 }
 
@@ -22,6 +23,7 @@ void Car::DerivedUpdate(float dt)
         float angleRadians = M_PI / 180.0f * angle;
         float diff = turn * dt;
         angle += diff;
+        speed += speedChange * dt;
         vel = glm::vec3(0, 0, speed);
         vel = glm::vec3(cos(angleRadians) * vel.x - sin(angleRadians) * vel.z,
                         0.0f,
@@ -41,11 +43,11 @@ void Car::KeyDown(SDL_Event event)
 {
     if(event.key.keysym.sym == SDLK_UP)
     {
-        speed += 1;
+        speedChange = 2;
     }
     if(event.key.keysym.sym == SDLK_DOWN)
     {
-        speed -= 1;
+        speedChange = -2;
     }
     if(event.key.keysym.sym == SDLK_LEFT)
     {
@@ -66,5 +68,13 @@ void Car::KeyUp(SDL_Event event)
     if(event.key.keysym.sym == SDLK_RIGHT)
     {
         turn = 0;
+    }
+    if(event.key.keysym.sym == SDLK_UP)
+    {
+        speedChange = 0;
+    }
+    if(event.key.keysym.sym == SDLK_DOWN)
+    {
+        speedChange = 0;
     }
 }

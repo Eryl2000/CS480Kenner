@@ -64,8 +64,8 @@ void Camera::DerivedUpdate(float dt){
     position += glm::vec3(rotatedPositionVelocity.x, positionVelocity.y, rotatedPositionVelocity.y) * speedUp * dt;
 
     if(!freeCam){
-        position = car->getPosition() + glm::vec3(car->GetModel() * glm::vec4(0, 2.5, -10, 0));
-        forward = car->vel + glm::vec3(0, 0, 0.001);
+        position = car->getPosition() + glm::vec3(car->GetModel() * glm::vec4(0, 2, -5, 0));
+        forward = car->vel;
         if(car->speed < 0){
             forward *= -1;
         }
