@@ -43,6 +43,8 @@ private:
 
     bool motionEvent = false;
     Engine* engine;
+
+    bool freeCam = false;
 };
 
 #endif /* CAMERA_H */

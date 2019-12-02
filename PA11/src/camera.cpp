@@ -63,10 +63,12 @@ void Camera::DerivedUpdate(float dt){
     glm::vec2 rotatedPositionVelocity = rotateVector(eulerAngle.y, glm::vec2(positionVelocity.x, positionVelocity.z));
     position += glm::vec3(rotatedPositionVelocity.x, positionVelocity.y, rotatedPositionVelocity.y) * speedUp * dt;
 
-    position = car->getPosition() + glm::vec3(0, 2.5, 0);
-    forward = car->vel + glm::vec3(0, 0, 0.001);
-    if(car->speed < 0){
-        forward.z *= -1;
+    if(!freeCam){
+        position = car->getPosition() + glm::vec3(0, 2.5, 0);
+        forward = car->vel + glm::vec3(0, 0, 0.001);
+        if(car->speed < 0){
+            forward.z *= -1;
+        }
     }
     //Looks in the correct direction from the correct location
     view = glm::lookAt(position, //Eye Position
@@ -155,6 +157,9 @@ void Camera::KeyUp(SDL_Event event){
             break;
         case SDLK_e:
             positionVelocity.y = 0.0;
+            break;
+        case SDLK_y:
+            freeCam = !freeCam;
             break;
         /*
         case SDLK_LEFT:
