@@ -65,6 +65,14 @@ void Graphics::createObjects(int width, int height){
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
+    /*
+    PhysicsOptions cube(true, ColliderType::Cube, PhysicsType::Static, 0);
+    cube.position = glm::vec3(-7.6, 0.5f, 5);
+    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/newcube.obj"), cube);
+    objects.push_back(temp);
+    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+    */
+
 }
 
 void Graphics::createBall()
@@ -342,10 +350,10 @@ void Graphics::Render(){
     // Get the position of the ball
     glm::vec3 spherePos = sphere->GetModel()[3];
     glm::vec3 carForward = sphere->GetModel()[2];
-    glm::vec3 lightRot = glm::vec3(0, -0.15f, 0);
+    glm::vec3 lightRot = glm::vec3(0, -0.25f, 0);
     glm::vec3 * printVec = &carForward;
     //std::cout << "Car pos: " << printVec->x << ", " << printVec->y << ", " << printVec->z << std::endl;
-    glm::vec4 lightPos = glm::vec4(0, 0, -0.5f, 0);
+    glm::vec4 lightPos = glm::vec4(0, 0.5f, -0.5f, 0);
     glUniform3fv(m_spotPosition, 1, glm::value_ptr(glm::vec4(spherePos, 1) + sphere->GetModel() * lightPos));
     glUniform3fv(m_spotDirection, 1, glm::value_ptr(lightRot + carForward));
     float cutOff = glm::cos(glm::radians(20.0f));
