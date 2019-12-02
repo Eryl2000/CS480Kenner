@@ -16,6 +16,7 @@ class Car : public PhysicsObject
         float angle;
 
     protected:
+        float speedChange;
 
 };
 
