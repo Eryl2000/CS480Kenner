@@ -37,7 +37,7 @@ Graphics::~Graphics(){
  * them into a vector
  */
 void Graphics::createObjects(int width, int height){
-    m_pointLight = new PointLight("light", NULL, glm::vec4(2, 10, 0, 0), 0.4);
+    m_pointLight = new PointLight("light", NULL, glm::vec4(2, 100, 0, 0), 0.4);
 
     m_camera = new Camera(engine);
     objects.push_back(m_camera);
@@ -46,7 +46,7 @@ void Graphics::createObjects(int width, int height){
     BaseObject *temp;
     PhysicsOptions car(true, ColliderType::Mesh, PhysicsType::Dynamic, 0);
     car.position = glm::vec3(-7.6, 0.2f, 0);
-    Car *temp_car = new Car(std::string("stars"), NULL, std::string("../obj/car.obj"), car);
+    Car *temp_car = new Car(std::string("purple"), NULL, std::string("../obj/car.obj"), car);
     temp = temp_car;
     sphere = temp_car;
     objects.push_back(temp);
@@ -345,7 +345,7 @@ void Graphics::Render(){
     glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
     glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
     glUniform4fv(m_lightPosition, 1, glm::value_ptr(m_pointLight->lightPosition));
-    glUniform3fv(m_diffuseColor, 1, glm::value_ptr(glm::vec3(0.75f, 0.75f, 0.75f)));
+    glUniform3fv(m_diffuseColor, 1, glm::value_ptr(glm::vec3(0.5f, 0.5f, 0.5f)));
 
     // Get the position of the ball
     glm::vec3 spherePos = sphere->GetModel()[3];
