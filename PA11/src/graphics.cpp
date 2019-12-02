@@ -344,10 +344,10 @@ void Graphics::Render(){
     glm::vec3 lightRot = glm::vec3(0, -0.1f, 0);
     glm::vec3 * printVec = &carForward;
     //std::cout << "Car pos: " << printVec->x << ", " << printVec->y << ", " << printVec->z << std::endl;
-    glm::vec4 lightPos = glm::vec4(0.2f, 0, -0.2f, 0);
+    glm::vec4 lightPos = glm::vec4(0, 0, -0.5f, 0);
     glUniform3fv(m_spotPosition, 1, glm::value_ptr(glm::vec4(spherePos, 1) + sphere->GetModel() * lightPos));
     glUniform3fv(m_spotDirection, 1, glm::value_ptr(lightRot + carForward));
-    float cutOff = glm::cos(glm::radians(15.0f));
+    float cutOff = glm::cos(glm::radians(20.0f));
     glUniform1f(m_spotCutoff, cutOff);
 
     // Render the objects
