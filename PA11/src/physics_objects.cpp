@@ -63,7 +63,7 @@ btCollisionShape * PhysicsObject::GetCollisionShape(struct PhysicsOptions physic
                 break;
 
         case ColliderType::Cube:
-                return new btBoxShape(btVector3(1.0f, 1.0f, 1.0f));
+                return new btBoxShape(0.2f * btVector3(1.0f, 1.0f, 1.0f));
                 break;
 
         case ColliderType::Cylinder:
