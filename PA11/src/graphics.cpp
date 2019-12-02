@@ -65,7 +65,7 @@ void Graphics::createObjects(int width, int height){
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
     PhysicsOptions cube(true, ColliderType::Cube, PhysicsType::Dynamic, 0, btVector3(-7.6, 1, 5));
-    temp = new PhysicsObject(std::string("checker"), NULL, std::string("../obj/cone.obj"), cube);
+    temp = new PhysicsObject(std::string("orange"), NULL, std::string("../obj/cone.obj"), cube);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
@@ -73,7 +73,7 @@ void Graphics::createObjects(int width, int height){
     for(int i = 0; i < 5; i++)
     {
         cube.position += btVector3(0, 0, 5);
-        temp = new PhysicsObject(std::string("checker"), NULL, std::string("../obj/cone.obj"), cube);
+        temp = new PhysicsObject(std::string("orange"), NULL, std::string("../obj/cone.obj"), cube);
         objects.push_back(temp);
         dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
     }
