@@ -1,6 +1,6 @@
-# PA10: Pinball
+# PA11: Project Halfway
 
-The purpose of this assignment is to create a game of pinball using Bullet for physics and Assimp for model loading/texturing.
+Drive your car and knock over cones
 
 ## Dependencies
 
@@ -23,22 +23,11 @@ make
 
 Key | Function
 ------------ | -------------
-<kbd>W</kbd> | Move forward camera
-<kbd>S</kbd> | Move backward camera
-<kbd>A</kbd> | Move left camera
-<kbd>D</kbd> | Move right camera
-<kbd>Shift</kbd> | Speed up camera
-<kbd>R</kbd> | Diffuse Lighting Lower
-<kbd>T</kbd> | Diffuse Lighting Higher
-<kbd>B</kbd> | Ambient Lighting Lower
-<kbd>N</kbd> | Ambient Lighting Higher
-<kbd>F</kbd> | Specular Lighting Lower
-<kbd>G</kbd> | Specular Lighting Higher
-<kbd>M</kbd> | Swap Shaders(Per Vertex as Default)
-<kbd>Space</kbd> | Plunge ball
-<kbd>Left Arrow</kbd> | Left flipper
-<kbd>Right Arrow</kbd> | Right flipper
-<kbd>Z</kbd> | Spawn a new ball
+<kbd>Up Arrow</kbd> | Accelerate
+<kbd>Down Arrow</kbd> | Deccelerate
+<kbd>Right Arrow</kbd> | Turn right
+<kbd>Left Arrow</kbd> | Turn left
+
 
 ## Group Members
 
@@ -46,7 +35,7 @@ Eryl Kenner, Kyle Brainard, Garrett Moore
 
 ## Extra Credit
 
-Spotlight follows ball
+N/A
 
 
 ## Notes
