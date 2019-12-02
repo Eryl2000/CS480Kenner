@@ -7,6 +7,7 @@
 #include "baseobject.h"
 #include "flipper.h"
 #include "plunger.h"
+#include "car.h"
 
 Graphics::Graphics(Engine *_engine)
     : engine(_engine){
@@ -40,27 +41,39 @@ void Graphics::createObjects(int width, int height){
 
     m_camera = new Camera(engine);
     objects.push_back(m_camera);
-    if(!m_camera->Initialize(width, height)){
-        printf("Camera Failed to Initialize\n");
-        exit(1);
-    }
-
-    dynamicsWorld->addRigidBody(m_camera->rigidbody, 1, 1);
 
     //car
     BaseObject *temp;
     PhysicsOptions car(true, ColliderType::Mesh, PhysicsType::Dynamic, 0);
-    car.position = glm::vec3(-8, 0.25f, 0);
-    temp = sphere = new Flipper(std::string("stars"), NULL, std::string("../obj/car.obj"), car, false, SDLK_SPACE);
+    car.position = glm::vec3(-7.6, 0.2f, 0);
+    Car *temp_car = new Car(std::string("stars"), NULL, std::string("../obj/car.obj"), car);
+    temp = temp_car;
+    sphere = temp_car;
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
-    temp->rigidbody->setGravity(btVector3(0, -9.8, 0));
-    temp->rigidbody->setLinearFactor(btVector3(1, 0, 1));
+    temp->rigidbody->setLinearFactor(btVector3(1, 0, 0));
+
+    if(!m_camera->Initialize(width, height, temp_car)){
+        printf("Camera Failed to Initialize\n");
+        exit(1);
+    }
 
     //racetrack
     PhysicsOptions track(true, ColliderType::Mesh, PhysicsType::Static, 0);
     temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/racetrack.obj"), track);
+    objects.push_back(temp);
+    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+
+    //random cube
+    PhysicsOptions cube(false, ColliderType::Cube, PhysicsType::Static, 0);
+    cube.position = glm::vec3(-7.6, 0, 5);
+    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/cube.obj"), cube);
+    objects.push_back(temp);
+    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+
+    cube.position = glm::vec3(-7.6, 0, 15);
+    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/cube.obj"), cube);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
@@ -148,7 +161,7 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
     dispatcher = new btCollisionDispatcher(collisionConfiguration);
     solver = new btSequentialImpulseConstraintSolver;
     dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
-    dynamicsWorld->setGravity(btVector3(5, -9.81, 0));
+    dynamicsWorld->setGravity(btVector3(0, -9.81, 0));
 
     createObjects(width, height);
 
@@ -341,7 +354,7 @@ void Graphics::Render(){
     // Get the position of the ball
     glm::vec3 spherePos = sphere->GetModel()[3];
     glm::vec3 carForward = sphere->GetModel()[2];
-    glm::vec3 lightRot = glm::vec3(0, -0.1f, 0);
+    glm::vec3 lightRot = glm::vec3(0, -0.15f, 0);
     glm::vec3 * printVec = &carForward;
     //std::cout << "Car pos: " << printVec->x << ", " << printVec->y << ", " << printVec->z << std::endl;
     glm::vec4 lightPos = glm::vec4(0, 0, -0.5f, 0);
