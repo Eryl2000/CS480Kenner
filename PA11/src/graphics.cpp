@@ -44,8 +44,7 @@ void Graphics::createObjects(int width, int height){
 
     //car
     BaseObject *temp;
-    PhysicsOptions car(true, ColliderType::Mesh, PhysicsType::Dynamic, 0);
-    car.position = glm::vec3(-7.6, 0.2f, 0);
+    PhysicsOptions car(true, ColliderType::Mesh, PhysicsType::Dynamic, 0, btVector3(-7.6, 0.2f, 0));
     Car *temp_car = new Car(std::string("purple"), NULL, std::string("../obj/car.obj"), car);
     temp = temp_car;
     sphere = temp_car;
@@ -60,18 +59,15 @@ void Graphics::createObjects(int width, int height){
     }
 
     //racetrack
-    PhysicsOptions track(true, ColliderType::Mesh, PhysicsType::Static, 0);
-    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/racetrack.obj"), track);
+    PhysicsOptions track_options(true, ColliderType::Mesh, PhysicsType::Static, 0, btVector3(0, 0, 0));
+    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/racetrack.obj"), track_options);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
-    /*
-    PhysicsOptions cube(true, ColliderType::Cube, PhysicsType::Static, 0);
-    cube.position = glm::vec3(-7.6, 0.5f, 5);
-    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/newcube.obj"), cube);
+    PhysicsOptions cube(true, ColliderType::Cube, PhysicsType::Dynamic, 0, btVector3(0, 1, 5));
+    temp = new PhysicsObject(std::string("checker"), NULL, std::string("../obj/cone.obj"), cube);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
-    */
 
 }
 
@@ -81,8 +77,7 @@ void Graphics::createBall()
     //ball
     if(ballNumber <= 2)
     {
-        PhysicsOptions ps(true, ColliderType::Sphere, PhysicsType::Dynamic, 0);
-        ps.position = glm::vec3(3, 1, -3.25);
+        PhysicsOptions ps(true, ColliderType::Sphere, PhysicsType::Dynamic, 0, btVector3(3, 1, -3.25));
         sphere = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/scaledball.obj"), ps);
         objects.push_back(sphere);
         dynamicsWorld->addRigidBody(sphere->rigidbody, 1, 1);

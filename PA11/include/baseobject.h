@@ -20,10 +20,10 @@ struct PhysicsOptions{
       {}
 
 
-    PhysicsOptions(bool _hasPhysics, ColliderType _colliderType, PhysicsType _physicType, int _planeType)
-    : hasPhysics(_hasPhysics), colliderType(_colliderType), physicsType(_physicType), planeType(_planeType) {}
+    PhysicsOptions(bool _hasPhysics, ColliderType _colliderType, PhysicsType _physicType, int _planeType, btVector3 _position)
+    : hasPhysics(_hasPhysics), colliderType(_colliderType), physicsType(_physicType), planeType(_planeType), position(_position) {}
     int planeType;
-    glm::vec3 position;
+    btVector3 position;
     bool hasPhysics;
     ColliderType colliderType;
     PhysicsType physicsType;

@@ -5,7 +5,7 @@ PhysicsObject::PhysicsObject(std::string _name, BaseObject *parent_, std::string
     : BaseObject(_name, parent_, objectFile, false){
     collider = GetCollisionShape(physics);
     btDefaultMotionState *shapeMotionState = NULL;
-    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(physics.position.x, physics.position.y, physics.position.z)));
+    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), physics.position));
 
 
     const float defaultMass = 1;
