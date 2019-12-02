@@ -6,7 +6,7 @@ Camera::Camera(Engine* _engine) : BaseObject(std::string("Camera"), NULL, std::s
     positionVelocity = glm::vec3(0.0, 0.0, 0.0);
 
     position = glm::vec3(10.0, 7.0, 0.0);
-    forward = glm::vec3(-1.0, 0.0, 0.0);
+    forward = glm::vec3(0.0, 0.0, 1.0);
     speedUp = 1;
     engine = _engine;
 
@@ -20,9 +20,10 @@ Camera::Camera(Engine* _engine) : BaseObject(std::string("Camera"), NULL, std::s
     rigidbody = new btRigidBody(shapeRigidBodyCI);
 }
 
-bool Camera::Initialize(int w, int h){
+bool Camera::Initialize(int w, int h, Car *_car){
     width = w;
     height = h;
+    car = _car;
     view = glm::lookAt( position, //Eye Position
                         position + glm::vec3(0.0, 0.0, 10.0), //Focus point
                         glm::vec3(0.0, 1.0, 0.0)); //Positive Y is up
@@ -31,8 +32,8 @@ bool Camera::Initialize(int w, int h){
                                  float(w)/float(h), //Aspect Ratio, so Circles stay Circular
                                  0.01f, //Distance to the near plane, normally a small value like this
                                  1000.0f); //Distance to the far plane,
-    eulerAngle.x = -M_PI / 180 * 30.0;
-    eulerAngle.y = -M_PI / 180 * 270.0;
+    eulerAngle.x = -M_PI / 180 * 20.0;
+    eulerAngle.y = -M_PI / 180 * 0.0;
     return true;
 }
 
@@ -62,6 +63,11 @@ void Camera::DerivedUpdate(float dt){
     glm::vec2 rotatedPositionVelocity = rotateVector(eulerAngle.y, glm::vec2(positionVelocity.x, positionVelocity.z));
     position += glm::vec3(rotatedPositionVelocity.x, positionVelocity.y, rotatedPositionVelocity.y) * speedUp * dt;
 
+    position = car->getPosition() + glm::vec3(0, 2.5, 0);
+    forward = car->vel + glm::vec3(0, 0, 0.001);
+    if(car->speed < 0){
+        forward.z *= -1;
+    }
     //Looks in the correct direction from the correct location
     view = glm::lookAt(position, //Eye Position
                        position + forward, //Focus point

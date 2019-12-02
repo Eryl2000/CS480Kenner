@@ -384,7 +384,13 @@ void BaseObject::SetTransform(glm::vec3 _position, glm::vec3 _eulerAngle, glm::v
 }
 
 glm::vec3 BaseObject::getPosition() const{
-    return position;
+    glm::vec3 pos;
+    for(int i = 0; i < 3; ++i){
+        //std::cout << model[3][i] << " ";
+        pos[i] = model[3][i];
+    }
+    //std::cout << std::endl;
+    return pos;
 }
 
 glm::vec3 BaseObject::getEulerAngle() const{

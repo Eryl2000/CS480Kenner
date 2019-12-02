@@ -7,6 +7,7 @@
 #include "baseobject.h"
 #include "flipper.h"
 #include "plunger.h"
+#include "car.h"
 
 Graphics::Graphics(Engine *_engine)
     : engine(_engine){
@@ -40,23 +41,24 @@ void Graphics::createObjects(int width, int height){
 
     m_camera = new Camera(engine);
     objects.push_back(m_camera);
-    if(!m_camera->Initialize(width, height)){
-        printf("Camera Failed to Initialize\n");
-        exit(1);
-    }
-
-    dynamicsWorld->addRigidBody(m_camera->rigidbody, 1, 1);
 
     //car
     BaseObject *temp;
-    PhysicsOptions plunger(true, ColliderType::Mesh, PhysicsType::Dynamic, 0);
-    plunger.position = glm::vec3(0, 0, 0);
-    temp = new Plunger(std::string("stars"), NULL, std::string("../obj/car.obj"), plunger, SDLK_SPACE);
+    PhysicsOptions car(true, ColliderType::Mesh, PhysicsType::Dynamic, 0);
+    car.position = glm::vec3(-7.6, -1, 0);
+    Car *temp_car = new Car(std::string("stars"), NULL, std::string("../obj/cube.obj"), car);
+    temp = temp_car;
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
     temp->rigidbody->setGravity(btVector3(0, 0, 0));
     temp->rigidbody->setLinearFactor(btVector3(1, 0, 0));
+
+    if(!m_camera->Initialize(width, height, temp_car)){
+        printf("Camera Failed to Initialize\n");
+        exit(1);
+    }
+    //dynamicsWorld->addRigidBody(m_camera->rigidbody, 1, 1);
 
     //seg faults if this line of code is gone
     createBall();

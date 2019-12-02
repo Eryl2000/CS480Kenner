@@ -5,11 +5,12 @@
 #include "baseobject.h"
 #include "engine.h"
 #include "graphics_headers.h"
+#include "car.h"
 
 class Camera : public BaseObject{
 public:
     Camera(Engine* _engine);
-    bool Initialize(int w, int h);
+    bool Initialize(int w, int h, Car *_car);
     void DerivedUpdate(float dt);
 
     glm::mat4 GetProjection();
@@ -24,6 +25,8 @@ public:
 
 private:
     glm::vec2 rotateVector(float angleRadians, glm::vec2 original) const;
+
+    Car *car;
 
     glm::mat4 projection;
     glm::mat4 view;
