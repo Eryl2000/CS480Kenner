@@ -21,9 +21,11 @@ Object::Object(std::string _name, BaseObject *parent_, const aiScene * scene, un
 }
 
 void Object::DerivedUpdate(float dt){
+    /*
     position += positionVelocity * dt;
     eulerAngle.y += dt * 2 * M_PI * rotationVelocity.y;
     scale += scaleVelocity * dt;
+    */
 }
 
 

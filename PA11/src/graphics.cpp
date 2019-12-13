@@ -74,9 +74,10 @@ void Graphics::createObjects(int width, int height){
     for(int i = 0; i < 5; i++)
     {
         cube.position += btVector3(0, 0, 5);
-        temp = new PhysicsObject(std::string("orange"), NULL, std::string("../obj/cone.obj"), cube);
+        temp = new PhysicsObject(std::string("orange"), NULL, std::string("../obj/cone_with_material.obj"), cube);
         objects.push_back(temp);
         dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+        temp->AddChildren(objects);
     }
 
 }
@@ -483,6 +484,7 @@ void Graphics::HandleInput(SDL_Event event){
 	}
 }
 
+// Deprecated: per vertex lighting doesn't have the correct uniform variables
 void Graphics::toggleShader(){
     if(isVertexLighting == true)
     {

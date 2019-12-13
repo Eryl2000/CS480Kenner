@@ -37,6 +37,7 @@ public:
     void Update(float dt);
     void SyncBullet();
     void Render();
+    void AddChildren(std::vector<BaseObject*> & objs);
 
     glm::mat4 GetModel();
     void printModel() const;
