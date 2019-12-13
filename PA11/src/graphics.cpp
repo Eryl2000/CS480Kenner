@@ -74,19 +74,44 @@ void Graphics::createObjects(int width, int height){
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
-    PhysicsOptions cube(true, ColliderType::Cube, PhysicsType::Dynamic, 0, btVector3(-7.6, 1, 5));
-    //temp = new PhysicsObject(std::string("orange"), NULL, std::string("../obj/cone.obj"), cube);
-    //objects.push_back(temp);
-    //dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
-
-    btVector3 conePositions[] = {btVector3(-7.6, 1, 5), btVector3(-7.6, 1, 10), btVector3(-8, 1, 15), btVector3(-8.6, 1, 20), btVector3(-8.6, 1, 25)};
-    for(int i = 0; i < 5; i++)
+    /*btVector3 conePositions[] = {btVector3(12, 0.15, 75),
+                                 btVector3(16, 0.15, 75),
+                                 btVector3(20, 0.15, 75),
+                                 btVector3(24, 0.15, 75),
+                                 btVector3(28, 0.15, 75)};*/
+    std::vector<btVector3> conePositions = {btVector3(170, 0.15, 125),
+                                            btVector3(170, 0.15, 130),
+                                            btVector3(170, 0.15, 135),
+                                            btVector3(170, 0.15, 140),
+                                            btVector3(170, 0.15, 145),
+                                            btVector3(220, 0.15, 125),
+                                            btVector3(220, 0.15, 130),
+                                            btVector3(220, 0.15, 135),
+                                            btVector3(220, 0.15, 140),
+                                            btVector3(220, 0.15, 145),
+                                            btVector3(270, 0.15, 125),
+                                            btVector3(270, 0.15, 130),
+                                            btVector3(270, 0.15, 135),
+                                            btVector3(270, 0.15, 140),
+                                            btVector3(270, 0.15, 145),
+                                            btVector3(320, 0.15, 125),
+                                            btVector3(320, 0.15, 130),
+                                            btVector3(320, 0.15, 135),
+                                            btVector3(320, 0.15, 140),
+                                            btVector3(320, 0.15, 145),
+                                            btVector3(370, 0.15, 125),
+                                            btVector3(370, 0.15, 130),
+                                            btVector3(370, 0.15, 135),
+                                            btVector3(370, 0.15, 140),
+                                            btVector3(370, 0.15, 145)};
+    PhysicsOptions conePhysics(true, ColliderType::Cube, PhysicsType::Dynamic, 0, conePositions[0]);
+    for(unsigned int i = 0; i < conePositions.size(); i++)
     {
-        cube.position = conePositions[i];
-        Cone *c = new Cone(std::string("orange"), NULL, std::string("../obj/cone_with_material.obj"), cube);
+        conePhysics.position = conePositions[i];
+        Cone *c = new Cone(std::string("orange"), NULL, std::string("../obj/cone_with_material.obj"), conePhysics);
         cones[c->rigidbody] = c;
         temp = c;
-        objects.push_back(temp);
+        objects.push_back(c);
         dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
         temp->AddChildren(objects);
     }
@@ -368,7 +393,7 @@ void Graphics::Render(){
     const glm::vec3 sky = glm::vec3(0.89, 0.16, 0.09f);
     const glm::vec3 night = glm::vec3(0.0, 0.0, 0.1f);
     glm::vec3 skyBoxColor = day ? sky : night;
-    
+
     glClearColor(skyBoxColor.x, skyBoxColor.y, skyBoxColor.z, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -390,7 +415,7 @@ void Graphics::Render(){
     glm::vec3 spherePos = sphere->GetModel()[3];
     glm::vec3 carForward = sphere->GetModel()[2];
     glm::vec3 lightRot = glm::vec3(0, -0.25f, 0);
-    glm::vec3 * printVec = &carForward;
+    //glm::vec3 * printVec = &carForward;
     //std::cout << "Car pos: " << printVec->x << ", " << printVec->y << ", " << printVec->z << std::endl;
     glm::vec4 lightPos = glm::vec4(0, 0.5f, -0.5f, 0);
     glUniform3fv(m_spotPosition, 1, glm::value_ptr(glm::vec4(spherePos, 1) + sphere->GetModel() * lightPos));
@@ -437,9 +462,6 @@ std::string Graphics::ErrorString(GLenum error){
  * for each object in the scene
  */
 void Graphics::HandleInput(SDL_Event event){
-
-    const float orbitParamIncrease = 2;
-
     if(event.type == SDL_QUIT){
         engine->running = false;
 	} else if (event.type == SDL_KEYDOWN){

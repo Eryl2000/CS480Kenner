@@ -2,7 +2,7 @@
 
 Car::Car(std::string _name, BaseObject *parent_, std::string objectPath, struct PhysicsOptions physics)
 : PhysicsObject(_name, parent_, objectPath, physics),
-  speed(0.1f),
+  speed(50.0f),
   turn(0.0f),
   angle(0.0f),
   speedChange(0.0f)
@@ -15,10 +15,10 @@ void Car::DerivedUpdate(float dt)
     {
         rigidbody->activate(true);
 
-        btTransform tran;
-        rigidbody->getMotionState()->getWorldTransform(tran);
+        //btTransform tran;
+        //rigidbody->getMotionState()->getWorldTransform(tran);
         //btVector3 pos = tran.getOrigin();
-
+        //std::cout << pos[0] << ", " << pos[1] << ", " << pos[2] << std::endl;
 
         float angleRadians = M_PI / 180.0f * angle;
         float diff = turn * dt;

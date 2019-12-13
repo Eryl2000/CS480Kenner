@@ -41,7 +41,7 @@ void main()
 
     if(PointLightEnabled)
     {
-        light_color = AmbientProduct + calcLight(N, E, L, DiffuseColor, 1);
+        light_color = AmbientProduct + calcLight(N, E, L, DiffuseColor, 0);
     } else
     {
         light_color = NightAmbient;
