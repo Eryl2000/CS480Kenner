@@ -2,6 +2,7 @@
 #define GRAPHICS_H
 
 #include <iostream>
+#include <bits/stdc++.h>
 #include <string.h>
 #include <vector>
 #include "graphics_headers.h"
@@ -14,6 +15,7 @@
 #include <btBulletDynamicsCommon.h>
 #include "pointLight.h"
 #include "physics_object.h"
+#include "cone.h"
 
 class Engine;
 
@@ -29,6 +31,7 @@ public:
     void createBall();
 
     std::vector<BaseObject *> objects;
+    std::unordered_map<const btCollisionObject *, Cone *> cones;
     std::vector<Planet *> planets;
     SDL_Window* gWindow;
     Engine *engine;
