@@ -8,6 +8,7 @@
 #include "flipper.h"
 #include "plunger.h"
 #include "car.h"
+#include "cone.h"
 
 Graphics::Graphics(Engine *_engine)
     : engine(_engine){
@@ -61,20 +62,30 @@ void Graphics::createObjects(int width, int height){
 
     //racetrack
     PhysicsOptions track_options(true, ColliderType::Mesh, PhysicsType::Static, 0, btVector3(0, 0, 0));
-    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/racetrackbetter.obj"), track_options);
+    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/track_bottom.obj"), track_options);
+    objects.push_back(temp);
+    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+
+    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/track_fence_inside.obj"), track_options);
+    objects.push_back(temp);
+    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+
+    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/track_fence_outside.obj"), track_options);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
     PhysicsOptions cube(true, ColliderType::Cube, PhysicsType::Dynamic, 0, btVector3(-7.6, 1, 5));
-    temp = new PhysicsObject(std::string("orange"), NULL, std::string("../obj/cone.obj"), cube);
-    objects.push_back(temp);
-    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+    //temp = new PhysicsObject(std::string("orange"), NULL, std::string("../obj/cone.obj"), cube);
+    //objects.push_back(temp);
+    //dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
-
+    btVector3 conePositions[] = {btVector3(-7.6, 1, 5), btVector3(-7.6, 1, 10), btVector3(-8, 1, 15), btVector3(-8.6, 1, 20), btVector3(-8.6, 1, 25)};
     for(int i = 0; i < 5; i++)
     {
-        cube.position += btVector3(0, 0, 5);
-        temp = new PhysicsObject(std::string("orange"), NULL, std::string("../obj/cone_with_material.obj"), cube);
+        cube.position = conePositions[i];
+        Cone *c = new Cone(std::string("orange"), NULL, std::string("../obj/cone_with_material.obj"), cube);
+        cones[c->rigidbody] = c;
+        temp = c;
         objects.push_back(temp);
         dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
         temp->AddChildren(objects);
@@ -320,31 +331,31 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
 //Updates each object in the scene
 void Graphics::Update(double dt){
     dynamicsWorld->stepSimulation(dt, 10);
-
-    bool CollidedWithObstacle = false;
     int numManifolds = dynamicsWorld->getDispatcher()->getNumManifolds();
-    for (int i=0;i<numManifolds;i++){
-        btPersistentManifold* contactManifold =  dynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
+    for (int i = 0;i < numManifolds;i++){
+        btPersistentManifold* contactManifold = dynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
         const btCollisionObject* obA = (contactManifold->getBody0());
         const btCollisionObject* obB = (contactManifold->getBody1());
 
-        /*if(obA == sphere->rigidbody && obB == obstacles->rigidbody){
-            CollidedWithObstacle = true;
-        } else if(obB == sphere->rigidbody && obA == obstacles->rigidbody){
-            CollidedWithObstacle = true;
-        }*/
-        if(obA == sphere->rigidbody && (obB == objects[2]->rigidbody || obB == objects[3]->rigidbody)){
-            CollidedWithObstacle = true;
-        } else if(obB == sphere->rigidbody && (obA == objects[2]->rigidbody || obB == objects[3]->rigidbody)){
-            CollidedWithObstacle = true;
+        if(obA == sphere->rigidbody){
+            auto iter = cones.find(obB);
+            if(iter != cones.end()){
+                iter->second->isDead = true;
+                cones.erase(iter);
+                score++;
+                std::cout << "Score: " << score << std::endl;
+            }
+        }
+        if(obB == sphere->rigidbody){
+            auto iter = cones.find(obA);
+            if(iter != cones.end()){
+                iter->second->isDead = true;
+                cones.erase(iter);
+                score++;
+                std::cout << "Score: " << score << std::endl;
+            }
         }
     }
-    if(CollidedWithObstacle && !wasCollidedWithObstacle){
-        score += 10;
-        std::cout << "Score: " << score << std::endl;
-    }
-    wasCollidedWithObstacle = CollidedWithObstacle;
-
     for(unsigned int i = 0; i < objects.size(); ++i){
         objects[i]->Update(dt);
     }
@@ -368,8 +379,8 @@ void Graphics::Render(){
     glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
     glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
     glUniform4fv(m_lightPosition, 1, glm::value_ptr(m_pointLight->lightPosition));
-    const glm::vec3 diffuseColor = glm::vec3(0.5f, 0.5f, 0.5f);
-    const float skyBoxDiffuse = 0.5;
+    const glm::vec3 diffuseColor = 0.75f * glm::vec3(1, 1, 1);
+    const float skyBoxDiffuse = 0.3;
     const glm::vec4 skyDiffuseColor = glm::vec4((1 - skyBoxDiffuse) * diffuseColor + skyBoxDiffuse * skyBoxColor, 1.0);
     glUniform3fv(m_diffuseColor, 1, glm::value_ptr(skyDiffuseColor));
     glUniform4fv(m_nightLighting, 1, glm::value_ptr(glm::vec4(0.15, 0.15, 0.15, 1)));
