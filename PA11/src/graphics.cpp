@@ -20,6 +20,7 @@ Graphics::Graphics(Engine *_engine)
     dynamicsWorld = NULL;
     wasCollidedWithObstacle = false;
     score = 0;
+    IsDay = true;
 }
 
 Graphics::~Graphics(){
@@ -61,7 +62,15 @@ void Graphics::createObjects(int width, int height){
 
     //racetrack
     PhysicsOptions track_options(true, ColliderType::Mesh, PhysicsType::Static, 0, btVector3(0, 0, 0));
-    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/racetrack.obj"), track_options);
+    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/track_bottom.obj"), track_options);
+    objects.push_back(temp);
+    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+
+    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/track_fence_inside.obj"), track_options);
+    objects.push_back(temp);
+    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+
+    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/track_fence_outside.obj"), track_options);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
@@ -298,6 +307,18 @@ bool Graphics::Initialize(int width, int height, std::string vertexShader, std::
         return false;
     }
 
+    m_lightEnabled = m_current->GetUniformLocation("PointLightEnabled");
+    if (m_lightEnabled == INVALID_UNIFORM_LOCATION){
+        printf("m_lightEnabled not found. Are you using a non-lighting shader?\n");
+        return false;
+    }
+
+    m_nightLighting = m_current->GetUniformLocation("NightAmbient");
+    if (m_nightLighting == INVALID_UNIFORM_LOCATION){
+        printf("m_nightLighting not found. Are you using a non-lighting shader?\n");
+        return false;
+    }
+
 
     //enable depth testing
     glEnable(GL_DEPTH_TEST);
@@ -341,8 +362,13 @@ void Graphics::Update(double dt){
 
 //Renders a single image to the screen
 void Graphics::Render(){
-    //clear the screen
-    glClearColor(0.0, 0.0, 0.1f, 1.0);
+
+    const bool day = IsDay;
+    const glm::vec3 sky = glm::vec3(0.89, 0.16, 0.09f);
+    const glm::vec3 night = glm::vec3(0.0, 0.0, 0.1f);
+    glm::vec3 skyBoxColor = day ? sky : night;
+    
+    glClearColor(skyBoxColor.x, skyBoxColor.y, skyBoxColor.z, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Start the correct program
@@ -352,7 +378,12 @@ void Graphics::Render(){
     glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
     glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
     glUniform4fv(m_lightPosition, 1, glm::value_ptr(m_pointLight->lightPosition));
-    glUniform3fv(m_diffuseColor, 1, glm::value_ptr(glm::vec3(0.5f, 0.5f, 0.5f)));
+    const glm::vec3 diffuseColor = glm::vec3(0.5f, 0.5f, 0.5f);
+    const float skyBoxDiffuse = 0.5;
+    const glm::vec4 skyDiffuseColor = glm::vec4((1 - skyBoxDiffuse) * diffuseColor + skyBoxDiffuse * skyBoxColor, 1.0);
+    glUniform3fv(m_diffuseColor, 1, glm::value_ptr(skyDiffuseColor));
+    glUniform4fv(m_nightLighting, 1, glm::value_ptr(glm::vec4(0.15, 0.15, 0.15, 1)));
+    glUniform1f(m_lightEnabled, day);
 
     // Get the position of the ball
     glm::vec3 spherePos = sphere->GetModel()[3];
@@ -427,56 +458,17 @@ void Graphics::HandleInput(SDL_Event event){
             for(unsigned int i = 1; i < objects.size(); ++i){
                 objects[i]->HarrisButton(harrisButton);
             }
-        } else if(event.key.keysym.sym == SDLK_i){
-            for(unsigned int i = 1; i < planets.size(); ++i){
-                planets[i]->orbitParamVel = orbitParamIncrease;
-            }
-        } else if(event.key.keysym.sym == SDLK_k){
-            for(unsigned int i = 1; i < planets.size(); ++i){
-                planets[i]->orbitParamVel = -orbitParamIncrease;
-            }
-        } else if(event.key.keysym.sym == SDLK_m){
-            toggleShader();
-        } else if(event.key.keysym.sym == SDLK_n){
-            for(unsigned int i = 0; i < objects.size(); ++i){
-                objects[i]->incrementAmbient();
-            }
-        } else if(event.key.keysym.sym == SDLK_b){
-            for(unsigned int i = 0; i < objects.size(); ++i){
-                objects[i]->decrementAmbient();
-            }
-        } else if(event.key.keysym.sym == SDLK_g){
-            for(unsigned int i = 0; i < objects.size(); ++i){
-                objects[i]->incrementSpecular();
-            }
-        } else if(event.key.keysym.sym == SDLK_f){
-            for(unsigned int i = 0; i < objects.size(); ++i){
-                objects[i]->decrementSpecular();
-            }
-        } else if(event.key.keysym.sym == SDLK_t){
-            for(unsigned int i = 0; i < objects.size(); ++i){
-                objects[i]->incrementDiffuse();
-            }
-        } else if(event.key.keysym.sym == SDLK_r){
-            for(unsigned int i = 0; i < objects.size(); ++i){
-                objects[i]->decrementDiffuse();
-            }
-        } else if(event.key.keysym.sym == SDLK_z){
-                createBall();
+        } else if(event.key.keysym.sym == SDLK_x) {
+                IsDay = !IsDay;
         }else{
             for(unsigned int i = 0; i < objects.size(); ++i){
                 objects[i]->KeyDown(event);
             }
         }
 	} else if (event.type == SDL_KEYUP){
-        if(event.key.keysym.sym == SDLK_i){
-            for(unsigned int i = 1; i < planets.size(); ++i){
-                planets[i]->orbitParamVel = 0;
-            }
-        } else if(event.key.keysym.sym == SDLK_k){
-            for(unsigned int i = 1; i < planets.size(); ++i){
-                planets[i]->orbitParamVel = 0;
-            }
+        if(false)
+        {
+            // nothing so far
         } else {
             for(unsigned int i = 0; i < objects.size(); ++i){
                 objects[i]->KeyUp(event);

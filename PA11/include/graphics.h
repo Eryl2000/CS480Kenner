@@ -35,6 +35,7 @@ public:
     std::vector<Planet *> planets;
     SDL_Window* gWindow;
     Engine *engine;
+    bool IsDay;
 
 private:
     bool harrisButton;
@@ -69,6 +70,8 @@ private:
     GLint m_spotDirection;
     GLint m_spotCutoff;
     GLint m_diffuseColor;
+    GLint m_lightEnabled;
+    GLint m_nightLighting;
 
     btBroadphaseInterface *broadphase;
     btDefaultCollisionConfiguration *collisionConfiguration;
