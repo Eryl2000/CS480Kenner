@@ -27,6 +27,7 @@ Key | Function
 <kbd>Down Arrow</kbd> | Deccelerate
 <kbd>Right Arrow</kbd> | Turn right
 <kbd>Left Arrow</kbd> | Turn left
+<kbd>X</kbd> | Switch day/night
 
 
 ## Group Members

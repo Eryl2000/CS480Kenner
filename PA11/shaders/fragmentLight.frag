@@ -21,6 +21,9 @@ uniform vec3 SpotPos;
 uniform vec3 SpotDir;
 uniform float SpotCutOff;
 
+uniform bool PointLightEnabled;
+uniform vec4 NightAmbient;
+
 uniform sampler2D sampler;
 
 vec4 calcLight(vec3 N, vec3 E, vec3 L, vec3 dColor);
@@ -34,7 +37,15 @@ void main()
     vec3 L = normalize(fL);
     vec3 S = normalize(fS);
 
-    vec4 light_color = AmbientProduct + calcLight(N, E, L, DiffuseColor);
+    vec4 light_color;
+    
+    if(PointLightEnabled)
+    {
+        light_color = AmbientProduct + calcLight(N, E, L, DiffuseColor);
+    } else
+    {
+        light_color = NightAmbient;
+    }
 
     // calculate spotlight
     float spotTheta = dot(S, normalize(-SpotDir));
