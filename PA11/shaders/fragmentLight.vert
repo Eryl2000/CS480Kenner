@@ -1,6 +1,6 @@
 #version 330
 
-// vertex shader 
+// vertex shader
 layout (location = 0) in vec3 vPosition;
 layout (location = 1) in vec3 vColor;
 layout (location = 2) in vec2 vTexture;
@@ -30,7 +30,7 @@ void main()
     fE = -(Model * v).xyz;
     fL = LightPosition.xyz;
     fS = SpotPos + fE;
-    
+
     if( LightPosition.w != 0.0 ) {
 	    fL = LightPosition.xyz + fE;
     }
