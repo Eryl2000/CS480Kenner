@@ -60,7 +60,7 @@ void Graphics::createObjects(int width, int height){
 
     //racetrack
     PhysicsOptions track_options(true, ColliderType::Mesh, PhysicsType::Static, 0, btVector3(0, 0, 0));
-    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/racetrack.obj"), track_options);
+    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/racetrackbetter.obj"), track_options);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
