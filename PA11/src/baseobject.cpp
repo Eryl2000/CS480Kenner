@@ -6,6 +6,7 @@
 #include <assimp/scene.h> //includes the aiScene object
 #include <assimp/postprocess.h> //includes the postprocessing variables for the importer
 #include <assimp/color4.h> //includes the aiColor4 object, which is used to handle the colors from the mesh objects
+#include <assimp/material.h>
 #include "object.h"
 
 
@@ -103,6 +104,22 @@ bool BaseObject::LoadObject(const aiScene * scene, unsigned int modelIndex)
     }
 
     const aiMaterial* pMaterial = scene->mMaterials[scene->mMeshes[modelIndex]->mMaterialIndex];
+    if(pMaterial != NULL)
+    {
+        aiColor3D color (0.f,0.f,0.f);
+        pMaterial->Get(AI_MATKEY_COLOR_AMBIENT, color);
+        ka = glm::vec4(color.r, color.b, color.g, 1);
+
+        pMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, color);
+        kd = glm::vec4(color.r, color.b, color.g, 1);
+
+        pMaterial->Get(AI_MATKEY_COLOR_SPECULAR, color);
+        ks = glm::vec4(color.r, color.b, color.g, 1);
+
+        float sh;
+        pMaterial->Get(AI_MATKEY_SHININESS, sh);
+        shininess = sh;
+    }
 
     if (pMaterial->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
         aiString Path;
@@ -220,8 +237,22 @@ void BaseObject::HarrisButton(bool _harrisButton){
  */
 void BaseObject::Update(float dt){
     DerivedUpdate(dt);
-    SyncBullet();
-    //SetTransform(position, eulerAngle, scale);
+    if(parent != NULL)
+    {
+        model = parent->model;
+    }
+    else
+    {
+        SyncBullet();
+    }
+}
+
+void BaseObject::AddChildren(std::vector<BaseObject*> & objs)
+{
+    for(BaseObject * child : children)
+    {
+        objs.push_back(child);
+    }
 }
 
 void BaseObject::SyncBullet()

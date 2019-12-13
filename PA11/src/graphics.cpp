@@ -83,11 +83,12 @@ void Graphics::createObjects(int width, int height){
     for(int i = 0; i < 5; i++)
     {
         cube.position = conePositions[i];
-        Cone *c = new Cone(std::string("orange"), NULL, std::string("../obj/cone.obj"), cube);
+        Cone *c = new Cone(std::string("orange"), NULL, std::string("../obj/cone_with_material.obj"), cube);
         cones[c->rigidbody] = c;
         temp = c;
         objects.push_back(temp);
         dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+        temp->AddChildren(objects);
     }
 
 }
@@ -378,8 +379,8 @@ void Graphics::Render(){
     glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
     glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
     glUniform4fv(m_lightPosition, 1, glm::value_ptr(m_pointLight->lightPosition));
-    const glm::vec3 diffuseColor = glm::vec3(0.5f, 0.5f, 0.5f);
-    const float skyBoxDiffuse = 0.5;
+    const glm::vec3 diffuseColor = 0.75f * glm::vec3(1, 1, 1);
+    const float skyBoxDiffuse = 0.3;
     const glm::vec4 skyDiffuseColor = glm::vec4((1 - skyBoxDiffuse) * diffuseColor + skyBoxDiffuse * skyBoxColor, 1.0);
     glUniform3fv(m_diffuseColor, 1, glm::value_ptr(skyDiffuseColor));
     glUniform4fv(m_nightLighting, 1, glm::value_ptr(glm::vec4(0.15, 0.15, 0.15, 1)));
@@ -494,6 +495,7 @@ void Graphics::HandleInput(SDL_Event event){
 	}
 }
 
+// Deprecated: per vertex lighting doesn't have the correct uniform variables
 void Graphics::toggleShader(){
     if(isVertexLighting == true)
     {
