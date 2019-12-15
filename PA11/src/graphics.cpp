@@ -39,7 +39,7 @@ Graphics::~Graphics(){
  * them into a vector
  */
 void Graphics::createObjects(int width, int height){
-    m_pointLight = new PointLight("light", NULL, glm::vec4(2, 100, 0, 0), 0.4);
+    m_pointLight = new PointLight("light", NULL, glm::vec4(50, 100, 25, 0), 0.4);
 
     m_camera = new Camera(engine);
     objects.push_back(m_camera);
@@ -404,7 +404,7 @@ void Graphics::Render(){
     glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
     glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
     glUniform4fv(m_lightPosition, 1, glm::value_ptr(m_pointLight->lightPosition));
-    const glm::vec3 diffuseColor = 0.75f * glm::vec3(1, 1, 1);
+    const glm::vec3 diffuseColor = 0.9f * glm::vec3(1, 1, 1);
     const float skyBoxDiffuse = 0.3;
     const glm::vec4 skyDiffuseColor = glm::vec4((1 - skyBoxDiffuse) * diffuseColor + skyBoxDiffuse * skyBoxColor, 1.0);
     glUniform3fv(m_diffuseColor, 1, glm::value_ptr(skyDiffuseColor));
@@ -417,7 +417,7 @@ void Graphics::Render(){
     glm::vec3 lightRot = glm::vec3(0, -0.25f, 0);
     //glm::vec3 * printVec = &carForward;
     //std::cout << "Car pos: " << printVec->x << ", " << printVec->y << ", " << printVec->z << std::endl;
-    glm::vec4 lightPos = glm::vec4(0, 0.5f, -0.5f, 0);
+    glm::vec4 lightPos = glm::vec4(0, 0.5f, -0.3f, 0);
     glUniform3fv(m_spotPosition, 1, glm::value_ptr(glm::vec4(spherePos, 1) + sphere->GetModel() * lightPos));
     glUniform3fv(m_spotDirection, 1, glm::value_ptr(lightRot + carForward));
     float cutOff = glm::cos(glm::radians(20.0f));

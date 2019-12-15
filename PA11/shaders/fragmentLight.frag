@@ -71,7 +71,11 @@ vec4 calcLight(vec3 N, vec3 E, vec3 L, vec3 dColor, float dist)
 
     float Kd = max(dot(L, N), 0.0);
     vec4 diffuse = Kd*DiffuseProduct*vec4(dColor, 1);
-    diffuse = pow(1.0 / (dist + 1), 2) * diffuse;
+
+    if(dist != 0)
+    {
+        diffuse = pow(1.0 / (dist + 1), 2) * diffuse;
+    }
 
     float Ks = pow(max(dot(N, H), 0.0), Shininess);
     vec4 specular = Ks*SpecularProduct;
@@ -80,7 +84,10 @@ vec4 calcLight(vec3 N, vec3 E, vec3 L, vec3 dColor, float dist)
     if( dot(L, N) < 0.0 )
 	specular = vec4(0.0, 0.0, 0.0, 1.0);
 
-    specular = pow(1.0 / (dist + 1), 2) * specular;
+    if(dist != 0)
+    {
+        specular = pow(1.0 / (dist + 1), 2) * specular;
+    }
 
     return diffuse + specular;
 }

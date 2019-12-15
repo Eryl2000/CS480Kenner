@@ -53,7 +53,7 @@ void BaseObject::Setup(BaseObject *parent_)
     eulerAngle = glm::vec3(0.0, 0.0, 0.0);
     scale = glm::vec3(1.0, 1.0, 1.0);
 
-    ka = glm::vec4(0, 0, 0, 1);
+    ka = glm::vec4(0.2, 0.2, 0.2, 1);
     kd = glm::vec4(0.8, 0.8, 0.8, 1);
     ks = glm::vec4(0.75, 0.75, 0.75, 1);
     shininess = 2;
@@ -108,7 +108,11 @@ bool BaseObject::LoadObject(const aiScene * scene, unsigned int modelIndex)
     {
         aiColor3D color (0.f,0.f,0.f);
         pMaterial->Get(AI_MATKEY_COLOR_AMBIENT, color);
-        ka = glm::vec4(color.r, color.b, color.g, 1);
+
+        if(!color.IsBlack())
+        {
+            ka = glm::vec4(color.r, color.b, color.g, 1);
+        }
 
         pMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, color);
         kd = glm::vec4(color.r, color.b, color.g, 1);

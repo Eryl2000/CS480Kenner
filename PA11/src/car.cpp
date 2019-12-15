@@ -2,7 +2,7 @@
 
 Car::Car(std::string _name, BaseObject *parent_, std::string objectPath, struct PhysicsOptions physics)
 : PhysicsObject(_name, parent_, objectPath, physics),
-  speed(50.0f),
+  speed(10.0f),
   turn(0.0f),
   angle(0.0f),
   speedChange(0.0f)
