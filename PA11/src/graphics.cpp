@@ -71,7 +71,11 @@ void Graphics::createObjects(int width, int height){
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
-    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/track_fence_outside.obj"), track_options);
+    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/inside_fence_collider.obj"), track_options);
+    objects.push_back(temp);
+    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+
+    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/outside_fence_collider.obj"), track_options);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
