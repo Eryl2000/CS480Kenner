@@ -76,6 +76,8 @@ public:
     void incrementDiffuse();
     void decrementDiffuse();
 
+    bool doNotRender;
+
 protected:
     virtual void DerivedUpdate(float dt) = 0;
     glm::mat4 model;
@@ -113,7 +115,6 @@ private:
     Magick::Blob blob;
 
     GLuint texture;
-    const bool doNotRender;
     bool harrisButton;
 };
 
