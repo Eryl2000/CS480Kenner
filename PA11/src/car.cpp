@@ -15,11 +15,6 @@ void Car::DerivedUpdate(float dt)
     {
         rigidbody->activate(true);
 
-        //btTransform tran;
-        //rigidbody->getMotionState()->getWorldTransform(tran);
-        //btVector3 pos = tran.getOrigin();
-        //std::cout << pos[0] << ", " << pos[1] << ", " << pos[2] << std::endl;
-
         float angleRadians = M_PI / 180.0f * angle;
         float diff = turn * dt;
         angle += diff;
@@ -82,6 +77,13 @@ void Car::KeyDown(SDL_Event event)
     if(event.key.keysym.sym == SDLK_RIGHT)
     {
         turn = 90;
+    }
+    if(event.key.keysym.sym == SDLK_SPACE)
+    {
+        btTransform tran;
+        rigidbody->getMotionState()->getWorldTransform(tran);
+        btVector3 pos = tran.getOrigin();
+        std::cout << pos[0] << ", " << pos[1] << ", " << pos[2] << std::endl;
     }
 }
 
