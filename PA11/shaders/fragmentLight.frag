@@ -50,7 +50,7 @@ void main()
     // calculate spotlight
     float spotTheta = dot(S, normalize(-SpotDir));
 
-    if(spotTheta > SpotCutOff)
+    if(spotTheta > SpotCutOff && !PointLightEnabled)
     {
         // do lighting calculations
         light_color += calcLight(N, E, S, vec3(30, 30, 33), length(fS));
@@ -67,6 +67,7 @@ void main()
 
 vec4 calcLight(vec3 N, vec3 E, vec3 L, vec3 dColor, float dist)
 {
+    const float dropOff = 1.1;
     vec3 H = normalize( L + E );
 
     float Kd = max(dot(L, N), 0.0);
@@ -74,7 +75,7 @@ vec4 calcLight(vec3 N, vec3 E, vec3 L, vec3 dColor, float dist)
 
     if(dist != 0)
     {
-        diffuse = pow(1.0 / (dist + 1), 2) * diffuse;
+        diffuse = pow(1.0 / (dist + 1), dropOff) * diffuse;
     }
 
     float Ks = pow(max(dot(N, H), 0.0), Shininess);
@@ -86,7 +87,7 @@ vec4 calcLight(vec3 N, vec3 E, vec3 L, vec3 dColor, float dist)
 
     if(dist != 0)
     {
-        specular = pow(1.0 / (dist + 1), 2) * specular;
+        specular = pow(1.0 / (dist + 1), dropOff) * specular;
     }
 
     return diffuse + specular;

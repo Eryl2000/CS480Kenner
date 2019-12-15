@@ -9,7 +9,7 @@
 #include <Magick++.h>
 #include <btBulletDynamicsCommon.h>
 
-enum class ColliderType {None, Plane, Sphere, Cube, Cylinder, Mesh};
+enum class ColliderType {None, Plane, Sphere, Cube, CarCube, Cylinder, Mesh};
 enum class PhysicsType {Static, Kinematic, Dynamic};
 
 struct PhysicsOptions{
