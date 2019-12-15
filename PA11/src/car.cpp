@@ -61,7 +61,7 @@ void Car::DerivedUpdate(float dt)
 
 void Car::KeyDown(SDL_Event event)
 {
-    const int acceleration = 5;
+    const int acceleration = 10;
     if(event.key.keysym.sym == SDLK_UP)
     {
         speedChange = acceleration;

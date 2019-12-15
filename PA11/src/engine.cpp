@@ -86,7 +86,7 @@ void Engine::Run(){
 
             if(reportTime == gameTime + 1)
             {
-                std::cout << "Final score: " << std::to_string(m_graphics->score) << std::endl;
+                std::cout << "FINAL SCORE: " << std::to_string(m_graphics->score) << std::endl;
                 frozen = true;
             }
         }
