@@ -55,7 +55,7 @@ void Engine::Run(){
     fps = 1.0;
 
     // Set how long the game plays for
-    const int gameTime = 60;
+    const int gameTime = 180;
 
     double accumulator = 0.0;
     double runTime = 0.0;
@@ -71,7 +71,17 @@ void Engine::Run(){
 
         if((int)runTime >= reportTime && !frozen)
         {
-            std::cout << "Remaining time: " << std::to_string(gameTime - (int) runTime) << std::endl;
+            int remaining = gameTime - (int) runTime;
+            int min = remaining / 60;
+            int sec = remaining % 60;
+            if(min == 0)
+            {
+                std::cout << "Remaining time - " << std::setw(2) << std::setfill('0') << std::to_string(sec) << "s" << std::endl;
+            } else
+            {
+                std::cout << "Remaining time - " << std::to_string(min) << ":" << std::setw(2) << std::setfill('0') << sec << std::endl;
+            }
+            
             reportTime++;
 
             if(reportTime == gameTime + 1)
