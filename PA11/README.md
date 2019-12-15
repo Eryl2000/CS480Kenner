@@ -1,6 +1,8 @@
 # PA11: Project Halfway
 
-Drive your car and knock over cones
+Drive your car and knock over cones\
+Every cone you hit gives you score\
+Game ends after three minutes
 
 ## Dependencies
 
