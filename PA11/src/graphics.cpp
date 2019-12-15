@@ -62,10 +62,10 @@ void Graphics::createObjects(int width, int height){
     }
 
     //racetrack
-    PhysicsOptions track_options(false, ColliderType::Mesh, PhysicsType::Static, 0, btVector3(0, 0, 0));
+    PhysicsOptions track_options(true, ColliderType::Mesh, PhysicsType::Static, 0, btVector3(0, 0, 0));
     temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/track_bottom.obj"), track_options);
     objects.push_back(temp);
-    //dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
+    dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
     temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/track_fence_inside.obj"), track_options);
     objects.push_back(temp);
@@ -75,7 +75,6 @@ void Graphics::createObjects(int width, int height){
     objects.push_back(temp);
     //dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
-    track_options.hasPhysics = false;
     temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/inside_fence_collider.obj"), track_options);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
