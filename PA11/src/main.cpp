@@ -26,7 +26,7 @@ int main(int argc, char **argv){
 */
 
     // Start an engine and run it then cleanup after
-    Engine *engine = new Engine("Solar System", 1000, 800);
+    Engine *engine = new Engine("Road Rage", 1000, 800);
     if(!engine->Initialize(vertexShader, fragmentShader)){
         printf("The engine failed to start.\n");
         delete engine;

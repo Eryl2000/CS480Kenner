@@ -145,7 +145,7 @@ void Graphics::createObjects(int width, int height){
     for(unsigned int i = 0; i < conePositions.size(); i++)
     {
         conePhysics.position = conePositions[i];
-        Cone *c = new Cone(std::string("orange"), NULL, std::string("../obj/cone_with_material.obj"), conePhysics);
+        Cone *c = new Cone(std::string("orange"), NULL, std::string("../obj/cone.obj"), conePhysics);
         cones[c->rigidbody] = c;
         temp = c;
         objects.push_back(c);
