@@ -46,7 +46,7 @@ void Graphics::createObjects(int width, int height){
 
     //car
     BaseObject *temp;
-    PhysicsOptions car(true, ColliderType::Sphere, PhysicsType::Dynamic, 0, btVector3(-7.6, 0.3f, 0));
+    PhysicsOptions car(true, ColliderType::Sphere, PhysicsType::Dynamic, 0, btVector3(-7.6, 0.3f, 0), 100);
     Car *temp_car = new Car(std::string("purple"), NULL, std::string("../obj/car.obj"), car);
     temp = temp_car;
     sphere = temp_car;

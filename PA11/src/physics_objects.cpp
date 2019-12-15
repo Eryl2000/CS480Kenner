@@ -15,6 +15,11 @@ PhysicsObject::PhysicsObject(std::string _name, BaseObject *parent_, std::string
         mass = 0;
     }
 
+    if(physics.mass != 0)
+    {
+        mass = physics.mass;
+    }
+
     btVector3 inertia(0, 0, 0);
     collider->calculateLocalInertia(mass, inertia);
     btRigidBody::btRigidBodyConstructionInfo shapeRigidBodyCI(mass, shapeMotionState, collider, inertia);
@@ -59,7 +64,7 @@ btCollisionShape * PhysicsObject::GetCollisionShape(struct PhysicsOptions physic
                 break;
 
         case ColliderType::Sphere:
-                return new btSphereShape(btScalar(.25f));
+                return new btSphereShape(btScalar(.2f));
                 break;
 
         case ColliderType::Cube:

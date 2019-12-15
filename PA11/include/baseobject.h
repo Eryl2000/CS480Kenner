@@ -20,13 +20,14 @@ struct PhysicsOptions{
       {}
 
 
-    PhysicsOptions(bool _hasPhysics, ColliderType _colliderType, PhysicsType _physicType, int _planeType, btVector3 _position)
-    : hasPhysics(_hasPhysics), colliderType(_colliderType), physicsType(_physicType), planeType(_planeType), position(_position) {}
+    PhysicsOptions(bool _hasPhysics, ColliderType _colliderType, PhysicsType _physicType, int _planeType, btVector3 _position, float _mass = 0)
+    : hasPhysics(_hasPhysics), colliderType(_colliderType), physicsType(_physicType), planeType(_planeType), position(_position), mass(_mass) {}
     int planeType;
     btVector3 position;
     bool hasPhysics;
     ColliderType colliderType;
     PhysicsType physicsType;
+    float mass;
 };
 
 class BaseObject{
