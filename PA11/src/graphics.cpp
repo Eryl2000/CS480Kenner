@@ -46,14 +46,15 @@ void Graphics::createObjects(int width, int height){
 
     //car
     BaseObject *temp;
-    PhysicsOptions car(true, ColliderType::Mesh, PhysicsType::Dynamic, 0, btVector3(-7.6, 0.2f, 0));
+    PhysicsOptions car(true, ColliderType::Sphere, PhysicsType::Dynamic, 0, btVector3(-7.6, 0.3f, 0));
     Car *temp_car = new Car(std::string("purple"), NULL, std::string("../obj/car.obj"), car);
     temp = temp_car;
     sphere = temp_car;
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
-    temp->rigidbody->setLinearFactor(btVector3(1, 0, 0));
+    temp->rigidbody->setLinearFactor(btVector3(1, 0, 1));
+    temp->rigidbody->setAngularFactor(btVector3(0, 1, 0));
 
     if(!m_camera->Initialize(width, height, temp_car)){
         printf("Camera Failed to Initialize\n");
