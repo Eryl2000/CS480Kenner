@@ -54,13 +54,37 @@ void Engine::Run(){
     const double FPS_Alpha = 0.25;
     fps = 1.0;
 
+    // Set how long the game plays for
+    const int gameTime = 60;
+
     double accumulator = 0.0;
+    double runTime = 0.0;
+    int reportTime = 1;
+    bool frozen = false;
     high_resolution_clock::time_point prevTime = high_resolution_clock::now();
     high_resolution_clock::time_point curTime = prevTime;
     while(running){
         //Calculate dt
         curTime = high_resolution_clock::now();
         dt = duration_cast<nanoseconds>(curTime - prevTime).count() / 1000000000.0;
+        runTime += dt;
+
+        if((int)runTime >= reportTime && !frozen)
+        {
+            std::cout << "Remaining time: " << std::to_string(gameTime - (int) runTime) << std::endl;
+            reportTime++;
+
+            if(reportTime == gameTime + 1)
+            {
+                std::cout << "Final score: " << std::to_string(m_graphics->score) << std::endl;
+                frozen = true;
+            }
+        }
+
+        if(frozen)
+        {
+            dt = 0.0000001;
+        }
 
         //Calculate smooth fps
         fps = (1.0 / dt) * FPS_Alpha + fps * (1.0 - FPS_Alpha);

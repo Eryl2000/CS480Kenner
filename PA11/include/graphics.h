@@ -36,6 +36,7 @@ public:
     SDL_Window* gWindow;
     Engine *engine;
     bool IsDay;
+    int score;
 
 private:
     bool harrisButton;
@@ -55,7 +56,6 @@ private:
     PhysicsObject * obstacles;
 
     bool wasCollidedWithObstacle;
-    int score;
     int ballNumber = 0;
 
     GLint m_projectionMatrix;
