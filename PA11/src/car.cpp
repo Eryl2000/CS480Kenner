@@ -24,7 +24,7 @@ void Car::DerivedUpdate(float dt)
 
         if(speed == 0 && speedChange * dt >= 0)
         {
-            speed = 0.000001f;
+            speed = 0.01f;
         }
 
         speed += speedChange * dt;
