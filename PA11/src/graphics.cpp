@@ -63,7 +63,7 @@ void Graphics::createObjects(int width, int height){
 
     //racetrack
     PhysicsOptions track_options(true, ColliderType::Mesh, PhysicsType::Static, 0, btVector3(0, 0, 0));
-    temp = new PhysicsObject(std::string("pavement"), NULL, std::string("../obj/track_bottom.obj"), track_options);
+    temp = new PhysicsObject(std::string("granite"), NULL, std::string("../obj/track_bottom.obj"), track_options);
     objects.push_back(temp);
     dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
@@ -72,6 +72,9 @@ void Graphics::createObjects(int width, int height){
     //dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
     temp = new PhysicsObject(std::string("Wood"), NULL, std::string("../obj/track_fence_outside.obj"), track_options);
+    objects.push_back(temp);
+
+    temp = new PhysicsObject(std::string("grass"), NULL, std::string("../obj/grass.obj"), track_options);
     objects.push_back(temp);
     //dynamicsWorld->addRigidBody(temp->rigidbody, 1, 1);
 
